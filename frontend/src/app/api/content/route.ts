@@ -17,13 +17,26 @@ const mockUser: UserProfile = {
 };
 
 export async function GET() {
+  console.log('📨 API-kall mottatt: /api/content');
+  
   try {
+    console.log('👤 Henter innhold for bruker:', mockUser.name);
     const visibleContent = getVisibleContentForUser(mockUser);
-    return NextResponse.json(visibleContent);
+    console.log(`✅ Fant ${visibleContent.length} innholdselementer`);
+    
+    return NextResponse.json({
+      success: true,
+      data: visibleContent
+    });
   } catch (error) {
-    console.error('Feil ved henting av innhold:', error);
+    console.error('❌ Feil ved henting av innhold:', error);
+    
     return NextResponse.json(
-      { error: 'Kunne ikke hente innhold' },
+      { 
+        success: false,
+        error: 'Kunne ikke hente innhold',
+        details: error instanceof Error ? error.message : 'Ukjent feil'
+      },
       { status: 500 }
     );
   }
