@@ -1,41 +1,26 @@
 import { NextResponse } from "next/server";
-import { parseMarkdown } from "@aino/core/content/parser/parseMarkdown";
-import path from "path";
+import { getContentById } from "@aino/core/content/content.service";
 
 export async function GET(
   request: Request,
   { params }: { params: { id: string } }
 ) {
-  const id = params.id;
-  
-  if (!id) {
-    return NextResponse.json(
-      { error: "Mangler innholds-ID" },
-      { status: 400 }
-    );
-  }
-
   try {
-    console.log(`📑 Henter innhold med ID: ${id}`);
-    const filePath = path.join(process.cwd(), "..", "content", `${id}.md`);
-    console.log(`🔍 Leter etter fil: ${filePath}`);
+    const content = await getContentById(params.id);
     
-    const parsed = parseMarkdown(filePath);
-    console.log(`✅ Fant og parset innhold: ${parsed.meta.title}`);
-    
-    return NextResponse.json({
-      success: true,
-      data: parsed
-    });
+    if (!content) {
+      return NextResponse.json(
+        { error: "Innhold ikke funnet" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ data: content });
   } catch (error) {
-    console.error(`❌ Feil ved henting av innhold:`, error);
+    console.error("Feil ved henting av innhold:", error);
     return NextResponse.json(
-      { 
-        success: false,
-        error: `Fant ikke innhold med ID: ${id}`,
-        details: error instanceof Error ? error.message : 'Ukjent feil'
-      },
-      { status: 404 }
+      { error: "Kunne ikke hente innhold" },
+      { status: 500 }
     );
   }
 } 
