@@ -41,4 +41,17 @@ export interface ContentMetadata {
     prerequisites: Record<string, string[]>;
     recommendations: Record<string, string[]>;
   };
+}
+
+export interface ContentMeta {
+  id: string;
+  title: string;
+  type: 'course' | 'nano' | 'unit' | 'procedure' | 'guide';
+  module: string;
+  level: string[];
+  context: string[];
+  tags: string[];
+  createdBy: string;
+  createdAt: string;
+  status: 'draft' | 'review' | 'active' | 'archived';
 } 

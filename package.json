@@ -1,0 +1,12 @@
+{
+	"dependencies": {
+		"drizzle-orm": "^0.44.2",
+		"gray-matter": "^4.0.3",
+		"pg": "^8.16.0"
+	},
+	"devDependencies": {
+		"@types/node": "^22.15.30",
+		"drizzle-kit": "^0.31.1",
+		"typescript": "^5.8.3"
+	}
+}

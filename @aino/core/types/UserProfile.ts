@@ -16,24 +16,11 @@ export interface UserProfile {
   id: string;
   name: string;
   email: string;
-  roles: UserRole[];
-  services: ServiceArea[];
-  assignedModules: string[];
+  roles: string[];
+  services: string[];
   preferences: {
-    language: 'nb' | 'nn' | 'en';
+    language: string;
     notifications: boolean;
-    theme: 'light' | 'dark' | 'system';
-    eiraInteraction: 'active' | 'passive' | 'disabled';
   };
-  context: {
-    currentService: ServiceArea;
-    activeModules: string[];
-    lastActivity: Date;
-    completedTraining: string[];
-  };
-  access: {
-    level: number;
-    restrictions?: string[];
-    specialPermissions?: string[];
-  };
+  lastActive: string;
 } 
