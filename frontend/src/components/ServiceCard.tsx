@@ -2,16 +2,17 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 
 type Props = {
   title: string;
   description: string;
   icon: string;
   href: string;
-  roles: string[];
+  roles?: string[]; // Made optional since we won't use it
 };
 
-export default function ServiceCard({ title, description, icon, href, roles }: Props) {
+export default function ServiceCard({ title, description, icon, href }: Props) {
   return (
     <Link href={href}>
       <div className="p-6 border rounded-lg shadow-sm hover:shadow-md transition bg-white">
@@ -22,16 +23,9 @@ export default function ServiceCard({ title, description, icon, href, roles }: P
           <h3 className="text-xl font-semibold text-gray-900">{title}</h3>
         </div>
         <p className="text-gray-600 mb-4">{description}</p>
-        <div className="space-y-1">
-          <p className="text-sm font-medium text-gray-700">Tilgjengelige roller:</p>
-          <ul className="space-y-1">
-            {roles.map((role) => (
-              <li key={role} className="text-sm text-gray-600 flex items-center gap-2">
-                <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-                {role}
-              </li>
-            ))}
-          </ul>
+        <div className="flex items-center text-sm text-gray-500">
+          <span>Velg tjeneste</span>
+          <ArrowRight size={16} className="ml-1" />
         </div>
       </div>
     </Link>
