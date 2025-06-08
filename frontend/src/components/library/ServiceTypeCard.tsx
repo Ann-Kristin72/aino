@@ -4,12 +4,12 @@ import React, { KeyboardEvent } from 'react';
 
 type Props = {
   title: string;
+  description: string;
   icon: string;
-  color: string;
   onClick: () => void;
 };
 
-export default function RoleCard({ title, icon, color, onClick }: Props) {
+export default function ServiceTypeCard({ title, description, icon, onClick }: Props) {
   const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
@@ -23,7 +23,7 @@ export default function RoleCard({ title, icon, color, onClick }: Props) {
       tabIndex={0}
       onClick={onClick}
       onKeyDown={handleKeyDown}
-      className={`p-6 border border-blue-400 rounded-lg shadow-sm hover:shadow-md transition cursor-pointer ${color}`}
+      className="p-6 border border-blue-400 rounded-lg shadow-sm hover:shadow-md transition bg-white cursor-pointer"
     >
       <div className="flex items-center gap-3 mb-3">
         <span className="text-3xl" role="img" aria-label={title}>
@@ -31,12 +31,7 @@ export default function RoleCard({ title, icon, color, onClick }: Props) {
         </span>
         <h3 className="text-xl font-semibold text-gray-900">{title}</h3>
       </div>
-      <div className="flex items-center text-sm text-blue-600">
-        <span>Se innhold for {title.toLowerCase()}</span>
-        <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-        </svg>
-      </div>
+      <p className="text-sm opacity-80 text-gray-600">{description}</p>
     </div>
   );
 } 
