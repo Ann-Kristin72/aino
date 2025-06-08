@@ -1,9 +1,25 @@
+import { 
+  Shield, 
+  Sparkles, 
+  MessageSquare, 
+  Scale, 
+  Home,
+  Eye,
+  Brain,
+  Droplets,
+  Bug,
+  Activity,
+  Sunset,
+  Bot,
+  LucideIcon
+} from 'lucide-react';
+
 export type Category = {
   id: string;
   title: string;
   description: string;
   bgColor: string;
-  icon: string;
+  icon: LucideIcon;
 };
 
 export const categories: Category[] = [
@@ -12,83 +28,83 @@ export const categories: Category[] = [
     title: "Forebygging og beredskap",
     description: "Risiko, tiltak og sikkerhet",
     bgColor: "bg-amber-100",
-    icon: "🛡️"
+    icon: Shield
   },
   {
     id: "intro",
     title: "Introduksjon til nyansatte",
     description: "Startpakke for nye kolleger",
     bgColor: "bg-gray-100",
-    icon: "✨"
+    icon: Sparkles
   },
   {
     id: "kommunikasjon",
     title: "Kommunikasjon",
     description: "Dialog, samspill og samarbeid",
     bgColor: "bg-indigo-100",
-    icon: "💬"
+    icon: MessageSquare
   },
   {
-    id: "lovverk",
-    title: "Lovverk",
-    description: "Regelverk, rettigheter og ansvar",
-    bgColor: "bg-red-100",
-    icon: "⚖️"
+    id: "etikk",
+    title: "Etikk og lovverk",
+    description: "Regler, rettigheter og plikter",
+    bgColor: "bg-purple-100",
+    icon: Scale
   },
   {
-    id: "lokasjon",
-    title: "Lokasjon og rom",
-    description: "Plassering og fysisk kontekst",
-    bgColor: "bg-sky-100",
-    icon: "🏠"
+    id: "hverdagsliv",
+    title: "Hverdagsliv",
+    description: "Daglige gjøremål og rutiner",
+    bgColor: "bg-green-100",
+    icon: Home
   },
   {
     id: "observasjon",
-    title: "Observasjon og dokumentasjon",
-    description: "Oppdage, notere, melde",
-    bgColor: "bg-teal-100",
-    icon: "👁️"
+    title: "Observasjon",
+    description: "Kartlegging og vurdering",
+    bgColor: "bg-blue-100",
+    icon: Eye
   },
   {
     id: "psykiskhelse",
-    title: "Psykisk helse og rus",
-    description: "Trygghet, støtte og forståelse",
-    bgColor: "bg-rose-100",
-    icon: "🧠"
+    title: "Psykisk helse",
+    description: "Mental helse og velvære",
+    bgColor: "bg-pink-100",
+    icon: Brain
+  },
+  {
+    id: "ernaering",
+    title: "Ernæring",
+    description: "Kosthold og måltider",
+    bgColor: "bg-orange-100",
+    icon: Droplets
   },
   {
     id: "smittevern",
-    title: "Smittevern og hygiene",
-    description: "Renhet og forebygging",
-    bgColor: "bg-cyan-100",
-    icon: "🧴"
+    title: "Smittevern",
+    description: "Hygiene og forebygging",
+    bgColor: "bg-red-100",
+    icon: Bug
   },
   {
-    id: "sykdommer",
-    title: "Sykdommer og tiltak",
-    description: "Tiltak, diagnoser, støtte",
+    id: "aktivitet",
+    title: "Aktivitet",
+    description: "Bevegelse og deltakelse",
     bgColor: "bg-yellow-100",
-    icon: "🦠"
+    icon: Activity
   },
   {
-    id: "utviklingshemming",
-    title: "Utviklingshemming",
-    description: "Forståelse, tilrettelegging og omsorg",
-    bgColor: "bg-lime-100",
-    icon: "🏃"
-  },
-  {
-    id: "livetslutt",
-    title: "Ved livets slutt",
-    description: "Palliasjon og verdighet",
-    bgColor: "bg-purple-100",
-    icon: "🌅"
+    id: "livets-slutt",
+    title: "Livets slutt",
+    description: "Palliativ omsorg",
+    bgColor: "bg-slate-100",
+    icon: Sunset
   },
   {
     id: "velferdsteknologi",
     title: "Velferdsteknologi",
-    description: "Teknologi i hverdagen",
-    bgColor: "bg-zinc-100",
-    icon: "🤖"
+    description: "Digitale hjelpemidler",
+    bgColor: "bg-teal-100",
+    icon: Bot
   }
 ]; 

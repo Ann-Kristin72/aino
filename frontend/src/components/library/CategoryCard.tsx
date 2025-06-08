@@ -1,33 +1,44 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { LucideIcon } from 'lucide-react';
 
-type Props = {
+interface CategoryCardProps {
   title: string;
-  description: string;
-  href: string;
-  icon: string;
-  color: string;
-};
+  icon: LucideIcon;
+  color?: string;
+  onClick?: () => void;
+}
 
-export default function CategoryCard({ title, description, href, icon, color }: Props) {
+export default function CategoryCard({ 
+  title, 
+  icon: Icon,
+  color = 'bg-slate-50', 
+  onClick 
+}: CategoryCardProps) {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && onClick) {
+      onClick();
+    }
+  };
+
   return (
-    <Link href={href}>
-      <div className={`rounded-xl p-4 shadow hover:bg-slate-50 transition-shadow ${color}`}>
-        <div className="flex items-center gap-3 mb-2">
-          <span className="text-2xl" role="img" aria-label={title}>
-            {icon}
-          </span>
-          <h3 className="text-xl font-semibold text-gray-900">{title}</h3>
-        </div>
-        <p className="text-sm text-gray-600 opacity-80 mb-2">{description}</p>
-        <div className="flex items-center text-sm text-gray-500">
-          <span>Utforsk kategori</span>
-          <ArrowRight size={16} className="ml-1" />
-        </div>
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={onClick}
+      onKeyDown={handleKeyDown}
+      className={cn(
+        'rounded-xl p-4 shadow hover:shadow-lg transition-shadow',
+        'focus:outline-none focus:ring-2 focus:ring-slate-300',
+        color
+      )}
+    >
+      <div className="flex flex-col items-center gap-2">
+        <Icon className="text-3xl w-8 h-8" />
+        <h3 className="text-xl font-semibold text-center">{title}</h3>
       </div>
-    </Link>
+    </div>
   );
 } 
