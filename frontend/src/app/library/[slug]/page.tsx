@@ -6,10 +6,6 @@ import EiraAgent from '@/components/EiraAgent';
 import Link from 'next/link';
 
 const categories = {
-  ernaering: {
-    title: "Ernæring og kosthold",
-    description: "Mat, måltid og næring",
-  },
   beredskap: {
     title: "Forebygging og beredskap",
     description: "Risiko, tiltak og sikkerhet",

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { KeyboardEvent } from 'react';
+import { ArrowRight } from 'lucide-react';
 
 type Props = {
   title: string;
@@ -23,19 +24,17 @@ export default function RoleCard({ title, icon, color, onClick }: Props) {
       tabIndex={0}
       onClick={onClick}
       onKeyDown={handleKeyDown}
-      className={`p-6 border border-blue-400 rounded-lg shadow-sm hover:shadow-md transition cursor-pointer ${color}`}
+      className={`rounded-xl p-4 shadow hover:bg-slate-50 transition-shadow cursor-pointer ${color}`}
     >
-      <div className="flex items-center gap-3 mb-3">
-        <span className="text-3xl" role="img" aria-label={title}>
+      <div className="flex items-center gap-3 mb-2">
+        <span className="text-2xl" role="img" aria-label={title}>
           {icon}
         </span>
         <h3 className="text-xl font-semibold text-gray-900">{title}</h3>
       </div>
-      <div className="flex items-center text-sm text-blue-600">
+      <div className="flex items-center text-sm text-gray-500">
         <span>Se innhold for {title.toLowerCase()}</span>
-        <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-        </svg>
+        <ArrowRight size={16} className="ml-1" />
       </div>
     </div>
   );

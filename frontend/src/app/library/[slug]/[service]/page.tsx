@@ -6,7 +6,6 @@ import RoleCard from '@/components/library/RoleCard';
 import EiraAgent from '@/components/EiraAgent';
 
 const categories = {
-  ernaering: "Ernæring og kosthold",
   beredskap: "Forebygging og beredskap",
   intro: "Introduksjon til nyansatte",
   kommunikasjon: "Kommunikasjon",

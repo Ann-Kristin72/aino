@@ -8,11 +8,18 @@ export type Category = {
 
 export const categories: Category[] = [
   {
-    id: "ernaering",
-    title: "Ernæring og kosthold",
-    description: "Mat, måltid og næring",
-    bgColor: "bg-orange-100",
-    icon: "🍽️"
+    id: "beredskap",
+    title: "Forebygging og beredskap",
+    description: "Risiko, tiltak og sikkerhet",
+    bgColor: "bg-amber-100",
+    icon: "🛡️"
+  },
+  {
+    id: "intro",
+    title: "Introduksjon til nyansatte",
+    description: "Startpakke for nye kolleger",
+    bgColor: "bg-gray-100",
+    icon: "✨"
   },
   {
     id: "kommunikasjon",
@@ -22,25 +29,25 @@ export const categories: Category[] = [
     icon: "💬"
   },
   {
-    id: "dokumentasjon",
-    title: "Dokumentasjon",
-    description: "Oppdage, notere, melde",
-    bgColor: "bg-blue-100",
-    icon: "📄"
-  },
-  {
-    id: "observasjon",
-    title: "Observasjon",
-    description: "Oppdage og vurdere",
-    bgColor: "bg-teal-100",
-    icon: "👁️"
-  },
-  {
     id: "lovverk",
     title: "Lovverk",
     description: "Regelverk, rettigheter og ansvar",
     bgColor: "bg-red-100",
     icon: "⚖️"
+  },
+  {
+    id: "lokasjon",
+    title: "Lokasjon og rom",
+    description: "Plassering og fysisk kontekst",
+    bgColor: "bg-sky-100",
+    icon: "🏠"
+  },
+  {
+    id: "observasjon",
+    title: "Observasjon og dokumentasjon",
+    description: "Oppdage, notere, melde",
+    bgColor: "bg-teal-100",
+    icon: "👁️"
   },
   {
     id: "psykiskhelse",
@@ -50,32 +57,11 @@ export const categories: Category[] = [
     icon: "🧠"
   },
   {
-    id: "institusjon",
-    title: "Institusjon og tiltak",
-    description: "Bolig, oppfølging og omsorg",
-    bgColor: "bg-sky-100",
-    icon: "🏠"
-  },
-  {
-    id: "forebygging",
-    title: "Forebygging",
-    description: "Risiko, tiltak og sikkerhet",
-    bgColor: "bg-amber-100",
-    icon: "🛡️"
-  },
-  {
-    id: "fysiskhelse",
-    title: "Fysisk helse",
-    description: "Aktivitet og velvære",
-    bgColor: "bg-lime-100",
-    icon: "🏃"
-  },
-  {
-    id: "nyansatt",
-    title: "Nye ansatte",
-    description: "Startpakke for nye kolleger",
-    bgColor: "bg-gray-100",
-    icon: "✨"
+    id: "smittevern",
+    title: "Smittevern og hygiene",
+    description: "Renhet og forebygging",
+    bgColor: "bg-cyan-100",
+    icon: "🧴"
   },
   {
     id: "sykdommer",
@@ -85,11 +71,18 @@ export const categories: Category[] = [
     icon: "🦠"
   },
   {
-    id: "smittevern",
-    title: "Smittevern og hygiene",
-    description: "Renhet og forebygging",
-    bgColor: "bg-cyan-100",
-    icon: "🧴"
+    id: "utviklingshemming",
+    title: "Utviklingshemming",
+    description: "Forståelse, tilrettelegging og omsorg",
+    bgColor: "bg-lime-100",
+    icon: "🏃"
+  },
+  {
+    id: "livetslutt",
+    title: "Ved livets slutt",
+    description: "Palliasjon og verdighet",
+    bgColor: "bg-purple-100",
+    icon: "🌅"
   },
   {
     id: "velferdsteknologi",
