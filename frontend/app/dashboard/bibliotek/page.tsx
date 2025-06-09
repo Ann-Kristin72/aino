@@ -30,7 +30,7 @@ export default function LibraryPage() {
               description={cat.description}
               icon={cat.icon}
               color={cat.bgColor}
-              onClick={() => router.push(`/dashboard/bibliotek/${cat.id}`)}
+              onClick={() => router.push(`/dashboard/bibliotek/${cat.id}/tjeneste`)}
             />
           ))}
         </div>
