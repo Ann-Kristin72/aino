@@ -1,0 +1,4 @@
+packages:
+  - '@aino/core'
+  - 'frontend'
+  - 'backend' 
