@@ -23,9 +23,6 @@ export default function EiraCard({ variant = 'neutral', alt = 'Eira', className 
         alt={alt}
         width={256}
         height={256}
-        onError={(e) => {
-          (e.target as HTMLImageElement).src = variantToImage['neutral'];
-        }}
         className="rounded-full border-4 border-blue-100 bg-white"
         priority
       />
