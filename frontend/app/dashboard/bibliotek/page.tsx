@@ -1,40 +1,39 @@
-'use client';
+import Link from "next/link";
 
-import CategoryCard from '@/components/library/CategoryCard';
-import EiraGuide from '@/components/library/EiraGuide';
-import { categories } from '@/lib/categories';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+const categories = [
+  "forebygging-og-beredskap",
+  "introduksjon-til-nyansatte",
+  "kommunikasjon",
+  "lovverk",
+  "lokasjon-og-rom",
+  "observasjon-og-dokumentasjon",
+  "psykisk-helse-og-rus",
+  "smittevern-og-hygiene",
+  "sykdommer-og-tiltak",
+  "utviklingshemming",
+  "ved-livets-slutt",
+  "velferdsteknologi",
+  "ernaering",
+];
 
-export default function LibraryPage() {
-  const router = useRouter();
-
+export default function Page() {
   return (
-    <div className="flex flex-col gap-6">
-      <Link href="/dashboard" className="self-start text-blue-600 hover:underline mb-4">← Tilbake til dashboard</Link>
-      <main className="p-8 max-w-7xl mx-auto">
-        <div className="mb-8">
-          <EiraGuide 
-            message="Hva slags fagområde ser du etter? Velg en kategori under, så hjelper jeg deg videre 😊" 
-            variant="happy"
-          />
-        </div>
-        
-        <h1 className="text-2xl font-bold mb-6">📚 Innholdsbibliotek</h1>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
-          {categories.map((cat) => (
-            <CategoryCard
-              key={cat.id}
-              title={cat.title}
-              description={cat.description}
-              icon={cat.icon}
-              color={cat.bgColor}
-              onClick={() => router.push(`/dashboard/bibliotek/${cat.id}/tjeneste`)}
-            />
-          ))}
-        </div>
-      </main>
-    </div>
+    <main className="p-6">
+      <h1 className="text-2xl font-bold mb-4">Velg kategori</h1>
+      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {categories.map((slug) => (
+          <li key={slug}>
+            <Link
+              href={`/dashboard/bibliotek/${slug}`}
+              className="block border rounded p-4 hover:bg-gray-100"
+            >
+              {slug
+                .replace(/-/g, " ")
+                .replace(/\b\w/g, (l) => l.toUpperCase())}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </main>
   );
 } 
