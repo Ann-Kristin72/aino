@@ -14,73 +14,16 @@ import {
   Accessibility,
   Baby, 
   Sparkles,
-  Apple
+  Apple,
+  MessageSquare,
+  Scale,
+  Eye,
+  Bug,
+  Sunset,
+  Bot
 } from "lucide-react";
 
 const categories = [
-  {
-    title: "Sykdommer og tiltak",
-    description: "Kunnskap om vanlige sykdommer, symptomer og behandlingstiltak",
-    icon: Stethoscope,
-    color: "bg-blue-50",
-    slug: "sykdommer-og-tiltak"
-  },
-  {
-    title: "Psykisk helse",
-    description: "Forståelse og håndtering av psykiske lidelser og utfordringer",
-    icon: Brain,
-    color: "bg-purple-50",
-    slug: "psykisk-helse"
-  },
-  {
-    title: "Omsorg og pleie",
-    description: "Grunnleggende omsorgsprinsipper og praktiske pleieteknikker",
-    icon: Heart,
-    color: "bg-red-50",
-    slug: "omsorg-og-pleie"
-  },
-  {
-    title: "Kommunikasjon",
-    description: "Effektiv kommunikasjon med brukere, pårørende og kollegaer",
-    icon: Users,
-    color: "bg-green-50",
-    slug: "kommunikasjon"
-  },
-  {
-    title: "Trygghet og sikkerhet",
-    description: "Arbeidsmiljø, ulykkesforebygging og sikkerhetsrutiner",
-    icon: Shield,
-    color: "bg-yellow-50",
-    slug: "trygghet-og-sikkerhet"
-  },
-  {
-    title: "Hverdagsliv og aktivitet",
-    description: "Støtte til daglige aktiviteter og livskvalitet",
-    icon: Activity,
-    color: "bg-orange-50",
-    slug: "hverdagsliv-og-aktivitet"
-  },
-  {
-    title: "Medisin og legemidler",
-    description: "Grunnleggende medisinkunnskap og legemiddelhåndtering",
-    icon: Pill,
-    color: "bg-pink-50",
-    slug: "medisin-og-legemidler"
-  },
-  {
-    title: "Hjemmetjeneste",
-    description: "Spesifikk kunnskap for hjemmetjenestearbeid",
-    icon: Home,
-    color: "bg-indigo-50",
-    slug: "hjemmetjeneste"
-  },
-  {
-    title: "Demens og kognisjon",
-    description: "Forståelse og håndtering av demens og kognitive utfordringer",
-    icon: Brain,
-    color: "bg-teal-50",
-    slug: "demens-og-kognisjon"
-  },
   {
     title: "Ernæring",
     description: "Grunnleggende ernæring og kosthold i helse- og omsorgstjenesten",
@@ -89,32 +32,88 @@ const categories = [
     slug: "ernaering"
   },
   {
-    title: "Funksjonshemming",
-    description: "Kunnskap om ulike funksjonshemninger og tilrettelegging",
-    icon: Accessibility,
-    color: "bg-cyan-50",
-    slug: "funksjonshemming"
+    title: "Forebygging og beredskap",
+    description: "Risiko, tiltak og sikkerhet",
+    icon: Shield,
+    color: "bg-amber-50",
+    slug: "beredskap"
   },
   {
-    title: "Barn og unge",
-    description: "Spesifikk kunnskap for arbeid med barn og unge",
-    icon: Baby,
-    color: "bg-rose-50",
-    slug: "barn-og-unge"
-  },
-  {
-    title: "Kultur og mangfold",
-    description: "Kulturell kompetanse og møte med mangfold",
+    title: "Introduksjon til nyansatte",
+    description: "Startpakke for nye kolleger",
     icon: Sparkles,
-    color: "bg-violet-50",
-    slug: "kultur-og-mangfold"
+    color: "bg-indigo-50",
+    slug: "intro"
   },
   {
-    title: "Læring og utvikling",
-    description: "Kontinuerlig læring og profesjonell utvikling",
-    icon: BookOpen,
-    color: "bg-sky-50",
-    slug: "laering-og-utvikling"
+    title: "Kommunikasjon",
+    description: "Dialog, samspill og samarbeid",
+    icon: MessageSquare,
+    color: "bg-violet-50",
+    slug: "kommunikasjon"
+  },
+  {
+    title: "Lovverk",
+    description: "Regelverk, rettigheter og ansvar",
+    icon: Scale,
+    color: "bg-purple-50",
+    slug: "lovverk"
+  },
+  {
+    title: "Lokasjon og rom",
+    description: "Plassering og fysisk kontekst",
+    icon: Home,
+    color: "bg-lime-50",
+    slug: "lokasjon"
+  },
+  {
+    title: "Observasjon og dokumentasjon",
+    description: "Oppdage, notere, melde",
+    icon: Eye,
+    color: "bg-cyan-50",
+    slug: "observasjon"
+  },
+  {
+    title: "Psykisk helse og rus",
+    description: "Trygghet, støtte og forståelse",
+    icon: Brain,
+    color: "bg-rose-50",
+    slug: "psykiskhelse"
+  },
+  {
+    title: "Smittevern og hygiene",
+    description: "Renhet og forebygging",
+    icon: Bug,
+    color: "bg-red-50",
+    slug: "smittevern"
+  },
+  {
+    title: "Sykdommer og tiltak",
+    description: "Tiltak, diagnoser, støtte",
+    icon: Stethoscope,
+    color: "bg-orange-50",
+    slug: "sykdommer"
+  },
+  {
+    title: "Utviklingshemming",
+    description: "Forståelse, tilrettelegging og omsorg",
+    icon: Heart,
+    color: "bg-yellow-50",
+    slug: "utviklingshemming"
+  },
+  {
+    title: "Ved livets slutt",
+    description: "Palliasjon og verdighet",
+    icon: Sunset,
+    color: "bg-slate-50",
+    slug: "livetslutt"
+  },
+  {
+    title: "Velferdsteknologi",
+    description: "Teknologi i hverdagen",
+    icon: Bot,
+    color: "bg-teal-50",
+    slug: "velferdsteknologi"
   }
 ];
 
