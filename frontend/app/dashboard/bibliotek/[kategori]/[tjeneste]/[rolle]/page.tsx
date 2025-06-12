@@ -2,44 +2,83 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 
-interface CourseMeta {
+type Params = {
+  kategori: string;
+  tjeneste: string;
+  rolle: string;
+};
+
+type Course = {
   title: string;
-  description: string;
-  audience: string[];
-  context: string[];
-  category: string;
-}
+  description?: string;
+  path: string;
+};
 
-function getCourses(category: string, tjeneste: string, rolle: string): CourseMeta[] {
-  const contentDir = path.join(process.cwd(), '../../../@aino/core/content');
-  const courses: CourseMeta[] = [];
-  fs.readdirSync(contentDir).forEach((dir) => {
-    const readmePath = path.join(contentDir, dir, 'README.md');
-    if (fs.existsSync(readmePath)) {
-      const file = fs.readFileSync(readmePath, 'utf8');
-      const { data } = matter(file);
-      if (
-        data.category?.toLowerCase() === category &&
-        data.context?.includes(tjeneste) &&
-        data.audience?.includes(rolle)
-      ) {
-        courses.push({
-          title: data.title,
-          description: data.description,
-          audience: data.audience,
-          context: data.context,
-          category: data.category,
-        });
-      }
-    }
-  });
-  return courses;
-}
+export default async function Page({
+  params,
+}: {
+  params: Params;
+}) {
+  const { kategori, tjeneste, rolle } = params;
+  const kurs = await getCoursesFor(kategori, tjeneste, rolle);
 
-export default function Page({ params }: { params: { kategori: string, tjeneste: string, rolle: string } }) {
   return (
-    <div>
-      Kurs for {params.rolle} i {params.tjeneste} ({params.kategori})
-    </div>
+    <main className="p-6">
+      <h1 className="text-2xl font-bold mb-4">
+        Kurs for {rolle} i {tjeneste} ({kategori})
+      </h1>
+      {kurs.length === 0 ? (
+        <p>Ingen kurs tilgjengelig for valgt rolle og tjeneste.</p>
+      ) : (
+        <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {kurs.map((k) => (
+            <li key={k.path} className="border p-4 rounded">
+              <h2 className="font-semibold text-lg">{k.title}</h2>
+              <p className="text-sm text-gray-600">{k.description}</p>
+            </li>
+          ))}
+        </ul>
+      )}
+    </main>
   );
+}
+
+async function getCoursesFor(
+  kategori: string,
+  tjeneste: string,
+  rolle: string
+): Promise<Course[]> {
+  const base = path.join(process.cwd(), "..", "core", "content", kategori);
+  if (!fs.existsSync(base)) {
+    console.warn("Innholdsmappe ikke funnet:", base);
+    return [];
+  }
+  const files = fs.readdirSync(base);
+
+  return files
+    .map((filename) => {
+      const filePath = path.join(base, filename);
+      const content = fs.readFileSync(filePath, 'utf8');
+      const { data } = matter(content);
+
+      const tjenesteliste = (data.tjeneste || []).map((s: string) =>
+        s.toLowerCase()
+      );
+      const rollerliste = (data.roller || []).map((r: string) =>
+        r.toLowerCase()
+      );
+
+      const match =
+        tjenesteliste.includes(tjeneste.toLowerCase()) &&
+        rollerliste.includes(rolle.toLowerCase());
+
+      if (!match) return null;
+
+      return {
+        title: data.title || filename.replace('.md', ''),
+        description: data.description || '',
+        path: filePath,
+      };
+    })
+    .filter(Boolean) as Course[];
 } 

@@ -5,15 +5,11 @@ interface CategoryCardProps {
   description: string
   icon: LucideIcon
   color: string
-  onClick: () => void
 }
 
-export default function CategoryCard({ title, description, icon: Icon, color, onClick }: CategoryCardProps) {
+export default function CategoryCard({ title, description, icon: Icon, color }: CategoryCardProps) {
   return (
-    <div
-      onClick={onClick}
-      className={`${color} rounded-lg p-6 cursor-pointer hover:shadow-lg transition-shadow duration-200`}
-    >
+    <div className={`${color} rounded-lg p-6 cursor-pointer hover:shadow-lg transition-shadow duration-200`}>
       <div className="flex items-center gap-3 mb-3">
         <Icon className="w-6 h-6" />
         <h3 className="text-lg font-semibold">{title}</h3>
