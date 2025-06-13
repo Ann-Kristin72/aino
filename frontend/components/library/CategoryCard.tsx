@@ -1,24 +1,28 @@
-import { LucideIcon } from 'lucide-react'
+import Link from 'next/link';
+import { ReactNode } from 'react';
 
 interface CategoryCardProps {
-  title: string
-  description: string
-  icon: LucideIcon
-  color: string
-  onClick: () => void
+  title: string;
+  description?: string;
+  icon?: ReactNode;
+  color?: string;
+  slug?: string;
 }
 
-export default function CategoryCard({ title, description, icon: Icon, color, onClick }: CategoryCardProps) {
+export default function CategoryCard({ title, description, icon, color = 'bg-gray-50', slug }: CategoryCardProps) {
+  const href = slug ? `/dashboard/bibliotek/${encodeURIComponent(title)}` : '#';
+  
   return (
-    <div
-      onClick={onClick}
-      className={`${color} rounded-lg p-6 cursor-pointer hover:shadow-lg transition-shadow duration-200`}
-    >
-      <div className="flex items-center gap-3 mb-3">
-        <Icon className="w-6 h-6" />
-        <h3 className="text-lg font-semibold">{title}</h3>
+    <Link href={href} className="block">
+      <div className={`p-6 rounded-lg ${color} hover:bg-opacity-80 transition-colors`}>
+        <div className="flex items-center gap-4">
+          {icon && <div className="text-2xl">{icon}</div>}
+          <div>
+            <h3 className="text-lg font-semibold">{title}</h3>
+            {description && <p className="text-gray-600 mt-1">{description}</p>}
+          </div>
+        </div>
       </div>
-      <p className="text-sm text-gray-600">{description}</p>
-    </div>
-  )
+    </Link>
+  );
 } 
