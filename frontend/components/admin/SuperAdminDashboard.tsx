@@ -1,29 +1,53 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Redaktør = {
   id: string;
-  navn: string;
+  name: string;
 };
 
 export default function HovedredaktørPanel() {
-  const [redaktører, setRedaktører] = useState<Redaktør[]>([
-    { id: "1", navn: "Ann-Kristin Johansen" },
-    { id: "2", navn: "Eirik DevOps" },
-  ]);
+  const [redaktører, setRedaktører] = useState<Redaktør[]>([]);
+  const [laster, setLaster] = useState(true);
 
-  const leggTil = () => {
-    const ny = prompt("Skriv inn navn på ny hovedredaktør:");
-    if (ny) {
-      setRedaktører([...redaktører, { navn: ny, id: crypto.randomUUID() }]);
+  useEffect(() => {
+    const hentRedaktører = async () => {
+      try {
+        const res = await fetch("/api/admins");
+        const data = await res.json();
+        setRedaktører(data);
+      } catch (err) {
+        console.error("Kunne ikke hente redaktører", err);
+      } finally {
+        setLaster(false);
+      }
+    };
+    hentRedaktører();
+  }, []);
+
+  const leggTil = async () => {
+    const navn = prompt("Skriv inn navn på ny hovedredaktør:");
+    if (!navn) return;
+
+    try {
+      const res = await fetch("/api/admins", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: navn }),
+      });
+
+      if (!res.ok) throw new Error("Feil ved oppretting");
+
+      const ny = await res.json();
+      setRedaktører((r) => [...r, ny]);
       alert("Ny hovedredaktør lagt til!");
+    } catch (err) {
+      alert("Kunne ikke legge til hovedredaktør.");
+      console.error(err);
     }
   };
 
-  const fjern = (id: string) => {
-    setRedaktører(redaktører.filter((r) => r.id !== id));
-    alert("Hovedredaktør fjernet.");
-  };
+  if (laster) return <p>Laster inn hovedredaktører…</p>;
 
   return (
     <div className="p-4 space-y-4">
@@ -40,13 +64,8 @@ export default function HovedredaktørPanel() {
             key={r.id}
             className="flex justify-between items-center bg-gray-100 p-3 rounded"
           >
-            <span>{r.navn}</span>
-            <button
-              onClick={() => fjern(r.id)}
-              className="text-sm text-red-600 hover:underline"
-            >
-              Fjern
-            </button>
+            <span>{r.name}</span>
+            <span className="text-sm text-gray-500">{r.id.slice(0, 8)}...</span>
           </li>
         ))}
       </ul>
