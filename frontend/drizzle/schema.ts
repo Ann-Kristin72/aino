@@ -4,15 +4,10 @@ export const users = pgTable('users', {
   id: serial('id').primaryKey(),
   name: text('name').notNull(),
   email: text('email').notNull().unique(),
+  role_id: integer('role_id').references(() => roles.id),
 });
 
 export const roles = pgTable('roles', {
   id: serial('id').primaryKey(),
   name: text('name').notNull().unique(),
-});
-
-export const userRoles = pgTable('user_roles', {
-  id: serial('id').primaryKey(),
-  userId: integer('user_id').references(() => users.id),
-  roleId: integer('role_id').references(() => roles.id),
 }); 

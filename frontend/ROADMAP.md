@@ -6,7 +6,7 @@
 - [x] Rute for `/admin/super`
 - [x] Superadmin-grensesnitt → "Hovedredaktørpanel"
 - [ ] Legge til/fjerne hovedredaktører via backend
-- [ ] RBAC-oppsett i database (users, roles, user_roles)
+- [x] RBAC-oppsett i database (users, roles med role_id)
 - [ ] Oppgavefordeling og dashboard
 
 ## Fase 2 – CMS-redigering (august–september)
@@ -27,4 +27,18 @@
 
 - [ ] Logging og audit trail (ISO 27001, AI Act)
 - [ ] Godkjenningsflyt og agent-veiledning
-- [ ] Helhetlig rolle- og tilgangssystem 
+- [ ] Helhetlig rolle- og tilgangssystem
+
+## Database
+- [ ] Implementer flere roller
+- [ ] Legg til flere brukerattributter
+
+## Frontend
+- [ ] Forbedre brukergrensesnitt
+- [ ] Legg til flere admin-funksjoner
+- [ ] Implementer søk og filtrering
+
+## Backend
+- [ ] Forbedre feilhåndtering
+- [ ] Legg til logging
+- [ ] Implementer caching 
