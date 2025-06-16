@@ -171,6 +171,9 @@ export default function SuperAdminDashboard() {
 
   if (loading) return <div className="p-4">Laster redaktører...</div>;
   if (error) return <div className="p-4 text-red-500">{error}</div>;
+  if (!Array.isArray(roles) || roles.length === 0) {
+    return <p>Kunne ikke laste roller.</p>;
+  }
 
   return (
     <AdminErrorBoundary>
