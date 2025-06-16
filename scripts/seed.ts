@@ -1,5 +1,5 @@
-import { db } from "@/db"; // eller riktig import
-import { users, roles, userRoles } from "@/drizzle/schema";
+import { db } from "@/lib/db";
+import { users, roles, userRoles } from "@/lib/schema";
 
 await db.insert(roles).values({ name: "hovedredaktør" });
 

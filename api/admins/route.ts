@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { db } from "@/db";
-import { users, roles, userRoles } from "@/drizzle/schema";
+import { db } from "@/lib/db";
+import { users, roles, userRoles } from "@/lib/schema";
 import { eq } from "drizzle-orm";
 
 export async function GET() {
