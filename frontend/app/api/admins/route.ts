@@ -2,10 +2,16 @@ import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { users, roles } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
+import { z } from "zod";
 
 // For å sjekke at variabler faktisk er der:
 console.log("POSTGRES_URL:", process.env.POSTGRES_URL);
 console.log("DATABASE_URL:", process.env.DATABASE_URL);
+
+const createAdminSchema = z.object({
+  name: z.string().min(1, "Navn er påkrevd"),
+  email: z.string().email("Ugyldig e-postadresse"),
+});
 
 export async function GET() {
   try {
@@ -44,9 +50,20 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    const { name } = await req.json();
-    if (!name) return NextResponse.json({ error: "Navn mangler" }, { status: 400 });
+    const body = await req.json();
+    
+    // Valider input med Zod
+    const result = createAdminSchema.safeParse(body);
+    if (!result.success) {
+      return NextResponse.json(
+        { error: "Valideringsfeil", details: result.error.format() },
+        { status: 400 }
+      );
+    }
 
+    const { name, email } = result.data;
+
+    // Finn hovedredaktør-rolle
     const hovedredaktør = await db
       .select()
       .from(roles)
@@ -54,18 +71,55 @@ export async function POST(req: Request) {
       .limit(1);
 
     if (!hovedredaktør[0]) {
-      return NextResponse.json({ error: "Rolle ikke funnet" }, { status: 500 });
+      return NextResponse.json(
+        { error: "Hovedredaktør-rolle ikke funnet" },
+        { status: 500 }
+      );
     }
 
-    // Sett role_id direkte på bruker
+    // Opprett ny admin
     const ny = await db
       .insert(users)
-      .values({ name, email: `${name.toLowerCase()}@example.com`, role_id: hovedredaktør[0].id })
+      .values({
+        name,
+        email,
+        role_id: hovedredaktør[0].id
+      })
       .returning();
 
-    return NextResponse.json({ id: ny[0].id, name });
+    return NextResponse.json(ny[0]);
   } catch (error) {
-    console.error("Feil i POST /api/admins:", error);
-    return NextResponse.json({ error: String(error) }, { status: 500 });
+    console.error("🔥 API ERROR POST /api/admins:", error);
+    return NextResponse.json(
+      { error: "Kunne ikke opprette admin" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(req: Request) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+
+    if (!id || isNaN(Number(id))) {
+      return NextResponse.json(
+        { error: "Ugyldig ID" },
+        { status: 400 }
+      );
+    }
+
+    // Slett admin
+    await db
+      .delete(users)
+      .where(eq(users.id, Number(id)));
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("🔥 API ERROR DELETE /api/admins:", error);
+    return NextResponse.json(
+      { error: "Kunne ikke slette admin" },
+      { status: 500 }
+    );
   }
 } 
