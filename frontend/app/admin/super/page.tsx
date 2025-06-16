@@ -1,10 +1,10 @@
-import HovedredaktørPanel from "@/components/admin/SuperAdminDashboard";
+import AdminErrorBoundary from "@/components/AdminErrorBoundary";
+import SuperAdminDashboard from "@/components/admin/SuperAdminDashboard";
 
-export default function SuperAdminPage() {
+export default function Page() {
   return (
-    <main className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Hovedredaktørpanel</h1>
-      <HovedredaktørPanel />
-    </main>
+    <AdminErrorBoundary>
+      <SuperAdminDashboard />
+    </AdminErrorBoundary>
   );
 } 

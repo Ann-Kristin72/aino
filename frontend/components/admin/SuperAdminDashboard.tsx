@@ -2,31 +2,53 @@
 import { useEffect, useState } from "react";
 
 type Redaktør = {
-  id: string;
+  id: number;
   name: string;
   email: string;
 };
 
-export default function HovedredaktørPanel() {
+const validerRedaktør = (data: unknown): data is Redaktør => {
+  return (
+    typeof data === 'object' &&
+    data !== null &&
+    'id' in data &&
+    'name' in data &&
+    'email' in data
+  );
+};
+
+const validerRedaktørListe = (data: unknown): data is Redaktør[] => {
+  return Array.isArray(data) && data.every(validerRedaktør);
+};
+
+export default function SuperAdminDashboard() {
   const [redaktører, setRedaktører] = useState<Redaktør[]>([]);
-  const [laster, setLaster] = useState(true);
-  const [feil, setFeil] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const hentRedaktører = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await fetch("/api/admins");
+      if (!response.ok) throw new Error('Kunne ikke hente redaktører');
+      const data = await response.json();
+      
+      if (validerRedaktørListe(data)) {
+        setRedaktører(data);
+      } else {
+        console.error('Ugyldig data format:', data);
+        setRedaktører([]);
+      }
+    } catch (err) {
+      setError('Kunne ikke laste redaktører. Prøv å oppdatere siden.');
+      setRedaktører([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const hentRedaktører = async () => {
-      try {
-        setFeil(null);
-        const res = await fetch("/api/admins");
-        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-        const data = await res.json();
-        setRedaktører(Array.isArray(data) ? data : []);
-      } catch (err) {
-        console.error("Kunne ikke hente redaktører", err);
-        setFeil("Kunne ikke laste inn hovedredaktører. Vennligst prøv igjen senere.");
-      } finally {
-        setLaster(false);
-      }
-    };
     hentRedaktører();
   }, []);
 
@@ -35,7 +57,7 @@ export default function HovedredaktørPanel() {
     if (!navn) return;
 
     try {
-      setFeil(null);
+      setError(null);
       const res = await fetch("/api/admins", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -48,22 +70,16 @@ export default function HovedredaktørPanel() {
       setRedaktører((r) => [...r, ny]);
       alert("Ny hovedredaktør lagt til!");
     } catch (err) {
-      setFeil("Kunne ikke legge til hovedredaktør. Vennligst prøv igjen senere.");
+      setError("Kunne ikke legge til hovedredaktør. Vennligst prøv igjen senere.");
       console.error(err);
     }
   };
 
-  if (laster) return (
-    <div className="p-4">
-      <p className="text-gray-600">Laster inn hovedredaktører…</p>
-    </div>
-  );
-
-  if (feil) return (
-    <div className="p-4">
-      <p className="text-red-600">{feil}</p>
-    </div>
-  );
+  if (loading) return <div className="p-4">Laster redaktører...</div>;
+  if (error) return <div className="p-4 text-red-500">{error}</div>;
+  if (!Array.isArray(redaktører) || redaktører.length === 0) {
+    return <div className="p-4">Ingen redaktører funnet</div>;
+  }
 
   return (
     <div className="p-4 space-y-4">
@@ -74,24 +90,13 @@ export default function HovedredaktørPanel() {
       >
         ➕ Legg til hovedredaktør
       </button>
-      {redaktører.length === 0 ? (
-        <p className="text-gray-600">Ingen hovedredaktører funnet.</p>
-      ) : (
-        <ul className="space-y-2">
-          {redaktører.map((r) => (
-            <li
-              key={r.id}
-              className="flex justify-between items-center bg-gray-100 p-3 rounded"
-            >
-              <div>
-                <span className="font-medium">{r.name}</span>
-                <span className="text-sm text-gray-500 block">{r.email}</span>
-              </div>
-              <span className="text-sm text-gray-500">{r.id.slice(0, 8)}...</span>
-            </li>
-          ))}
-        </ul>
-      )}
+      <ul className="space-y-2">
+        {redaktører.map((redaktør) => (
+          <li key={redaktør.id} className="p-2 bg-gray-50 rounded">
+            {redaktør.name} ({redaktør.email})
+          </li>
+        ))}
+      </ul>
     </div>
   );
 } 

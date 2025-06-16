@@ -38,10 +38,7 @@ export async function GET() {
 
   } catch (error) {
     console.error("🔥 API ERROR /api/admins:", JSON.stringify(error, null, 2));
-    return NextResponse.json(
-      { error: String(error) },
-      { status: 500 }
-    );
+    return NextResponse.json([]);
   }
 }
 
