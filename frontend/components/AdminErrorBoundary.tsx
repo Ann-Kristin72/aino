@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Component } from 'react';
+import React from 'react';
 
 interface Props {
   children: React.ReactNode;
@@ -10,7 +10,7 @@ interface State {
   hasError: boolean;
 }
 
-class AdminErrorBoundary extends Component<Props, State> {
+class AdminErrorBoundary extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = { hasError: false };

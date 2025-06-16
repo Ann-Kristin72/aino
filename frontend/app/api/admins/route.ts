@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/db";
-import { users, roles } from "@/drizzle/schema";
+import { users, roles, userRoles } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 
@@ -11,6 +11,13 @@ console.log("DATABASE_URL:", process.env.DATABASE_URL);
 const createAdminSchema = z.object({
   name: z.string().min(1, "Navn er påkrevd"),
   email: z.string().email("Ugyldig e-postadresse"),
+});
+
+const updateAdminSchema = z.object({
+  id: z.number(),
+  name: z.string().min(1, "Navn er påkrevd"),
+  email: z.string().email("Ugyldig e-post"),
+  role_id: z.number().optional()
 });
 
 export async function GET() {
@@ -121,5 +128,50 @@ export async function DELETE(req: Request) {
       { error: "Kunne ikke slette admin" },
       { status: 500 }
     );
+  }
+}
+
+export async function PUT(request: Request) {
+  try {
+    const body = await request.json();
+    const validatedData = updateAdminSchema.parse(body);
+
+    // Update user details
+    await db
+      .update(users)
+      .set({
+        name: validatedData.name,
+        email: validatedData.email,
+      })
+      .where(eq(users.id, validatedData.id));
+
+    // If role_id is provided, update the role
+    if (validatedData.role_id) {
+      await db
+        .update(userRoles)
+        .set({ role_id: validatedData.role_id })
+        .where(eq(userRoles.user_id, validatedData.id));
+    }
+
+    // Fetch and return updated admin
+    const updatedAdmin = await db
+      .select({
+        id: users.id,
+        name: users.name,
+        email: users.email,
+        role_id: userRoles.role_id,
+      })
+      .from(users)
+      .innerJoin(userRoles, eq(users.id, userRoles.user_id))
+      .where(eq(users.id, validatedData.id))
+      .limit(1);
+
+    return NextResponse.json(updatedAdmin[0]);
+  } catch (error) {
+    console.error("🔥 API ERROR /api/admins:", error);
+    if (error instanceof z.ZodError) {
+      return new NextResponse(JSON.stringify(error.errors), { status: 400 });
+    }
+    return new NextResponse("Internal Server Error", { status: 500 });
   }
 } 
