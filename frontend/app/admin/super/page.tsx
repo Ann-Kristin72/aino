@@ -1,5 +1,5 @@
-import AdminErrorBoundary from "../../../components/AdminErrorBoundary";
-import SuperAdminDashboard from "../../../components/admin/SuperAdminDashboard";
+import AdminErrorBoundary from "@/src/components/AdminErrorBoundary";
+import SuperAdminDashboard from "@/src/components/admin/SuperAdminDashboard";
 
 export default function Page() {
   return (

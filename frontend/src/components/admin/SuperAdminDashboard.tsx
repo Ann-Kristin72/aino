@@ -1,12 +1,13 @@
+'use client';
+
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getEditors } from "@/lib/api/editors";
 
 export default function SuperAdminDashboard() {
   const [searchTerm, setSearchTerm] = useState("");
   const { data: editors, isLoading, error } = useQuery({
     queryKey: ["editors"],
-    queryFn: getEditors,
+    queryFn: () => fetch("/api/admins").then(res => res.json()),
   });
 
   const filteredEditors = editors?.filter((editor) =>
@@ -14,7 +15,7 @@ export default function SuperAdminDashboard() {
   );
 
   return (
-    <div className="space-y-4 p-6 bg-white rounded-xl shadow-md">
+    <div className="space-y-4 p-6 bg-white rounded-lg shadow-md">
       <h1 className="text-2xl font-bold text-gray-900">Redaktører</h1>
       
       <div className="space-y-4">
@@ -51,7 +52,7 @@ export default function SuperAdminDashboard() {
                 </div>
                 <button
                   onClick={() => {/* TODO: Implement editor actions */}}
-                  className="bg-aino-blue hover:bg-aino-blue-dark text-white px-4 py-2 rounded transition-colors"
+                  className="bg-aino-blue hover:bg-aino-blue-dark text-white px-4 py-2 rounded transition"
                 >
                   Administrer
                 </button>
