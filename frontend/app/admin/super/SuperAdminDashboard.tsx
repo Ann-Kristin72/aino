@@ -2,7 +2,13 @@
 
 import Link from "next/link";
 import ModuleCard from "@/components/ModuleCard";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
+interface Editor {
+  id: number;
+  name: string;
+  email: string;
+}
 
 const modules = [
   {
@@ -31,6 +37,11 @@ const modules = [
     description: "Opprette kunder, adminer, roller og håndtere abonnement.",
   },
   {
+    title: "SkriveStuen",
+    description: "Rediger innhold og media",
+    path: "/admin/skrivestue",
+  },
+  {
     title: "Bibliotek",
     path: "/admin/library",
     description: "Master-database for maler, prosedyrer, kurs og metadata.",
@@ -39,13 +50,24 @@ const modules = [
 
 export default function SuperAdminDashboard() {
   const [search, setSearch] = useState("");
-  const [editors, setEditors] = useState([
-    { id: 1, name: "Ann-Kristin Johansen", email: "annkristin@dynamiskhelse.no" },
-    { id: 2, name: "Anne Kat", email: "akjohansen@dynamiskhelse.no" },
-    { id: 3, name: "Anna Lena", email: "al@dh.no" },
-  ]);
+  const [editors, setEditors] = useState<Editor[]>([]);
   const [newName, setNewName] = useState("");
   const [newEmail, setNewEmail] = useState("");
+
+  useEffect(() => {
+    const fetchEditors = async () => {
+      try {
+        const response = await fetch('/api/admins');
+        if (!response.ok) throw new Error('Failed to fetch editors');
+        const data = await response.json();
+        setEditors(data);
+      } catch (error) {
+        console.error('Error fetching editors:', error);
+      }
+    };
+
+    fetchEditors();
+  }, []);
 
   const filteredEditors = editors.filter(
     (e) =>
@@ -53,18 +75,36 @@ export default function SuperAdminDashboard() {
       e.email.toLowerCase().includes(search.toLowerCase())
   );
 
-  const addEditor = () => {
+  const addEditor = async () => {
     if (!newName || !newEmail) return;
-    setEditors([
-      ...editors,
-      { id: Date.now(), name: newName, email: newEmail },
-    ]);
-    setNewName("");
-    setNewEmail("");
+    try {
+      const response = await fetch('/api/admins', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name: newName, email: newEmail }),
+      });
+      if (!response.ok) throw new Error('Failed to add editor');
+      const newEditor = await response.json();
+      setEditors([...editors, newEditor]);
+      setNewName("");
+      setNewEmail("");
+    } catch (error) {
+      console.error('Error adding editor:', error);
+    }
   };
 
-  const removeEditor = (id: number) => {
-    setEditors(editors.filter((e) => e.id !== id));
+  const removeEditor = async (id: number) => {
+    try {
+      const response = await fetch(`/api/admins/${id}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) throw new Error('Failed to remove editor');
+      setEditors(editors.filter((e) => e.id !== id));
+    } catch (error) {
+      console.error('Error removing editor:', error);
+    }
   };
 
   return (
