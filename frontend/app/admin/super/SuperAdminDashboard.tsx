@@ -40,12 +40,7 @@ const modules = [
     title: "SkriveStuen",
     description: "Rediger innhold og media",
     path: "/admin/skrivestue",
-  },
-  {
-    title: "Bibliotek",
-    path: "/admin/library",
-    description: "Master-database for maler, prosedyrer, kurs og metadata.",
-  },
+  }, 
 ];
 
 export default function SuperAdminDashboard() {

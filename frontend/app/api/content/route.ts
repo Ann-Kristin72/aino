@@ -4,8 +4,18 @@ import { content } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
 
 export async function GET() {
-  const result = await db.select().from(content).orderBy(content.createdAt);
-  return NextResponse.json(result);
+  try {
+    console.log('API /content: Fetching content from database...');
+    const result = await db.select().from(content).orderBy(content.createdAt);
+    console.log('API /content result:', result);
+    return NextResponse.json(result);
+  } catch (error) {
+    console.error('API /content error:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch content' },
+      { status: 500 }
+    );
+  }
 }
 
 export async function POST(req: NextRequest) {

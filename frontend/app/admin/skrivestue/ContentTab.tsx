@@ -7,9 +7,20 @@ export default function ContentTab() {
   const [category, setCategory] = useState("Ernæring");
   const [contentMd, setContentMd] = useState("");
   const [contents, setContents] = useState([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("/api/content").then(res => res.json()).then(setContents);
+    fetch("/api/content")
+      .then(res => {
+        if (!res.ok) throw new Error('Network response was not ok');
+        return res.json();
+      })
+      .then(setContents)
+      .catch(error => {
+        console.error('Error fetching content:', error);
+        setError('Kunne ikke laste innhold. Prøv igjen senere.');
+        setContents([]); // fallback til tom liste
+      });
   }, []);
 
   const saveContent = async () => {
@@ -41,6 +52,7 @@ export default function ContentTab() {
       <button onClick={saveContent} className="bg-blue-600 text-white px-4 py-2 rounded">Lagre</button>
 
       <h3 className="text-lg font-bold mt-6">Alt innhold</h3>
+      {error && <p className="text-red-500 mb-4">{error}</p>}
       <ul>
         {contents.map((c: any) => (
           <li key={c.id} className="border p-2 my-2 rounded">
