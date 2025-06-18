@@ -2,7 +2,12 @@
 
 import Link from "next/link";
 import ModuleCard from "@/components/ModuleCard";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import AdminCard from '@/components/AdminCard';
+import PrimaryButton from '@/components/PrimaryButton';
+import Spinner from '@/components/Spinner';
+import { useQuery } from "@tanstack/react-query";
+import { getAdmins } from "@/lib/api/admins";
 
 interface Editor {
   id: number;
@@ -45,24 +50,32 @@ const modules = [
 
 export default function SuperAdminDashboard() {
   const [search, setSearch] = useState("");
-  const [editors, setEditors] = useState<Editor[]>([]);
   const [newName, setNewName] = useState("");
   const [newEmail, setNewEmail] = useState("");
 
-  useEffect(() => {
-    const fetchEditors = async () => {
-      try {
-        const response = await fetch('/api/admins');
-        if (!response.ok) throw new Error('Failed to fetch editors');
-        const data = await response.json();
-        setEditors(data);
-      } catch (error) {
-        console.error('Error fetching editors:', error);
-      }
-    };
+  const { data: editors = [], isLoading, error } = useQuery({
+    queryKey: ['admins'],
+    queryFn: getAdmins
+  });
 
-    fetchEditors();
-  }, []);
+  // Logging for debugging
+  console.log('React Query State:', { data: editors, isLoading, error });
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Spinner />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-8 text-red-600">
+        <p>Noe gikk galt: {error instanceof Error ? error.message : 'Ukjent feil'}</p>
+      </div>
+    );
+  }
 
   const filteredEditors = editors.filter(
     (e) =>
@@ -82,9 +95,9 @@ export default function SuperAdminDashboard() {
       });
       if (!response.ok) throw new Error('Failed to add editor');
       const newEditor = await response.json();
-      setEditors([...editors, newEditor]);
       setNewName("");
       setNewEmail("");
+      // Note: React Query will automatically refetch the data
     } catch (error) {
       console.error('Error adding editor:', error);
     }
@@ -96,21 +109,23 @@ export default function SuperAdminDashboard() {
         method: 'DELETE',
       });
       if (!response.ok) throw new Error('Failed to remove editor');
-      setEditors(editors.filter((e) => e.id !== id));
+      // Note: React Query will automatically refetch the data
     } catch (error) {
       console.error('Error removing editor:', error);
     }
   };
 
   return (
-    <main className="p-8 space-y-12">
+    <main className="p-8 space-y-12 bg-latte text-skifer min-h-screen">
       <header>
-        <h1 className="text-3xl font-bold mb-4">🗂️ Super Admin Dashboard</h1>
+        <h1 className="text-3xl font-slab mb-4 text-warmbrown">
+          🗂️ Super Admin Dashboard
+        </h1>
       </header>
 
-      {/* 📌 Hovedredaktører med CRUD */}
       <section>
-        <h2 className="text-xl font-semibold mb-2">Hovedredaktører</h2>
+        <h2 className="text-xl font-slab text-warmbrown mb-4">Hovedredaktører</h2>
+
         <input
           type="text"
           placeholder="Søk redaktør..."
@@ -136,41 +151,27 @@ export default function SuperAdminDashboard() {
           />
           <button
             onClick={addEditor}
-            className="bg-blue-600 text-white px-4 rounded"
+            className="bg-bluegreen text-white px-4 py-2 rounded-2xl shadow hover:bg-teal-700 transition"
           >
             Legg til
           </button>
         </div>
 
-        <ul className="space-y-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredEditors.map((editor) => (
-            <li
-              key={editor.id}
-              className="border p-4 rounded flex justify-between items-center"
-            >
-              <div>
-                <p className="font-semibold">{editor.name}</p>
-                <p className="text-sm text-gray-600">{editor.email}</p>
-              </div>
-              <div className="flex gap-2 items-center">
-                <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">
-                  Administrator
-                </span>
-                <button
-                  onClick={() => removeEditor(editor.id)}
-                  className="text-sm text-red-600 underline"
-                >
-                  Slett
-                </button>
-              </div>
-            </li>
+            <div key={editor.id} className="flex items-center gap-4">
+              <AdminCard name={editor.name} email={editor.email} />
+              <PrimaryButton onClick={() => removeEditor(editor.id)}>
+                Slett
+              </PrimaryButton>
+            </div>
           ))}
-        </ul>
+        </div>
       </section>
 
       {/* 📌 6 Modul-kort */}
       <section>
-        <h2 className="text-xl font-semibold mb-4">Kjernefunksjoner</h2>
+        <h2 className="text-xl font-slab text-warmbrown mb-4">Kjernefunksjoner</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {modules.map((mod) => (
             <Link key={mod.path} href={mod.path} className="block">
