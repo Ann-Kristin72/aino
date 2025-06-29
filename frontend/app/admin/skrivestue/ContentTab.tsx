@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import CategoryCard from "@/components/CategoryCard";
+import ExistingContentView from "@/components/ExistingContentView";
 
 export default function ContentTab() {
   const [title, setTitle] = useState("");
@@ -60,6 +62,9 @@ export default function ContentTab() {
           </li>
         ))}
       </ul>
+
+      <h3 className="text-lg font-bold mt-8 mb-4">Kategorier</h3>
+      <ExistingContentView />
     </div>
   );
 } 

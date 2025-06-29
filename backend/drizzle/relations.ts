@@ -1,18 +1,13 @@
 import { relations } from 'drizzle-orm';
-import { users, roles, user_roles, library } from './schema';
+import { users, roles, user_roles, library, categories } from './schema';
 
 // Relasjoner for users
-export const userRelations = relations(users, ({ one, many }) => ({
-  role: one(roles, {
-    fields: [users.role_id],
-    references: [roles.id],
-  }),
+export const userRelations = relations(users, ({ many }) => ({
   userRoles: many(user_roles),
 }));
 
 // Relasjoner for roles
 export const roleRelations = relations(roles, ({ many }) => ({
-  users: many(users),
   userRoles: many(user_roles),
 }));
 
@@ -29,4 +24,7 @@ export const userRoleRelations = relations(user_roles, ({ one }) => ({
 }));
 
 // Relasjoner for library (ingen nå)
-export const libraryRelations = relations(library, () => ({})); 
+export const libraryRelations = relations(library, () => ({}));
+
+// Relasjoner for categories (ingen relasjoner ennå)
+export const categoriesRelations = relations(categories, () => ({})); 

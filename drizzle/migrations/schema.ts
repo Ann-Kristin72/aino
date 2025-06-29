@@ -1,11 +1,15 @@
 import { pgTable, serial, text, varchar, timestamp, uuid, primaryKey } from "drizzle-orm/pg-core"
 import { sql } from "drizzle-orm"
 
-
-
 export const roles = pgTable("roles", {
 	id: serial().primaryKey().notNull(),
 	name: text().notNull(),
+});
+
+export const categories = pgTable("categories", {
+	id: uuid().defaultRandom().primaryKey().notNull(),
+	name: text().notNull().unique(),
+	description: text(),
 });
 
 export const library = pgTable("library", {
