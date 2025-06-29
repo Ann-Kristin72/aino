@@ -43,7 +43,7 @@ const modules = [
   },
   {
     title: "SkriveStuen",
-    path: "/admin/skrivestue",
+    path: "/admin/skrivestue?tab=writer",
     description: "Rediger innhold og media i rolig kaffestemning ☕",
   },
 ];

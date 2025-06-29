@@ -13,7 +13,7 @@ export default function SkriveStue() {
     <main className="p-8">
       <h1 className="text-3xl font-bold mb-4">✍️ SkriveStuen</h1>
       <div className="flex gap-4 mb-8">
-        <button onClick={() => setTab("content")} className={tab === "content" ? "font-bold underline" : ""}>Innhold</button>
+        <button onClick={() => setTab("content")} className={tab === "content" ? "font-bold underline" : ""}>Eksisterende innhold</button>
         <button onClick={() => setTab("media")} className={tab === "media" ? "font-bold underline" : ""}>Media</button>
         <button onClick={() => setTab("ai")} className={tab === "ai" ? "font-bold underline" : ""}>AI & Verktøy</button>
         <button onClick={() => setTab("writer")} className={tab === "writer" ? "font-bold underline" : ""}>Writer</button>
