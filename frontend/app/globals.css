@@ -4,27 +4,20 @@
 @tailwind components;
 @tailwind utilities;
 
-@theme {
-  --color-latte: #F5EEE6;
-  --color-bluegreen: #4AAE9B;
-  --color-warmbrown: #A67C52;
-  --color-skifer: #333F48;
-  --color-softpink: #F8D9D6;
+/* Base styles */
+body {
+  @apply bg-gray-50 text-gray-900;
+}
+
+a {
+  @apply text-blue-600 hover:text-blue-800 hover:underline;
+}
+
+button {
+  @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
 }
 
 /* Bruk Google Fonts variabler */
 html {
   font-family: var(--font-inter, sans-serif);
-}
-
-body {
-  @apply bg-latte text-skifer font-sans;
-}
-
-a {
-  @apply text-bluegreen hover:underline;
-}
-
-button {
-  @apply focus:outline-none;
 } 

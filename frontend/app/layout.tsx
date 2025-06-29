@@ -1,19 +1,18 @@
 import './globals.css'
-import { Inter, Roboto_Slab } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import Providers from "./providers";
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
-const slab = Roboto_Slab({ subsets: ['latin'], variable: '--font-slab' })
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'Aino CMS',
-  description: 'En rolig skriveopplevelse med kaffe i hånda ☕',
+  description: 'AI-drevet plattform for kvalitetssikring og kunnskapsdeling',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="no" className={`${inter.variable} ${slab.variable}`}>
-      <body className="bg-latte text-skifer font-sans">
+    <html lang="no">
+      <body className={`${inter.className} bg-gray-50 text-gray-900`}>
         <Providers>{children}</Providers>
       </body>
     </html>
