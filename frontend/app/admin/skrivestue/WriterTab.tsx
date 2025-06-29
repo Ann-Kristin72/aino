@@ -29,10 +29,60 @@ export default function WriterTab() {
   });
   const [activeTab, setActiveTab] = useState<'preview' | 'metadata' | 'import'>('preview');
   const [isLoaded, setIsLoaded] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<null | 'success' | 'error'>(null);
 
   useEffect(() => {
     setIsLoaded(true);
   }, []);
+
+  // Enkel markdown til HTML konvertering (samme som PreviewPane)
+  const convertMarkdownToHtml = (markdown: string) => {
+    return markdown
+      .replace(/^### (.*$)/gim, '<h3 class="text-lg font-semibold mb-2">$1</h3>')
+      .replace(/^## (.*$)/gim, '<h2 class="text-xl font-bold mb-3">$1</h2>')
+      .replace(/^# (.*$)/gim, '<h1 class="text-2xl font-bold mb-4">$1</h1>')
+      .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
+      .replace(/\*(.*)\*/gim, '<em>$1</em>')
+      .replace(/\n/gim, '<br />');
+  };
+
+  const handleSave = async () => {
+    setSaveStatus(null);
+    
+    // Validering av påkrevde felter
+    if (!courseMeta.title.trim()) {
+      setSaveStatus('error');
+      return;
+    }
+    if (!courseMeta.category.trim()) {
+      setSaveStatus('error');
+      return;
+    }
+    if (!markdownText.trim()) {
+      setSaveStatus('error');
+      return;
+    }
+    
+    const payload = {
+      title: courseMeta.title,
+      category: courseMeta.category,
+      content_md: markdownText,
+    };
+    try {
+      const res = await fetch('/api/content', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (res.status === 200) {
+        setSaveStatus('success');
+      } else {
+        setSaveStatus('error');
+      }
+    } catch (e) {
+      setSaveStatus('error');
+    }
+  };
 
   if (!isLoaded) {
     return (
@@ -86,7 +136,10 @@ export default function WriterTab() {
           <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
             Forhåndsvis
           </button>
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+          <button
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            onClick={handleSave}
+          >
             Lagre
           </button>
         </div>
@@ -146,6 +199,18 @@ export default function WriterTab() {
           </div>
         </div>
       </div>
+
+      {/* Save status feedback */}
+      {saveStatus === 'success' && (
+        <div className="p-4 text-green-700 bg-green-100 border border-green-300 rounded mt-4 text-center">
+          Artikkel lagret!
+        </div>
+      )}
+      {saveStatus === 'error' && (
+        <div className="p-4 text-red-700 bg-red-100 border border-red-300 rounded mt-4 text-center">
+          Kunne ikke lagre artikkel. Prøv igjen.
+        </div>
+      )}
     </div>
   );
 } 

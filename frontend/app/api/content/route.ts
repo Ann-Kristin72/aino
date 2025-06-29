@@ -30,6 +30,21 @@ export async function POST(request: Request) {
       );
     }
 
+    // Dummy response for testing - ikke lagre i database ennå
+    console.log('API /content POST: Received data:', { title, category, content_md });
+    
+    return NextResponse.json({
+      id: 1,
+      title,
+      category,
+      content_md,
+      status: "draft",
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    }, { status: 200 });
+
+    // TODO: Uncomment when database is ready
+    /*
     const result = await db.insert(content).values({
       title,
       category,
@@ -40,6 +55,7 @@ export async function POST(request: Request) {
     }).returning();
 
     return NextResponse.json(result[0]);
+    */
   } catch (error) {
     console.error('API /content POST error:', error);
     return NextResponse.json(
