@@ -1,12 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
-import { content } from "@/lib/schema";
-import { eq } from "drizzle-orm";
+
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL!;
 
 export async function GET() {
   try {
-    console.log('API /content: Fetching content from database...');
-    const result = await db.select().from(content).orderBy(content.created_at);
+    console.log('API /content: Fetching content from backend...');
+    const response = await fetch(`${BACKEND_URL}/api/content`);
+    
+    if (!response.ok) {
+      throw new Error(`Backend responded with status: ${response.status}`);
+    }
+    
+    const result = await response.json();
     console.log('API /content result:', result);
     return NextResponse.json(result);
   } catch (error) {
@@ -30,32 +35,26 @@ export async function POST(request: Request) {
       );
     }
 
-    // Dummy response for testing - ikke lagre i database ennå
-    console.log('API /content POST: Received data:', { title, category, content_md });
+    console.log('API /content POST: Sending data to backend:', { title, category, content_md });
     
-    return NextResponse.json({
-      id: 1,
-      title,
-      category,
-      content_md,
-      status: "draft",
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    }, { status: 200 });
+    // Send data to backend
+    const response = await fetch(`${BACKEND_URL}/api/content`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title,
+        content: content_md,
+        category_id: 1, // TODO: Map category to category_id
+        created_by: 1, // TODO: Get from auth context
+      }),
+    });
 
-    // TODO: Uncomment when database is ready
-    /*
-    const result = await db.insert(content).values({
-      title,
-      category,
-      content_md,
-      status: "draft",
-      created_at: new Date(),
-      updated_at: new Date()
-    }).returning();
+    if (!response.ok) {
+      throw new Error(`Backend responded with status: ${response.status}`);
+    }
 
-    return NextResponse.json(result[0]);
-    */
+    const result = await response.json();
+    return NextResponse.json(result);
   } catch (error) {
     console.error('API /content POST error:', error);
     return NextResponse.json(
@@ -66,7 +65,24 @@ export async function POST(request: Request) {
 }
 
 export async function DELETE(req: NextRequest) {
-  const { id } = await req.json();
-  const deleted = await db.delete(content).where(eq(content.id, id)).returning();
-  return NextResponse.json(deleted);
+  try {
+    const { id } = await req.json();
+    
+    const response = await fetch(`${BACKEND_URL}/api/content/${id}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      throw new Error(`Backend responded with status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    return NextResponse.json(result);
+  } catch (error) {
+    console.error('API /content DELETE error:', error);
+    return NextResponse.json(
+      { error: "Kunne ikke slette innhold. Vennligst prøv igjen senere." },
+      { status: 500 }
+    );
+  }
 } 

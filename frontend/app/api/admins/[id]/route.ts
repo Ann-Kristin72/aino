@@ -1,7 +1,6 @@
-import { db } from "@/lib/db";
-import { users } from "@/lib/schema";
-import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
+
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL!;
 
 export async function DELETE(
   req: Request,
@@ -11,21 +10,27 @@ export async function DELETE(
     const id = params.id;
     if (!id || isNaN(Number(id))) {
       return NextResponse.json(
-        { error: "Ugyldig ID" },
+        { error: "Invalid ID" },
         { status: 400 }
       );
     }
 
-    // Slett admin
-    await db
-      .delete(users)
-      .where(eq(users.id, Number(id)));
+    console.log("✅ Frontend API: DELETE /api/admins/[id] - calling backend...");
+    
+    const response = await fetch(`${BACKEND_URL}/api/admins/${id}`, {
+      method: "DELETE",
+    });
 
-    return NextResponse.json({ success: true });
+    if (!response.ok) {
+      throw new Error(`Backend responded with status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    return NextResponse.json(result);
   } catch (error) {
-    console.error("🔥 API ERROR DELETE /api/admins/[id]:", error);
+    console.error("🔥 Frontend API ERROR DELETE /api/admins/[id]:", error);
     return NextResponse.json(
-      { error: "Kunne ikke slette admin" },
+      { error: "Could not delete admin" },
       { status: 500 }
     );
   }

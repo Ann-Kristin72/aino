@@ -1,56 +1,27 @@
-import { NextResponse } from "next/server";
-import { db } from "@/lib/db";
-import { users, roles, userRoles } from "@/lib/schema";
-import { eq } from "drizzle-orm";
-import { z } from "zod";
+import { NextRequest, NextResponse } from "next/server";
 
 // For å sjekke at variabler faktisk er der:
 console.log("POSTGRES_URL:", process.env.POSTGRES_URL);
 console.log("DATABASE_URL:", process.env.DATABASE_URL);
 
-const createAdminSchema = z.object({
-  name: z.string().min(1, "Navn er påkrevd"),
-  email: z.string().email("Ugyldig e-postadresse"),
-});
-
-const updateAdminSchema = z.object({
-  id: z.number(),
-  name: z.string().min(1, "Navn er påkrevd"),
-  email: z.string().email("Ugyldig e-post"),
-  role_id: z.number().optional()
-});
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL!;
 
 export async function GET() {
   try {
-    console.log("✅ API hit: /api/admins");
-
-    // Finn hovedredaktør-rolle-ID
-    const hovedredaktørRole = await db
-      .select()
-      .from(roles)
-      .where(eq(roles.name, "hovedredaktør"))
-      .limit(1);
-
-    if (!hovedredaktørRole[0]) {
-      console.log("ℹ️ Ingen hovedredaktør-rolle funnet");
-      return NextResponse.json([]);
+    console.log("✅ Frontend API: GET /api/admins - calling backend...");
+    
+    const response = await fetch(`${BACKEND_URL}/api/admins`);
+    
+    if (!response.ok) {
+      throw new Error(`Backend responded with status: ${response.status}`);
     }
-
-    // Hent brukere med denne rollen direkte fra users.role_id
-    const redaktører = await db
-      .select({
-        id: users.id,
-        name: users.name,
-        email: users.email
-      })
-      .from(users)
-      .where(eq(users.role_id, hovedredaktørRole[0].id));
-
-    console.log("✅ Found admins:", redaktører);
-    return NextResponse.json(Array.isArray(redaktører) ? redaktører : []);
+    
+    const result = await response.json();
+    console.log("✅ Frontend API: Found admins:", result);
+    return NextResponse.json(Array.isArray(result) ? result : []);
 
   } catch (error) {
-    console.error("🔥 API ERROR /api/admins:", JSON.stringify(error, null, 2));
+    console.error("🔥 Frontend API ERROR /api/admins:", error);
     return NextResponse.json([]);
   }
 }
@@ -58,47 +29,33 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    
-    // Valider input med Zod
-    const result = createAdminSchema.safeParse(body);
-    if (!result.success) {
+    const { name, email } = body;
+
+    if (!name || !email) {
       return NextResponse.json(
-        { error: "Valideringsfeil", details: result.error.format() },
+        { error: "Name and email are required" },
         { status: 400 }
       );
     }
 
-    const { name, email } = result.data;
+    console.log("✅ Frontend API: POST /api/admins - calling backend...");
+    
+    const response = await fetch(`${BACKEND_URL}/api/admins`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email }),
+    });
 
-    // Finn hovedredaktør-rolle
-    const hovedredaktør = await db
-      .select()
-      .from(roles)
-      .where(eq(roles.name, "hovedredaktør"))
-      .limit(1);
-
-    if (!hovedredaktør[0]) {
-      return NextResponse.json(
-        { error: "Hovedredaktør-rolle ikke funnet" },
-        { status: 500 }
-      );
+    if (!response.ok) {
+      throw new Error(`Backend responded with status: ${response.status}`);
     }
 
-    // Opprett ny admin
-    const ny = await db
-      .insert(users)
-      .values({
-        name,
-        email,
-        role_id: hovedredaktør[0].id
-      })
-      .returning();
-
-    return NextResponse.json(ny[0]);
+    const result = await response.json();
+    return NextResponse.json(result);
   } catch (error) {
-    console.error("🔥 API ERROR POST /api/admins:", error);
+    console.error("🔥 Frontend API ERROR POST /api/admins:", error);
     return NextResponse.json(
-      { error: "Kunne ikke opprette admin" },
+      { error: "Could not create admin" },
       { status: 500 }
     );
   }
@@ -111,21 +68,27 @@ export async function DELETE(req: Request) {
 
     if (!id || isNaN(Number(id))) {
       return NextResponse.json(
-        { error: "Ugyldig ID" },
+        { error: "Invalid ID" },
         { status: 400 }
       );
     }
 
-    // Slett admin
-    await db
-      .delete(users)
-      .where(eq(users.id, Number(id)));
+    console.log("✅ Frontend API: DELETE /api/admins - calling backend...");
+    
+    const response = await fetch(`${BACKEND_URL}/api/admins/${id}`, {
+      method: "DELETE",
+    });
 
-    return NextResponse.json({ success: true });
+    if (!response.ok) {
+      throw new Error(`Backend responded with status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    return NextResponse.json(result);
   } catch (error) {
-    console.error("🔥 API ERROR DELETE /api/admins:", error);
+    console.error("🔥 Frontend API ERROR DELETE /api/admins:", error);
     return NextResponse.json(
-      { error: "Kunne ikke slette admin" },
+      { error: "Could not delete admin" },
       { status: 500 }
     );
   }
@@ -134,44 +97,34 @@ export async function DELETE(req: Request) {
 export async function PUT(request: Request) {
   try {
     const body = await request.json();
-    const validatedData = updateAdminSchema.parse(body);
+    const { id, name, email, role_id } = body;
 
-    // Update user details
-    await db
-      .update(users)
-      .set({
-        name: validatedData.name,
-        email: validatedData.email,
-      })
-      .where(eq(users.id, validatedData.id));
-
-    // If role_id is provided, update the role
-    if (validatedData.role_id) {
-      await db
-        .update(userRoles)
-        .set({ role_id: validatedData.role_id })
-        .where(eq(userRoles.user_id, validatedData.id));
+    if (!id || !name || !email) {
+      return NextResponse.json(
+        { error: "ID, name and email are required" },
+        { status: 400 }
+      );
     }
 
-    // Fetch and return updated admin
-    const updatedAdmin = await db
-      .select({
-        id: users.id,
-        name: users.name,
-        email: users.email,
-        role_id: userRoles.role_id,
-      })
-      .from(users)
-      .innerJoin(userRoles, eq(users.id, userRoles.user_id))
-      .where(eq(users.id, validatedData.id))
-      .limit(1);
+    console.log("✅ Frontend API: PUT /api/admins - calling backend...");
+    
+    const response = await fetch(`${BACKEND_URL}/api/admins/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, role_id }),
+    });
 
-    return NextResponse.json(updatedAdmin[0]);
+    if (!response.ok) {
+      throw new Error(`Backend responded with status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    return NextResponse.json(result);
   } catch (error) {
-    console.error("🔥 API ERROR /api/admins:", error);
-    if (error instanceof z.ZodError) {
-      return new NextResponse(JSON.stringify(error.errors), { status: 400 });
-    }
-    return new NextResponse("Internal Server Error", { status: 500 });
+    console.error("🔥 Frontend API ERROR PUT /api/admins:", error);
+    return NextResponse.json(
+      { error: "Could not update admin" },
+      { status: 500 }
+    );
   }
 } 
