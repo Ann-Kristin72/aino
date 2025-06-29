@@ -4,9 +4,10 @@ import React, { useState } from "react";
 import ContentTab from "./ContentTab";
 import MediaTab from "./MediaTab";
 import AIToolsTab from "./AIToolsTab";
+import WriterTab from "./WriterTab";
 
 export default function SkriveStue() {
-  const [tab, setTab] = useState<"content" | "media" | "ai">("content");
+  const [tab, setTab] = useState<"content" | "media" | "ai" | "writer">("content");
 
   return (
     <main className="p-8">
@@ -15,11 +16,13 @@ export default function SkriveStue() {
         <button onClick={() => setTab("content")} className={tab === "content" ? "font-bold underline" : ""}>Innhold</button>
         <button onClick={() => setTab("media")} className={tab === "media" ? "font-bold underline" : ""}>Media</button>
         <button onClick={() => setTab("ai")} className={tab === "ai" ? "font-bold underline" : ""}>AI & Verktøy</button>
+        <button onClick={() => setTab("writer")} className={tab === "writer" ? "font-bold underline" : ""}>Writer</button>
       </div>
 
       {tab === "content" && <ContentTab />}
       {tab === "media" && <MediaTab />}
       {tab === "ai" && <AIToolsTab />}
+      {tab === "writer" && <WriterTab />}
     </main>
   );
 } 
