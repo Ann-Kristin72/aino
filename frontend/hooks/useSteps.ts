@@ -31,12 +31,9 @@ export function useSteps(steps: { [key in Step]: StepConfig }) {
   // Tidsstyrt visning av input og animasjoner
   useEffect(() => {
     if (currentStep === 'welcome') {
-      // Vis input etter 2 sekunder
-      const inputTimer = setTimeout(() => setShowInput(true), 2000);
       // Vis knapp etter 3 sekunder
       const buttonTimer = setTimeout(() => setShowButton(true), 3000);
       return () => {
-        clearTimeout(inputTimer);
         clearTimeout(buttonTimer);
       };
     } else {

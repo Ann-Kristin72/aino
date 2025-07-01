@@ -82,17 +82,8 @@ export default function WelcomeEira() {
                 {currentStepConfig.message}
               </p>
               
-              {showInput && (
+              {(showInput || (currentStep === 'welcome' && showButton)) && (
                 <form onSubmit={handleSubmit} className="mt-4 animate-fade-pop">
-                  {currentStep === 'welcome' && (
-                    <button
-                      type="submit"
-                      className="mt-4 px-6 py-2 bg-joda-orange text-white rounded-lg transition-all duration-300 btn-hover animate-pulse-slow"
-                    >
-                      Fortsett
-                    </button>
-                  )}
-                  
                   {currentStep === 'name' && (
                     <input
                       type="text"
