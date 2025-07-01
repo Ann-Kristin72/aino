@@ -17,7 +17,7 @@ export default function WelcomeEira() {
         />
         <h1 className="text-4xl md:text-5xl font-slab mt-4">Velkommen til Aino</h1>
         <p className="text-lg text-skifer/80 mt-2">
-          Din digitale assistent for læring og kvalitet i helsetjenesten.
+          En base for kunnskap og mestring🧡
         </p>
       </div>
 
