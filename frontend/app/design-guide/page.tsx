@@ -3,6 +3,9 @@
 import Image from 'next/image';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
+import SnakkebobleAnimated from '@/components/SnakkebobleAnimated';
+import SnakkebobleSoft from '@/components/SnakkebobleSoft';
+import SnakkebobleVariant from '@/components/SnakkebobleVariant';
 
 export default function DesignGuide() {
   return (
@@ -166,7 +169,6 @@ export default function DesignGuide() {
                 <Button variant="primary">Primary</Button>
                 <Button variant="secondary">Secondary</Button>
                 <Button variant="outline">Outline</Button>
-                <Button variant="ghost">Ghost</Button>
               </div>
             </div>
             <div>
@@ -196,6 +198,63 @@ export default function DesignGuide() {
               <h3 className="text-xl font-semibold mb-2">Orange kort</h3>
               <p className="text-white/90">Et eksempel på et kort med Joda-orange bakgrunn.</p>
             </Card>
+          </div>
+        </section>
+
+        {/* Speech Bubbles */}
+        <section className="mb-12">
+          <h2 className="text-3xl font-bold text-skifer mb-6">Snakkebobler</h2>
+          <div className="space-y-8">
+            {/* Animated Speech Bubble */}
+            <div>
+              <h3 className="text-xl font-semibold text-skifer mb-4">Animated Speech Bubble</h3>
+              <div className="flex justify-center">
+                <SnakkebobleAnimated>
+                  <p className="text-center">
+                    Hei:-) Jeg er Eira, din personge assisten i Aino. Jeg er helt sikker på at vi skal ha det mye gøy, men først nå, hva heter du?
+                  </p>
+                </SnakkebobleAnimated>
+              </div>
+            </div>
+
+            {/* Soft Speech Bubble */}
+            <div>
+              <h3 className="text-xl font-semibold text-skifer mb-4">Soft Speech Bubble</h3>
+              <div className="flex justify-center">
+                <SnakkebobleSoft>
+                  <p className="text-center">
+                    Dette er den myke snakkeboblen med glass-effekt og fin skygge.
+                  </p>
+                </SnakkebobleSoft>
+              </div>
+            </div>
+
+            {/* Variant Speech Bubbles */}
+            <div>
+              <h3 className="text-xl font-semibold text-skifer mb-4">Variant Speech Bubbles</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="flex justify-center">
+                  <SnakkebobleVariant variant="success">
+                    Hei! Du svarte riktig, det var flott gjort 🌟
+                  </SnakkebobleVariant>
+                </div>
+                <div className="flex justify-center">
+                  <SnakkebobleVariant variant="warning">
+                    Husk å fylle ut navn før du går videre.
+                  </SnakkebobleVariant>
+                </div>
+                <div className="flex justify-center">
+                  <SnakkebobleVariant variant="info">
+                    Klar til å starte reisen sammen? 💬
+                  </SnakkebobleVariant>
+                </div>
+                <div className="flex justify-center">
+                  <SnakkebobleVariant variant="neutral">
+                    Dette er en nøytral melding med orange border.
+                  </SnakkebobleVariant>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 

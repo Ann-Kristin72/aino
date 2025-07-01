@@ -1,6 +1,7 @@
 "use client";
 
 import Image from 'next/image';
+import SnakkebobleSoft from './SnakkebobleSoft';
 
 export default function WelcomeEira() {
   return (
@@ -31,10 +32,11 @@ export default function WelcomeEira() {
           className="rounded-full"
           priority
         />
-        <div className="bg-white border-2 border-joda-teal text-skifer text-xl p-6 rounded-[24px] shadow-md max-w-sm relative before:content-[''] before:absolute before:left-[-12px] before:top-6 before:w-5 before:h-5 before:bg-white before:border-l-2 before:border-b-2 before:border-joda-teal before:rotate-45">
-          Hei! Jeg er Eira. <br />
-          Hva heter du?
-        </div>
+        <SnakkebobleSoft>
+          <p className="text-center">
+            Hei:-) Jeg er Eira, din personge assisten i Aino. Jeg er helt sikker på at vi skal ha det mye gøy, men først nå, hva heter du?
+          </p>
+        </SnakkebobleSoft>
       </div>
     </div>
   );

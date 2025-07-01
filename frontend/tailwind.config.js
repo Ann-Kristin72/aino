@@ -15,6 +15,7 @@ module.exports = {
         skifer: '#333F48',
         softpink: '#F8D9D6',
         'joda-teal': '#4CB6B6',
+        'joda-green': '#4AAE9B',
         joda: {
           teal: '#4CB6B6',
           orange: '#F6A96B',

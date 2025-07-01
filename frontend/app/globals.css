@@ -31,6 +31,39 @@ button {
   animation: fadeIn 0.6s ease-out forwards;
 }
 
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(76, 182, 182, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px 10px rgba(76, 182, 182, 0.2);
+  }
+}
+
+.animate-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes fade-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-fade-pop {
+  animation: fade-pop 0.5s ease-out forwards;
+}
+
+/* Custom shadow for soft speech bubble */
+.shadow-lg {
+  box-shadow: 0 8px 16px rgba(70, 120, 110, 0.12);
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
