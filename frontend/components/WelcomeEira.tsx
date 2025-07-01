@@ -82,7 +82,7 @@ export default function WelcomeEira() {
                 {currentStepConfig.message}
               </p>
               
-              {(showInput || (currentStep === 'welcome' && showButton)) && (
+              {showButton && (
                 <form onSubmit={handleSubmit} className="mt-4 animate-fade-pop">
                   {currentStep === 'name' && (
                     <input
@@ -127,17 +127,15 @@ export default function WelcomeEira() {
                     </div>
                   )}
                   
-                  {showButton && (
-                    <button
-                      type="submit"
-                      disabled={!canProceed(currentStep)}
-                      className={`mt-4 px-6 py-2 bg-joda-orange text-white rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed btn-hover ${
-                        canProceed(currentStep) ? 'animate-pulse-slow' : ''
-                      }`}
-                    >
-                      {currentStep === 'role' ? 'Fullfør' : 'Fortsett'}
-                    </button>
-                  )}
+                  <button
+                    type="submit"
+                    disabled={!canProceed(currentStep)}
+                    className={`mt-4 px-6 py-2 bg-joda-orange text-white rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed btn-hover ${
+                      canProceed(currentStep) ? 'animate-pulse-slow' : ''
+                    }`}
+                  >
+                    {currentStep === 'role' ? 'Fullfør' : 'Fortsett'}
+                  </button>
                 </form>
               )}
             </div>

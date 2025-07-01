@@ -38,7 +38,7 @@ export function useSteps(steps: { [key in Step]: StepConfig }) {
         clearTimeout(buttonTimer);
       };
     } else {
-      // For andre steg, vis input umiddelbart
+      // For andre steg, vis input og knapp umiddelbart
       setShowInput(true);
       setShowButton(true);
     }
@@ -55,6 +55,7 @@ export function useSteps(steps: { [key in Step]: StepConfig }) {
     const currentIndex = stepOrder.indexOf(currentStep);
     if (currentIndex < stepOrder.length - 1) {
       setCurrentStep(stepOrder[currentIndex + 1]);
+      // Reset for neste steg
       setShowInput(false);
       setShowButton(false);
     }
