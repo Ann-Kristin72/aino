@@ -1,5 +1,5 @@
-import TestEira from "@/components/TestEira";
+import WelcomeEira from '@/components/WelcomeEira';
 
 export default function Home() {
-  return <TestEira />;
+  return <WelcomeEira />;
 } 
