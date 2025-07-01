@@ -59,6 +59,26 @@ button {
   animation: fade-pop 0.5s ease-out forwards;
 }
 
+/* Kjede Spinner Animations */
+@keyframes ring-scale {
+  0%, 100% { 
+    transform: scale(1); 
+    opacity: 0.6; 
+  }
+  50% { 
+    transform: scale(1.3); 
+    opacity: 1; 
+  }
+}
+
+.animate-ring-scale {
+  animation: ring-scale 1.4s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin 6s linear infinite;
+}
+
 /* Custom shadow for soft speech bubble */
 .shadow-lg {
   box-shadow: 0 8px 16px rgba(70, 120, 110, 0.12);

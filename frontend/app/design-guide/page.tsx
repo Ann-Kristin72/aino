@@ -7,6 +7,9 @@ import SnakkebobleAnimated from '@/components/SnakkebobleAnimated';
 import SnakkebobleSoft from '@/components/SnakkebobleSoft';
 import SnakkebobleVariant from '@/components/SnakkebobleVariant';
 import EiraDynamic from '@/components/EiraDynamic';
+import KjedeSpinner from '@/components/KjedeSpinner';
+import KjedeButton from '@/components/KjedeButton';
+import KjedeRibbon from '@/components/KjedeRibbon';
 
 export default function DesignGuide() {
   return (
@@ -336,6 +339,45 @@ export default function DesignGuide() {
             </div>
             <div className="bg-joda-green w-24 h-24 rounded-2xl flex items-center justify-center text-white font-medium">
               2xl
+            </div>
+          </div>
+        </section>
+
+        {/* Kjede Components */}
+        <section className="mb-12">
+          <h2 className="text-3xl font-bold text-skifer mb-6">Kjede-komponenter</h2>
+          <div className="space-y-8">
+            {/* Kjede Spinner */}
+            <div>
+              <h3 className="text-xl font-semibold text-skifer mb-4">Kjede Spinner</h3>
+              <p className="text-skifer/80 mb-4">
+                En animert spinner med tre ringer i Kjede-farger som roterer og skalerer.
+              </p>
+              <div className="flex justify-center">
+                <KjedeSpinner />
+              </div>
+            </div>
+
+            {/* Kjede Button */}
+            <div>
+              <h3 className="text-xl font-semibold text-skifer mb-4">Kjede Button</h3>
+              <p className="text-skifer/80 mb-4">
+                En knapp med Kjede-orange bakgrunn og sirkulær ikon.
+              </p>
+              <div className="flex justify-center">
+                <KjedeButton>Start Skrivestue</KjedeButton>
+              </div>
+            </div>
+
+            {/* Kjede Ribbon */}
+            <div>
+              <h3 className="text-xl font-semibold text-skifer mb-4">Kjede Ribbon</h3>
+              <p className="text-skifer/80 mb-4">
+                En ribbon med tre fargede prikker og tekst i Roboto Slab font.
+              </p>
+              <div className="flex justify-center">
+                <KjedeRibbon />
+              </div>
             </div>
           </div>
         </section>
