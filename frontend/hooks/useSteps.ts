@@ -67,6 +67,9 @@ export function useSteps(steps: { [key in Step]: StepConfig }) {
   };
 
   const canProceed = (step: Step): boolean => {
+    // For welcome steget, alltid tillat å gå videre
+    if (step === 'welcome') return true;
+    
     const value = userData[step as keyof UserData];
     const config = steps[step];
     

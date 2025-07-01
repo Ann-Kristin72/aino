@@ -6,20 +6,20 @@ import { useSteps, type Step } from '@/hooks/useSteps';
 
 const steps = {
   welcome: {
-    message: "Hei 😊 Jeg er Eira, din personge assisten i Aino. Jeg er helt sikker på at vi skal ha det mye gøy, men først nå, hva heter du?"
+    message: "Hei 😊 Jeg er Eira, din personlige assistent i Aino. Jeg er helt sikker på at vi skal ha det mye gøy, men først nå, hva heter du?"
   },
   name: {
-    message: "Flott! Nå trenger jeg e-postadressen din for å sette opp kontoen.",
+    message: "Flott! Nå trenger jeg navnet ditt for å sette opp kontoen.",
     placeholder: "Hva heter du?",
     validation: (value: string) => value.length >= 2
   },
   email: {
-    message: "Perfekt! Siste spørsmål - hvilken rolle har du i organisasjonen?",
+    message: "Perfekt! Nå trenger jeg e-postadressen din.",
     placeholder: "Din e-postadresse",
     validation: (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
   },
   role: {
-    message: "Takk! Jeg setter opp alt for deg nå. Du vil snart få en e-post med påloggingsinformasjon.",
+    message: "Siste spørsmål - hvilken rolle har du i organisasjonen?",
     options: ['Superadmin', 'Hovedredaktør', 'Redaktør', 'Veileder', 'Assistent']
   }
 };
@@ -54,7 +54,7 @@ export default function WelcomeEira() {
           width={80} 
           height={80} 
           priority
-          className="mb-4 animate-bounce-slow"
+          className="mb-4"
         />
         <h1 className="text-4xl md:text-5xl font-slab font-semibold mt-4">Velkommen til Aino</h1>
         <p className="text-lg text-skifer/80 mt-2 font-medium leading-snug tracking-normal">
@@ -82,8 +82,17 @@ export default function WelcomeEira() {
                 {currentStepConfig.message}
               </p>
               
-              {showInput && currentStep !== 'welcome' && (
+              {showInput && (
                 <form onSubmit={handleSubmit} className="mt-4 animate-fade-pop">
+                  {currentStep === 'welcome' && (
+                    <button
+                      type="submit"
+                      className="mt-4 px-6 py-2 bg-joda-orange text-white rounded-lg transition-all duration-300 btn-hover animate-pulse-slow"
+                    >
+                      Fortsett
+                    </button>
+                  )}
+                  
                   {currentStep === 'name' && (
                     <input
                       type="text"
