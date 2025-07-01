@@ -15,6 +15,21 @@ button {
   @apply focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2;
 }
 
+/* Custom colors for Kjede palette */
+:root {
+  --joda-green: #4AAE9B;
+  --joda-teal: #4CB6B6;
+  --joda-orange: #F6A96B;
+  --joda-yellow: #F6D06B;
+  --joda-peach: #F6B6A6;
+  --joda-sand: #E6E6C6;
+  --latte: #F5EEE6;
+  --bluegreen: #4AAE9B;
+  --warmbrown: #A67C52;
+  --skifer: #333F48;
+  --softpink: #F8D9D6;
+}
+
 /* Animations */
 @keyframes fadeIn {
   from {

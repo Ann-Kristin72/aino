@@ -6,7 +6,7 @@ import { useSteps, type Step } from '@/hooks/useSteps';
 
 const steps = {
   welcome: {
-    message: "Hei:-) Jeg er Eira, din personge assisten i Aino. Jeg er helt sikker på at vi skal ha det mye gøy, men først nå, hva heter du?"
+    message: "Hei 😊 Jeg er Eira, din personge assisten i Aino. Jeg er helt sikker på at vi skal ha det mye gøy, men først nå, hva heter du?"
   },
   name: {
     message: "Flott! Nå trenger jeg e-postadressen din for å sette opp kontoen.",

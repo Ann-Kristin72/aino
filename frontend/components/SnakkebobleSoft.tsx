@@ -1,9 +1,29 @@
 export default function SnakkebobleSoft({ children }: { children: React.ReactNode }) {
   return (
-    <div className="backdrop-blur-sm bg-white/90 border-[3px] border-joda-green text-skifer text-lg p-6 rounded-[28px] shadow-lg max-w-sm relative animate-fade-pop
-      before:content-[''] before:absolute before:left-[-12px] before:top-6 
-      before:w-5 before:h-5 before:bg-white/90 before:border-l-[3px] before:border-b-[3px] 
-      before:border-joda-green before:rotate-45 before:rounded-sm drop-shadow-md">
+    <div 
+      className="backdrop-blur-sm bg-white/90 border-[4px] text-lg p-8 rounded-[40px] shadow-xl max-w-sm relative animate-fade-pop"
+      style={{
+        borderColor: 'var(--joda-green)',
+        color: 'var(--skifer)',
+        position: 'relative'
+      }}
+    >
+      <style jsx>{`
+        div::before {
+          content: '';
+          position: absolute;
+          left: -20px;
+          top: 40px;
+          width: 32px;
+          height: 32px;
+          background: rgba(255, 255, 255, 0.9);
+          border-left: 4px solid var(--joda-green);
+          border-bottom: 4px solid var(--joda-green);
+          transform: rotate(45deg);
+          border-radius: 2px;
+          filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+        }
+      `}</style>
       {children}
     </div>
   );
