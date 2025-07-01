@@ -61,10 +61,15 @@ router.get("/:id", async (req: Request, res: Response) => {
 
     console.log("✅ Backend: GET /api/roles/:id - fetching:", id);
 
+    const roleId = parseInt(id);
+    if (isNaN(roleId)) {
+      return res.status(400).json({ error: "Ugyldig ID format" });
+    }
+
     const role = await db
       .select()
       .from(roles)
-      .where(eq(roles.id, id))
+      .where(eq(roles.id, roleId))
       .limit(1);
 
     if (!role[0]) {

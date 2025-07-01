@@ -1,25 +1,38 @@
+"use client";
+
 import React from "react";
 
-const colorMap: Record<string, string> = {
-  teal: "bg-joda-teal hover:bg-joda-teal/80 text-white",
-  orange: "bg-joda-orange hover:bg-joda-orange/80 text-white",
-  yellow: "bg-joda-yellow hover:bg-joda-yellow/80 text-skifer",
-  peach: "bg-joda-peach hover:bg-joda-peach/80 text-skifer",
-  green: "bg-joda-green hover:bg-joda-green/80 text-skifer",
-  sand: "bg-joda-sand hover:bg-joda-sand/80 text-skifer",
-};
-
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  color?: keyof typeof colorMap;
+  variant?: "primary" | "secondary" | "outline";
+  size?: "sm" | "md" | "lg";
   children: React.ReactNode;
 }
 
-export default function Button({ color = "teal", children, className = "", ...props }: ButtonProps) {
+export default function Button({ 
+  variant = "primary", 
+  size = "md", 
+  className = "", 
+  children, 
+  ...props 
+}: ButtonProps) {
+  const baseClasses = "font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2";
+  
+  const variantClasses = {
+    primary: "bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-500",
+    secondary: "bg-gray-100 hover:bg-gray-200 text-gray-800 focus:ring-gray-300",
+    outline: "border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white focus:ring-blue-500",
+  };
+  
+  const sizeClasses = {
+    sm: "px-4 py-2 text-sm rounded-lg",
+    md: "px-6 py-3 text-base rounded-full",
+    lg: "px-8 py-4 text-lg rounded-full",
+  };
+
+  const classes = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
+
   return (
-    <button
-      className={`px-4 py-2 rounded font-semibold shadow transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-joda-${color} ${colorMap[color]} ${className}`}
-      {...props}
-    >
+    <button className={classes} {...props}>
       {children}
     </button>
   );

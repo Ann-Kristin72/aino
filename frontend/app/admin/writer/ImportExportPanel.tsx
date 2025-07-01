@@ -54,7 +54,7 @@ export default function ImportExportPanel({ markdownText, setMarkdownText }: Imp
           />
           <button
             onClick={() => fileInputRef.current?.click()}
-            className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="w-full px-4 py-2 bg-[#4CB6B6] text-white rounded-lg hover:bg-[#379e9e] transition-colors"
           >
             Velg .md fil
           </button>
@@ -90,7 +90,7 @@ export default function ImportExportPanel({ markdownText, setMarkdownText }: Imp
 
       {/* File Info */}
       {markdownText && (
-        <div className="border border-gray-300 rounded-lg p-4 bg-gray-50">
+        <div className="border border-gray-300 rounded-lg p-4 bg-latte">
           <h4 className="text-md font-semibold text-gray-900 mb-2">Filinformasjon</h4>
           <div className="text-sm text-gray-600 space-y-1">
             <p>Antall tegn: {markdownText.length}</p>

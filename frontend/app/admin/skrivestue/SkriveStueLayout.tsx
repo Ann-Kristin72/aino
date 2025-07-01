@@ -23,7 +23,7 @@ export default function SkriveStueLayout() {
   const ActiveComponent = tabs.find(tab => tab.id === activeTab)?.component || WriterTab;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-latte">
       {/* Header */}
       <header className="bg-gradient-to-r from-teal-600 to-teal-700 text-white shadow-lg">
         <div className="container mx-auto px-6 py-4">

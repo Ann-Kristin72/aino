@@ -28,7 +28,7 @@ export default function AdminWriterPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 p-6">
+      <div className="min-h-screen bg-latte p-6">
         <div className="max-w-7xl mx-auto">
           <div className="bg-red-50 border border-red-200 rounded-lg p-6">
             <h2 className="text-xl font-semibold text-red-800 mb-2">Feil oppstod</h2>
@@ -47,7 +47,7 @@ export default function AdminWriterPage() {
 
   if (!isLoaded) {
     return (
-      <div className="min-h-screen bg-gray-50 p-6">
+      <div className="min-h-screen bg-latte p-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
@@ -59,7 +59,7 @@ export default function AdminWriterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-latte p-6">
       <div className="max-w-7xl mx-auto">
         <div className="mb-6">
           <h1 className="text-3xl font-bold text-gray-900">Admin Writer v1.0</h1>

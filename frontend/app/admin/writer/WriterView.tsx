@@ -40,7 +40,7 @@ export default function WriterView({
     return (
       <div className="bg-white rounded-xl shadow-lg p-8">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#4CB6B6] mx-auto"></div>
           <p className="mt-4 text-gray-600">Laster admin writer...</p>
         </div>
       </div>
@@ -56,7 +56,7 @@ export default function WriterView({
             onClick={() => setActiveTab('preview')}
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${
               activeTab === 'preview' 
-                ? 'bg-blue-100 text-blue-700' 
+                ? 'bg-[#4CB6B6]/20 text-[#4CB6B6]' 
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
@@ -66,7 +66,7 @@ export default function WriterView({
             onClick={() => setActiveTab('metadata')}
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${
               activeTab === 'metadata' 
-                ? 'bg-blue-100 text-blue-700' 
+                ? 'bg-[#4CB6B6]/20 text-[#4CB6B6]' 
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
@@ -76,7 +76,7 @@ export default function WriterView({
             onClick={() => setActiveTab('import')}
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${
               activeTab === 'import' 
-                ? 'bg-blue-100 text-blue-700' 
+                ? 'bg-[#4CB6B6]/20 text-[#4CB6B6]' 
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
@@ -88,7 +88,7 @@ export default function WriterView({
           <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
             Forhåndsvis
           </button>
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+          <button className="px-4 py-2 bg-[#4CB6B6] text-white rounded-lg hover:bg-[#379e9e] transition-colors">
             Lagre
           </button>
         </div>
@@ -137,10 +137,10 @@ export default function WriterView({
       </div>
 
       {/* Eira Panel */}
-      <div className="border-t border-gray-200 p-4 bg-gray-50">
+      <div className="border-t border-gray-200 p-4 bg-latte">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-            <span className="text-blue-600 font-bold">E</span>
+          <div className="w-10 h-10 bg-[#4CB6B6]/20 rounded-full flex items-center justify-center">
+            <span className="text-[#4CB6B6] font-bold">E</span>
           </div>
           <div>
             <p className="text-sm text-gray-600">Eira analyserer teksten...</p>

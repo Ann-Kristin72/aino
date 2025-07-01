@@ -12,14 +12,14 @@ export async function getAdmins() {
     
     const { rows } = await pool.query(`
       SELECT
-        users.id,
-        users.name,
-        users.email,
-        roles.name as role
-      FROM users
-      INNER JOIN user_roles ON users.id = user_roles.user_id
-      INNER JOIN roles ON user_roles.role_id = roles.id
-      WHERE roles.name IN ('superadmin', 'hovedredaktør', 'redaktør');
+        u.id,
+        u.name,
+        u.email,
+        r.name as role
+      FROM users u
+      INNER JOIN user_roles ur ON u.id = ur.user_id
+      INNER JOIN roles r ON ur.role_id = r.id
+      WHERE r.name IN ('superadmin', 'hovedredaktør', 'redaktør');
     `);
 
     console.log("🔍 getAdmins: Query successful, found", rows.length, "admins");

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
 
 type Admin = {
   id: string;
@@ -30,7 +30,7 @@ export default function SuperAdminDashboard() {
       <h2 className="text-xl font-bold">Superadminer</h2>
       <button
         onClick={leggTil}
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                    className="bg-[#4CB6B6] text-white px-4 py-2 rounded hover:bg-[#379e9e]"
       >
         ➕ Legg til superadmin
       </button>

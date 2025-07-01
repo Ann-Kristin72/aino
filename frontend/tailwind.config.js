@@ -3,6 +3,8 @@ module.exports = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
+    "./components/ui/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
@@ -12,6 +14,7 @@ module.exports = {
         warmbrown: '#A67C52',
         skifer: '#333F48',
         softpink: '#F8D9D6',
+        'joda-teal': '#4CB6B6',
         joda: {
           teal: '#4CB6B6',
           orange: '#F6A96B',
@@ -30,7 +33,21 @@ module.exports = {
         '2xl': '1.5rem',
       },
       boxShadow: {
-        card: '0 4px 12px rgba(0,0,0,0.05)',
+        card: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+      },
+      animation: {
+        'fade-in': 'fade-in 0.6s ease-out',
+        'slide-up': 'slide-up 0.6s ease-out',
+      },
+      keyframes: {
+        'fade-in': {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        'slide-up': {
+          '0%': { opacity: '0', transform: 'translateY(20px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
       },
     },
   },

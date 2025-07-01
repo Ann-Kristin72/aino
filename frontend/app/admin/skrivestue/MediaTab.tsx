@@ -23,7 +23,7 @@ export default function MediaTab() {
     <div className="p-6 space-y-8">
       {/* Upload Section */}
       <section className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-100">
-        <h2 className="text-2xl font-bold text-blue-800 mb-6">📤 Last opp media</h2>
+        <h2 className="text-2xl font-bold text-[#4CB6B6] mb-6">📤 Last opp media</h2>
         
         <div className="flex gap-4 items-end">
           <div className="flex-1">
