@@ -1,28 +1,5 @@
-"use client";
-
-import React, { useState } from "react";
-import ContentTab from "./ContentTab";
-import MediaTab from "./MediaTab";
-import AIToolsTab from "./AIToolsTab";
-import WriterTab from "./WriterTab";
+import SkriveStueLayout from "./SkriveStueLayout";
 
 export default function SkriveStue() {
-  const [tab, setTab] = useState<"content" | "media" | "ai" | "writer">("content");
-
-  return (
-    <main className="p-8">
-      <h1 className="text-3xl font-bold mb-4">✍️ SkriveStuen</h1>
-      <div className="flex gap-4 mb-8">
-        <button onClick={() => setTab("content")} className={tab === "content" ? "font-bold underline" : ""}>Eksisterende innhold</button>
-        <button onClick={() => setTab("media")} className={tab === "media" ? "font-bold underline" : ""}>Media</button>
-        <button onClick={() => setTab("ai")} className={tab === "ai" ? "font-bold underline" : ""}>AI & Verktøy</button>
-        <button onClick={() => setTab("writer")} className={tab === "writer" ? "font-bold underline" : ""}>Writer</button>
-      </div>
-
-      {tab === "content" && <ContentTab />}
-      {tab === "media" && <MediaTab />}
-      {tab === "ai" && <AIToolsTab />}
-      {tab === "writer" && <WriterTab />}
-    </main>
-  );
+  return <SkriveStueLayout />;
 } 

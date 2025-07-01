@@ -1,0 +1,43 @@
+{
+  "skrivestue": {
+    "title": "✍️ SkriveStuen",
+    "subtitle": "Innholdsstyring og redigering",
+    "tabs": {
+      "writer": "✍️ Writer",
+      "existing": "📚 Eksisterende",
+      "media": "🧩 Media",
+      "ai": "🤖 AI-verktøy"
+    },
+    "writer": {
+      "title": "Markdown Editor",
+      "placeholder": "Skriv innhold her...",
+      "save": "Lagre",
+      "preview": "Forhåndsvisning"
+    },
+    "content": {
+      "title": "Eksisterende innhold",
+      "categories": "Kategorier",
+      "noContent": "Ingen innhold funnet"
+    },
+    "media": {
+      "title": "Media-bibliotek",
+      "upload": "Last opp",
+      "noMedia": "Ingen media funnet"
+    },
+    "ai": {
+      "title": "AI-verktøy",
+      "assistant": "Eira Assistant",
+      "comingSoon": "Kommer snart..."
+    }
+  },
+  "common": {
+    "loading": "Laster...",
+    "error": "Feil",
+    "save": "Lagre",
+    "cancel": "Avbryt",
+    "delete": "Slett",
+    "edit": "Rediger",
+    "add": "Legg til",
+    "search": "Søk..."
+  }
+} 

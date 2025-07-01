@@ -1,0 +1,43 @@
+{
+  "skrivestue": {
+    "title": "✍️ Writing Room",
+    "subtitle": "Content management and editing",
+    "tabs": {
+      "writer": "✍️ Writer",
+      "existing": "📚 Existing",
+      "media": "🧩 Media",
+      "ai": "🤖 AI Tools"
+    },
+    "writer": {
+      "title": "Markdown Editor",
+      "placeholder": "Write content here...",
+      "save": "Save",
+      "preview": "Preview"
+    },
+    "content": {
+      "title": "Existing content",
+      "categories": "Categories",
+      "noContent": "No content found"
+    },
+    "media": {
+      "title": "Media library",
+      "upload": "Upload",
+      "noMedia": "No media found"
+    },
+    "ai": {
+      "title": "AI Tools",
+      "assistant": "Eira Assistant",
+      "comingSoon": "Coming soon..."
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "search": "Search..."
+  }
+} 
