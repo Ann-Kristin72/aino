@@ -6,6 +6,7 @@ import Card from '@/components/ui/Card';
 import SnakkebobleAnimated from '@/components/SnakkebobleAnimated';
 import SnakkebobleSoft from '@/components/SnakkebobleSoft';
 import SnakkebobleVariant from '@/components/SnakkebobleVariant';
+import EiraDynamic from '@/components/EiraDynamic';
 
 export default function DesignGuide() {
   return (
@@ -13,26 +14,42 @@ export default function DesignGuide() {
       <div className="max-w-6xl mx-auto">
         <h1 className="text-4xl font-bold text-skifer mb-8">Aino Design System</h1>
         
-        {/* Eira Example */}
-        <Card className="mb-12">
-          <div className="flex items-center space-x-6">
-            <div className="relative w-24 h-24">
-              <Image
-                src="/design-guide/eira-neutral-removebg-preview.png"
-                alt="Eira - AI Assistant"
-                fill
-                className="object-contain"
-              />
+        {/* Eira Examples */}
+        <section className="mb-12">
+          <h2 className="text-3xl font-bold text-skifer mb-6">Eira - Vår AI-veileder</h2>
+          
+          {/* Static Eira */}
+          <Card className="mb-8">
+            <div className="flex items-center space-x-6">
+              <div className="relative w-24 h-24">
+                <Image
+                  src="/design-guide/eira-neutral-removebg-preview.png"
+                  alt="Eira - AI Assistant"
+                  fill
+                  className="object-contain"
+                />
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-skifer mb-2">Statisk Eira</h3>
+                <p className="text-skifer/80">
+                  Eira er designet i Pixar-inspirert stil: varm, livlig og uttrykksfull. 
+                  Hun møter brukeren med empati og humor, og veileder dem gjennom Aino-plattformen.
+                </p>
+              </div>
             </div>
-            <div>
-              <h2 className="text-2xl font-bold text-skifer mb-2">Eira - Vår AI-veileder</h2>
-              <p className="text-skifer/80">
-                Eira er designet i Pixar-inspirert stil: varm, livlig og uttrykksfull. 
-                Hun møter brukeren med empati og humor, og veileder dem gjennom Aino-plattformen.
+          </Card>
+
+          {/* Dynamic Eira */}
+          <Card>
+            <div className="text-center">
+              <h3 className="text-2xl font-bold text-skifer mb-4">Dynamisk Eira med humør-endringer</h3>
+              <p className="text-skifer/80 mb-6">
+                Klikk på emoji-knappene for å se Eira endre humør med animerte overganger og glød-effekter.
               </p>
+              <EiraDynamic />
             </div>
-          </div>
-        </Card>
+          </Card>
+        </section>
 
         {/* Color Palette */}
         <section className="mb-12">
@@ -274,11 +291,44 @@ export default function DesignGuide() {
           </div>
         </section>
 
+        {/* Animations */}
+        <section className="mb-12">
+          <h2 className="text-3xl font-bold text-skifer mb-6">Animasjoner</h2>
+          <div className="space-y-8">
+            <div>
+              <h3 className="text-xl font-semibold text-skifer mb-4">Fade In</h3>
+              <div className="flex justify-center">
+                <div className="bg-[#4CB6B6] text-white p-6 rounded-lg animate-fade-in">
+                  Dette elementet fader inn med en smooth animasjon
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <h3 className="text-xl font-semibold text-skifer mb-4">Fade Pop</h3>
+              <div className="flex justify-center">
+                <div className="bg-joda-orange text-white p-6 rounded-lg animate-fade-pop">
+                  Dette elementet popper inn med scale og fade effekt
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <h3 className="text-xl font-semibold text-skifer mb-4">Glow Effect</h3>
+              <div className="flex justify-center">
+                <div className="bg-joda-green text-white p-6 rounded-lg animate-glow">
+                  Dette elementet har en pulserende glød-effekt
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Border Radius */}
         <section className="mb-12">
           <h2 className="text-3xl font-bold text-skifer mb-6">Border Radius</h2>
           <div className="flex flex-wrap gap-6">
-            <div className="[#4CB6B6] w-24 h-24 rounded-lg flex items-center justify-center text-white font-medium">
+            <div className="bg-[#4CB6B6] w-24 h-24 rounded-lg flex items-center justify-center text-white font-medium">
               lg
             </div>
             <div className="bg-joda-orange w-24 h-24 rounded-xl flex items-center justify-center text-white font-medium">
