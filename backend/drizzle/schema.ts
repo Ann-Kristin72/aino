@@ -1,10 +1,10 @@
-import { pgTable, text, varchar, timestamp, uuid, primaryKey } from "drizzle-orm/pg-core"
+import { pgTable, text, varchar, timestamp, uuid, primaryKey, serial, integer } from "drizzle-orm/pg-core"
 import { sql } from "drizzle-orm"
 
 // --- Tabell: roles ---
 export const roles = pgTable("roles", {
-	id: uuid("id").defaultRandom().primaryKey().notNull(),
-	name: text("name").notNull(),
+	id: serial("id").primaryKey().notNull(),
+	name: text("name").notNull().unique(),
 });
 
 // --- Tabell: categories ---
@@ -32,7 +32,7 @@ export const users = pgTable("users", {
 // --- Pivot-tabell: user_roles ---
 export const user_roles = pgTable("user_roles", {
 	userId: uuid("user_id").notNull(),
-	roleId: uuid("role_id").notNull(),
+	roleId: integer("role_id").references(() => roles.id).notNull(),
 }, (table) => ({
 	primaryKey: primaryKey({ columns: [table.userId, table.roleId], name: "user_roles_user_id_role_id_pk"})
 }));

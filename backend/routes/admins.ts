@@ -1,7 +1,8 @@
 import express, { Request, Response } from "express";
 import { db } from "../drizzle/db";
-import { users, roles } from "../drizzle/schema";
+import { users, roles, user_roles } from "../drizzle/schema";
 import { eq } from "drizzle-orm";
+import { getAdmins } from "../lib/getAdmins";
 
 const router = express.Router();
 
@@ -9,35 +10,12 @@ const router = express.Router();
 router.get("/", async (req: Request, res: Response) => {
   try {
     console.log("✅ Backend: GET /api/admins");
-
-    // Find hovedredaktør role ID
-    const hovedredaktørRole = await db
-      .select()
-      .from(roles)
-      .where(eq(roles.name, "hovedredaktør"))
-      .limit(1);
-
-    if (!hovedredaktørRole[0]) {
-      console.log("ℹ️ No hovedredaktør role found");
-      return res.json([]);
-    }
-
-    // Get users with this role
-    const redaktører = await db
-      .select({
-        id: users.id,
-        name: users.name,
-        email: users.email
-      })
-      .from(users)
-      .where(eq(users.role_id, hovedredaktørRole[0].id));
-
-    console.log("✅ Found admins:", redaktører);
-    res.json(Array.isArray(redaktører) ? redaktører : []);
-
-  } catch (error) {
-    console.error("🔥 Backend ERROR GET /api/admins:", error);
-    res.status(500).json({ error: "Noe gikk galt ved henting av admins" });
+    const admins = await getAdmins();
+    console.log("✅ Found admins:", admins);
+    res.json(admins);
+  } catch (err) {
+    console.error("🔥 /api/admins error", err);
+    res.status(500).json({ error: "Kunne ikke hente admins" });
   }
 });
 
@@ -57,7 +35,6 @@ router.get("/:id", async (req: Request, res: Response) => {
         id: users.id,
         name: users.name,
         email: users.email,
-        role_id: users.role_id,
       })
       .from(users)
       .where(eq(users.id, id))
@@ -78,41 +55,25 @@ router.get("/:id", async (req: Request, res: Response) => {
 
 // POST /api/admins - Create new admin
 router.post("/", async (req: Request, res: Response) => {
+  const { name, email, roleId } = req.body;
+  if (!name || !email || !roleId) {
+    return res.status(400).json({ error: "Name, email og roleId er påkrevd" });
+  }
   try {
-    const { name, email } = req.body;
-
-    if (!name || !email) {
-      return res.status(400).json({ error: "Name and email are required" });
-    }
-
-    console.log("✅ Backend: POST /api/admins - creating:", { name, email });
-
-    // Find hovedredaktør role
-    const hovedredaktør = await db
-      .select()
-      .from(roles)
-      .where(eq(roles.name, "hovedredaktør"))
-      .limit(1);
-
-    if (!hovedredaktør[0]) {
-      return res.status(500).json({ error: "Hovedredaktør role not found" });
-    }
-
-    // Create new admin
-    const ny = await db
+    // Opprett bruker
+    const nyUser = await db
       .insert(users)
-      .values({
-        name,
-        email,
-        role_id: hovedredaktør[0].id
-      })
+      .values({ name, email })
       .returning();
-
-    console.log("✅ Admin created successfully:", ny[0].id);
-    res.status(201).json(ny[0]);
-  } catch (error) {
-    console.error("🔥 Backend ERROR POST /api/admins:", error);
-    res.status(500).json({ error: "Noe gikk galt ved opprettelse av admin" });
+    // Koble bruker til rolle
+    await db
+      .insert(user_roles)
+      .values({ userId: nyUser[0].id, roleId })
+      .returning();
+    res.status(201).json(nyUser[0]);
+  } catch (err) {
+    console.error("🔥 Kunne ikke opprette admin", err);
+    res.status(500).json({ error: "Klarte ikke opprette admin" });
   }
 });
 
@@ -138,7 +99,12 @@ router.delete("/:id", async (req: Request, res: Response) => {
       return res.status(404).json({ error: "Admin ikke funnet" });
     }
 
-    // Delete admin
+    // Delete user roles first
+    await db
+      .delete(user_roles)
+      .where(eq(user_roles.userId, id));
+
+    // Delete user
     await db
       .delete(users)
       .where(eq(users.id, id));
@@ -155,7 +121,7 @@ router.delete("/:id", async (req: Request, res: Response) => {
 router.put("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { name, email, role_id } = req.body;
+    const { name, email } = req.body;
 
     if (!id) {
       return res.status(400).json({ error: "Invalid ID" });
@@ -165,7 +131,7 @@ router.put("/:id", async (req: Request, res: Response) => {
       return res.status(400).json({ error: "Name and email are required" });
     }
 
-    console.log("✅ Backend: PUT /api/admins/:id - updating:", id, { name, email, role_id });
+    console.log("✅ Backend: PUT /api/admins/:id - updating:", id, { name, email });
 
     // Check if admin exists first
     const existingAdmin = await db
@@ -183,8 +149,7 @@ router.put("/:id", async (req: Request, res: Response) => {
       .update(users)
       .set({
         name,
-        email,
-        ...(role_id && { role_id })
+        email
       })
       .where(eq(users.id, id));
 
@@ -194,7 +159,6 @@ router.put("/:id", async (req: Request, res: Response) => {
         id: users.id,
         name: users.name,
         email: users.email,
-        role_id: users.role_id,
       })
       .from(users)
       .where(eq(users.id, id))

@@ -1,20 +1,27 @@
-import 'dotenv/config';
-import { Pool } from 'pg';
+import { db } from "./drizzle/db";
+import { roles } from "./drizzle/schema";
+import { eq } from "drizzle-orm";
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-});
-
-(async () => {
+async function testDb() {
   try {
-    console.log("🔍 Testing backend database connection...");
-    console.log("📡 DATABASE_URL:", process.env.DATABASE_URL ? "Set" : "Not set");
+    console.log("🧪 Testing database connection...");
     
-    const res = await pool.query('SELECT NOW()');
-    console.log("✅ Backend DB connection OK:", res.rows[0]);
+    const allRoles = await db.select().from(roles);
+    console.log("✅ All roles:", allRoles);
+    
+    const hovedredaktørRole = await db
+      .select()
+      .from(roles)
+      .where(eq(roles.name, "hovedredaktør"))
+      .limit(1);
+    
+    console.log("✅ Hovedredaktør role:", hovedredaktørRole);
+    
     process.exit(0);
-  } catch (err) {
-    console.error("❌ Backend DB error:", err);
+  } catch (error) {
+    console.error("❌ Database test failed:", error);
     process.exit(1);
   }
-})(); 
+}
+
+testDb(); 
