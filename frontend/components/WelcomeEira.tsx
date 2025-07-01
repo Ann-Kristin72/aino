@@ -6,7 +6,7 @@ import { useSteps, type Step } from '@/hooks/useSteps';
 
 const steps = {
   welcome: {
-    message: "Hei 😊 Jeg er Eira, din personlige assistent i Aino. Jeg er helt sikker på at vi skal ha det mye gøy, men først nå, hva heter du?"
+    message: "Hei 😊 Jeg er Eira, din personlige assistent i Aino. Jeg gleder meg til å bli kjent med deg!"
   },
   name: {
     message: "Flott! Nå trenger jeg navnet ditt for å sette opp kontoen.",
@@ -19,7 +19,8 @@ const steps = {
     validation: (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
   },
   role: {
-    message: "Siste spørsmål - hvilken rolle har du i organisasjonen?",
+    message: "Siste spørsmål - hvilken rolle har du i systemet?",
+    placeholder: "Velg rolle",
     options: ['Superadmin', 'Hovedredaktør', 'Redaktør', 'Veileder', 'Assistent']
   }
 };
@@ -85,19 +86,28 @@ export default function WelcomeEira() {
                   {currentStepConfig.message}
                 </p>
                 
-                {/* For welcome-steget: vis kun knappen når showButton er true */}
+                {/* For welcome-steget: vis input-felt med placeholder */}
                 {currentStep === 'welcome' && showButton && (
-                  <button
-                    type="button"
-                    onClick={handleNext}
-                    className="mt-4 px-6 py-2 bg-joda-orange text-white rounded-lg transition-all duration-300 btn-hover animate-pulse-slow"
-                  >
-                    Fortsett
-                  </button>
+                  <div className="mt-6 animate-fade-pop">
+                    <div className="relative">
+                      <input
+                        type="text"
+                        placeholder="Kom og bli med på reisen"
+                        onClick={handleNext}
+                        readOnly
+                        className="w-full px-4 py-3 pr-12 border-2 border-orange-400 rounded-lg bg-white text-lg placeholder:text-orange-500/70 shadow-sm transition-all duration-200 cursor-pointer hover:border-orange-500 hover:bg-orange-50 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
+                      />
+                      <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-orange-500 animate-pulse-slow">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
                 )}
 
                 {/* For de andre stegene: vis form med input + knapp */}
-                {currentStep !== 'welcome' && showButton && (
+                {currentStep !== 'welcome' && showInput && showButton && (
                   <form onSubmit={handleSubmit} className="mt-4 animate-fade-pop">
                     {currentStep === 'name' && (
                       <input
@@ -105,7 +115,7 @@ export default function WelcomeEira() {
                         placeholder={currentStepConfig.placeholder}
                         value={userData.name}
                         onChange={(e) => handleInputChange('name', e.target.value)}
-                        className="mt-4 w-full px-4 py-2 border-2 border-joda-green rounded-lg focus:outline-none focus:border-joda-teal transition-colors input-focus"
+                        className="w-full px-4 py-2 border-2 border-joda-green rounded-lg focus:outline-none focus:border-joda-teal bg-white text-lg placeholder:text-joda-green/60 shadow-sm transition-colors"
                         autoFocus
                       />
                     )}
@@ -115,7 +125,7 @@ export default function WelcomeEira() {
                         placeholder={currentStepConfig.placeholder}
                         value={userData.email}
                         onChange={(e) => handleInputChange('email', e.target.value)}
-                        className="mt-4 w-full px-4 py-2 border-2 border-joda-green rounded-lg focus:outline-none focus:border-joda-teal transition-colors input-focus"
+                        className="w-full px-4 py-2 border-2 border-joda-green rounded-lg focus:outline-none focus:border-joda-teal bg-white text-lg placeholder:text-joda-green/60 shadow-sm transition-colors"
                         autoFocus
                       />
                     )}
@@ -124,7 +134,7 @@ export default function WelcomeEira() {
                         <select
                           value={userData.role}
                           onChange={(e) => handleInputChange('role', e.target.value)}
-                          className="mt-4 w-full px-4 py-2 border-2 border-joda-green rounded-lg focus:outline-none focus:border-joda-teal transition-colors input-focus select-custom"
+                          className="w-full px-4 py-2 border-2 border-joda-green rounded-lg focus:outline-none focus:border-joda-teal bg-white text-lg shadow-sm transition-colors"
                           autoFocus
                         >
                           <option value="">Velg rolle</option>
@@ -134,7 +144,7 @@ export default function WelcomeEira() {
                         </select>
                         {!userData.role && (
                           <div className="absolute right-3 top-1/2 transform -translate-y-1/2 animate-pulse-slow">
-                            <span className="text-joda-green">▼</span>
+                            <span className="text-joda-green text-xl">▼</span>
                           </div>
                         )}
                       </div>

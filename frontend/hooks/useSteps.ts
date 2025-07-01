@@ -32,7 +32,7 @@ export function useSteps(steps: { [key in Step]: StepConfig }) {
   useEffect(() => {
     if (currentStep === 'welcome') {
       // Vis snakkeboble umiddelbart, knapp etter 3 sekunder
-      setShowInput(true);
+      setShowInput(false); // Ikke vis input for welcome-steget
       const buttonTimer = setTimeout(() => setShowButton(true), 3000);
       return () => {
         clearTimeout(buttonTimer);
