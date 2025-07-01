@@ -75,7 +75,7 @@ export default function WelcomeEira() {
           />
         </div>
         
-        <div className={`transition-all duration-500 ease-out ${showInput ? 'animate-slide-in-right' : 'opacity-0'}`}>
+        <div className={`transition-all duration-500 ease-out ${showInput || currentStep === 'welcome' ? 'animate-slide-in-right' : 'opacity-0'}`}>
           <SnakkebobleSoft>
             <div className="text-center">
               <p className={`leading-snug tracking-normal transition-all duration-300 ${isTyping ? 'opacity-70' : 'opacity-100'}`}>

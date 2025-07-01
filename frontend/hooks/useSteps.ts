@@ -31,7 +31,8 @@ export function useSteps(steps: { [key in Step]: StepConfig }) {
   // Tidsstyrt visning av input og animasjoner
   useEffect(() => {
     if (currentStep === 'welcome') {
-      // Vis knapp etter 3 sekunder
+      // Vis snakkeboble umiddelbart, knapp etter 3 sekunder
+      setShowInput(true);
       const buttonTimer = setTimeout(() => setShowButton(true), 3000);
       return () => {
         clearTimeout(buttonTimer);
