@@ -34,7 +34,8 @@ export default function WelcomeEira() {
     handleNext,
     handleInputChange,
     canProceed,
-    currentStepConfig
+    currentStepConfig,
+    stepOrder
   } = useSteps(steps);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -62,9 +63,9 @@ export default function WelcomeEira() {
         </p>
       </div>
 
-      {/* Eira og snakkeboble */}
-      <div className="flex flex-col md:flex-row items-center gap-8 mt-6">
-        <div className="animate-slide-in-left">
+      {/* Eira og snakkebobler */}
+      <div className="flex flex-col md:flex-row items-start gap-8 mt-6 max-w-4xl">
+        <div className="animate-slide-in-left flex-shrink-0">
           <Image
             src="/design-guide/eira-onboarding.png"
             alt="Eira"
@@ -75,71 +76,83 @@ export default function WelcomeEira() {
           />
         </div>
         
-        <div className={`transition-all duration-500 ease-out ${showInput || currentStep === 'welcome' ? 'animate-slide-in-right' : 'opacity-0'}`}>
-          <SnakkebobleSoft>
-            <div className="text-center">
-              <p className={`leading-snug tracking-normal transition-all duration-300 ${isTyping ? 'opacity-70' : 'opacity-100'}`}>
-                {currentStepConfig.message}
-              </p>
-              
-              {showButton && (
-                <form onSubmit={handleSubmit} className="mt-4 animate-fade-pop">
-                  {currentStep === 'name' && (
-                    <input
-                      type="text"
-                      placeholder={currentStepConfig.placeholder}
-                      value={userData.name}
-                      onChange={(e) => handleInputChange('name', e.target.value)}
-                      className="mt-4 w-full px-4 py-2 border-2 border-joda-green rounded-lg focus:outline-none focus:border-joda-teal transition-colors input-focus"
-                      autoFocus
-                    />
-                  )}
-                  
-                  {currentStep === 'email' && (
-                    <input
-                      type="email"
-                      placeholder={currentStepConfig.placeholder}
-                      value={userData.email}
-                      onChange={(e) => handleInputChange('email', e.target.value)}
-                      className="mt-4 w-full px-4 py-2 border-2 border-joda-green rounded-lg focus:outline-none focus:border-joda-teal transition-colors input-focus"
-                      autoFocus
-                    />
-                  )}
-                  
-                  {currentStep === 'role' && (
-                    <div className="relative">
-                      <select
-                        value={userData.role}
-                        onChange={(e) => handleInputChange('role', e.target.value)}
-                        className="mt-4 w-full px-4 py-2 border-2 border-joda-green rounded-lg focus:outline-none focus:border-joda-teal transition-colors input-focus select-custom"
-                        autoFocus
-                      >
-                        <option value="">Velg rolle</option>
-                        {currentStepConfig.options?.map(role => (
-                          <option key={role} value={role}>{role}</option>
-                        ))}
-                      </select>
-                      {!userData.role && (
-                        <div className="absolute right-3 top-1/2 transform -translate-y-1/2 animate-pulse-slow">
-                          <span className="text-joda-green">▼</span>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                  
+        {/* Snakkebobler container */}
+        <div className="flex flex-col gap-4 flex-1">
+          <div className="animate-slide-in-right">
+            <SnakkebobleSoft>
+              <div className="text-center">
+                <p className={`leading-snug tracking-normal transition-all duration-300 ${isTyping ? 'opacity-70' : 'opacity-100'}`}>
+                  {currentStepConfig.message}
+                </p>
+                
+                {/* For welcome-steget: vis kun knappen når showButton er true */}
+                {currentStep === 'welcome' && showButton && (
                   <button
-                    type="submit"
-                    disabled={!canProceed(currentStep)}
-                    className={`mt-4 px-6 py-2 bg-joda-orange text-white rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed btn-hover ${
-                      canProceed(currentStep) ? 'animate-pulse-slow' : ''
-                    }`}
+                    type="button"
+                    onClick={handleNext}
+                    className="mt-4 px-6 py-2 bg-joda-orange text-white rounded-lg transition-all duration-300 btn-hover animate-pulse-slow"
                   >
-                    {currentStep === 'role' ? 'Fullfør' : 'Fortsett'}
+                    Fortsett
                   </button>
-                </form>
-              )}
-            </div>
-          </SnakkebobleSoft>
+                )}
+
+                {/* For de andre stegene: vis form med input + knapp */}
+                {currentStep !== 'welcome' && showButton && (
+                  <form onSubmit={handleSubmit} className="mt-4 animate-fade-pop">
+                    {currentStep === 'name' && (
+                      <input
+                        type="text"
+                        placeholder={currentStepConfig.placeholder}
+                        value={userData.name}
+                        onChange={(e) => handleInputChange('name', e.target.value)}
+                        className="mt-4 w-full px-4 py-2 border-2 border-joda-green rounded-lg focus:outline-none focus:border-joda-teal transition-colors input-focus"
+                        autoFocus
+                      />
+                    )}
+                    {currentStep === 'email' && (
+                      <input
+                        type="email"
+                        placeholder={currentStepConfig.placeholder}
+                        value={userData.email}
+                        onChange={(e) => handleInputChange('email', e.target.value)}
+                        className="mt-4 w-full px-4 py-2 border-2 border-joda-green rounded-lg focus:outline-none focus:border-joda-teal transition-colors input-focus"
+                        autoFocus
+                      />
+                    )}
+                    {currentStep === 'role' && (
+                      <div className="relative">
+                        <select
+                          value={userData.role}
+                          onChange={(e) => handleInputChange('role', e.target.value)}
+                          className="mt-4 w-full px-4 py-2 border-2 border-joda-green rounded-lg focus:outline-none focus:border-joda-teal transition-colors input-focus select-custom"
+                          autoFocus
+                        >
+                          <option value="">Velg rolle</option>
+                          {currentStepConfig.options?.map(role => (
+                            <option key={role} value={role}>{role}</option>
+                          ))}
+                        </select>
+                        {!userData.role && (
+                          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 animate-pulse-slow">
+                            <span className="text-joda-green">▼</span>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    <button
+                      type="submit"
+                      disabled={!canProceed(currentStep)}
+                      className={`mt-4 px-6 py-2 bg-joda-orange text-white rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed btn-hover ${
+                        canProceed(currentStep) ? 'animate-pulse-slow' : ''
+                      }`}
+                    >
+                      {currentStep === 'role' ? 'Fullfør' : 'Fortsett'}
+                    </button>
+                  </form>
+                )}
+              </div>
+            </SnakkebobleSoft>
+          </div>
         </div>
       </div>
     </div>
