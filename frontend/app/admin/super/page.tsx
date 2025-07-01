@@ -7,7 +7,7 @@ import { getAdmins } from "@/lib/api/admins";
 import AdminCard from "@/components/AdminCard";
 import PrimaryButton from "@/components/PrimaryButton";
 import Spinner from "@/components/Spinner";
-import ModuleCard from "@/components/ModuleCard";
+import AdminModuleCard from "@/components/admin/AdminCard";
 
 interface Admin {
   id: string;
@@ -15,36 +15,42 @@ interface Admin {
   email: string;
 }
 
-const modules = [
+const adminCards = [
   {
     title: "Kvalitetssystem",
-    path: "/admin/quality",
     description: "Lagre, oppdatere og distribuere prosedyrer, kurs og nanoer.",
+    href: "/admin/quality",
+    colorClass: "bg-orange-500",
   },
   {
     title: "Oppgavedeling",
-    path: "/admin/tasks",
     description: "Fordele arbeid, spore progresjon, status og frister.",
+    href: "/admin/tasks",
+    colorClass: "bg-teal-600",
   },
   {
     title: "Sikker kommunikasjon",
-    path: "/admin/communication",
     description: "Kontrollert intern dialog, journalnotat og meldingsutveksling.",
+    href: "/admin/communication",
+    colorClass: "bg-emerald-700",
   },
   {
     title: "Prosessveiledning (Teknotassen)",
-    path: "/admin/assistant",
     description: "Eira veileder ansatte i bruk av teknologi — minimerer feil.",
+    href: "/admin/assistant",
+    colorClass: "bg-lime-500",
   },
   {
     title: "Tilgangsstyring Kunde",
-    path: "/admin/access",
     description: "Opprette kunder, adminer, roller og håndtere abonnement.",
+    href: "/admin/access",
+    colorClass: "bg-sky-600",
   },
   {
     title: "SkriveStuen",
-    path: "/admin/skrivestue?tab=writer",
     description: "Rediger innhold og media i rolig kaffestemning ☕",
+    href: "/admin/skrivestue?tab=writer",
+    colorClass: "bg-cyan-800",
   },
 ];
 
@@ -67,7 +73,7 @@ export default function SuperAdminDashboard() {
   return (
     <div className="min-h-screen bg-latte p-8">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-slab text-skifer mb-8">Admin Dashboard</h1>
+        <h1 className="text-4xl font-slab text-skifer mb-8">🧠 Hovedredaktørpanel</h1>
         
         <div className="mb-8">
           <input
@@ -96,12 +102,10 @@ export default function SuperAdminDashboard() {
         </div>
 
         <section className="mt-12">
-          <h2 className="text-xl font-semibold mb-4">Kjernefunksjoner</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {modules.map((mod) => (
-              <Link key={mod.path} href={mod.path} className="block">
-                <ModuleCard title={mod.title} description={mod.description} />
-              </Link>
+          <h2 className="text-2xl font-bold text-skifer mb-6">🎯 Kjernefunksjoner</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {adminCards.map((card) => (
+              <AdminModuleCard key={card.href} {...card} />
             ))}
           </div>
         </section>
