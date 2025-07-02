@@ -12,10 +12,17 @@ export default function Home() {
   // Sjekk om bruker allerede har fullført onboarding
   useEffect(() => {
     const storedUser = sessionStorage.getItem('userData');
-    if (storedUser) {
-      setUserData(JSON.parse(storedUser));
-      setOnboardingComplete(true);
-      router.push('/dashboard');
+    if (storedUser && storedUser !== 'undefined' && storedUser !== 'null') {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        setUserData(parsedUser);
+        setOnboardingComplete(true);
+        router.push('/dashboard');
+      } catch (error) {
+        console.error('Error parsing stored user data:', error);
+        // Clear invalid data
+        sessionStorage.removeItem('userData');
+      }
     }
   }, [router]);
 

@@ -121,7 +121,7 @@ export default function WelcomeEira({ onComplete }: WelcomeEiraProps) {
           }
 
           const data = await response.json();
-          onComplete?.(data.user);
+          onComplete?.(data);
           
         } catch (err) {
           setError(err instanceof Error ? err.message : 'En feil oppstod');
