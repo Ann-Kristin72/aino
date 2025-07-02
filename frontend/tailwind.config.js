@@ -9,6 +9,15 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        // Aino palette - matching the logo
+        'aino-orange': '#F6A96B',
+        'aino-korall': '#F48C78',
+        'aino-teal': '#56B0A3',
+        'aino-sjøgrønn': '#9BB8A8',
+        'aino-grønn': '#4A7C59',
+        'aino-blågrønn': '#90D9D3',
+        
+        // Legacy colors
         latte: '#F5EEE6',
         bluegreen: '#4AAE9B',
         warmbrown: '#A67C52',
@@ -16,6 +25,10 @@ module.exports = {
         softpink: '#F8D9D6',
         'joda-teal': '#4CB6B6',
         'joda-green': '#4AAE9B',
+        'joda-orange': '#F6A96B',
+        'joda-gul': '#F9C74F',
+        'joda-seagreen': '#C7D3B3',
+        'joda-rød': '#F48C78',
         joda: {
           teal: '#4CB6B6',
           orange: '#F6A96B',

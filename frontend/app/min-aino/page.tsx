@@ -18,37 +18,37 @@ const adminCards = [
     title: "Kvalitetssystem",
     description: "Lagre, oppdatere og distribuere prosedyrer, kurs og nanoer.",
     href: "/admin/quality",
-    colorClass: "bg-orange-500",
+    colorClass: "bg-aino-orange",
   },
   {
     title: "Oppgavedeling",
     description: "Fordele arbeid, spore progresjon, status og frister.",
     href: "/admin/tasks",
-    colorClass: "bg-teal-600",
+    colorClass: "bg-aino-teal",
   },
   {
     title: "Sikker kommunikasjon",
     description: "Kontrollert intern dialog, journalnotat og meldingsutveksling.",
     href: "/admin/communication",
-    colorClass: "bg-emerald-700",
+    colorClass: "bg-aino-sjøgrønn",
   },
   {
     title: "Prosessveiledning (Teknotassen)",
     description: "Eira veileder ansatte i bruk av teknologi — minimerer feil.",
     href: "/admin/assistant",
-    colorClass: "bg-lime-500",
+    colorClass: "bg-aino-grønn",
   },
   {
     title: "Tilgangsstyring Kunde",
     description: "Opprette kunder, adminer, roller og håndtere abonnement.",
     href: "/admin/access",
-    colorClass: "bg-sky-600",
+    colorClass: "bg-aino-blågrønn",
   },
   {
     title: "SkriveStuen",
     description: "Rediger innhold og media i rolig kaffestemning ☕",
     href: "/admin/skrivestue?tab=writer",
-    colorClass: "bg-cyan-800",
+    colorClass: "bg-aino-korall",
   },
 ];
 
@@ -76,7 +76,7 @@ export default function Dashboard() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-joda-orange"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-aino-orange"></div>
       </div>
     );
   }
@@ -88,7 +88,7 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#FFF4E1] via-[#FFF8F1] to-[#E6F7F4]">
       {/* Header */}
-      <header className="bg-white/90 backdrop-blur-sm border-b border-joda-green/20">
+      <header className="bg-white/90 backdrop-blur-sm border-b border-aino-teal/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-4">

@@ -15,14 +15,25 @@ button {
   @apply focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2;
 }
 
-/* Custom colors for Kjede palette */
+/* Custom colors for Aino palette - matching the logo */
 :root {
+  --aino-orange: #F6A96B;
+  --aino-korall: #F48C78;
+  --aino-teal: #56B0A3;
+  --aino-sjøgrønn: #9BB8A8;
+  --aino-grønn: #4A7C59;
+  --aino-blågrønn: #90D9D3;
+  
+  /* Legacy Joda colors for backward compatibility */
   --joda-green: #4AAE9B;
   --joda-teal: #4CB6B6;
   --joda-orange: #F6A96B;
   --joda-yellow: #F6D06B;
   --joda-peach: #F6B6A6;
   --joda-sand: #E6E6C6;
+  --joda-gul: #F9C74F;
+  --joda-seagreen: #C7D3B3;
+  --joda-rød: #F48C78;
   --latte: #F5EEE6;
   --bluegreen: #4AAE9B;
   --warmbrown: #A67C52;
@@ -30,18 +41,36 @@ button {
   --softpink: #F8D9D6;
 }
 
-/* Custom utility classes */
+/* Custom utility classes for Aino palette */
+.text-aino-orange { color: var(--aino-orange); }
+.text-aino-korall { color: var(--aino-korall); }
+.text-aino-teal { color: var(--aino-teal); }
+.text-aino-sjøgrønn { color: var(--aino-sjøgrønn); }
+.text-aino-grønn { color: var(--aino-grønn); }
+.text-aino-blågrønn { color: var(--aino-blågrønn); }
+
+/* Legacy Joda utility classes */
 .text-joda-green { color: var(--joda-green); }
 .text-joda-teal { color: var(--joda-teal); }
 .text-joda-orange { color: var(--joda-orange); }
 .text-joda-yellow { color: var(--joda-yellow); }
 .text-joda-peach { color: var(--joda-peach); }
 .text-joda-sand { color: var(--joda-sand); }
+.text-joda-gul { color: var(--joda-gul); }
+.text-joda-seagreen { color: var(--joda-seagreen); }
+.text-joda-rød { color: var(--joda-rød); }
 .text-latte { color: var(--latte); }
 .text-bluegreen { color: var(--bluegreen); }
 .text-warmbrown { color: var(--warmbrown); }
 .text-skifer { color: var(--skifer); }
 .text-softpink { color: var(--softpink); }
+
+.bg-aino-orange { background-color: var(--aino-orange); }
+.bg-aino-korall { background-color: var(--aino-korall); }
+.bg-aino-teal { background-color: var(--aino-teal); }
+.bg-aino-sjøgrønn { background-color: var(--aino-sjøgrønn); }
+.bg-aino-grønn { background-color: var(--aino-grønn); }
+.bg-aino-blågrønn { background-color: var(--aino-blågrønn); }
 
 .bg-joda-green { background-color: var(--joda-green); }
 .bg-joda-teal { background-color: var(--joda-teal); }
@@ -49,11 +78,21 @@ button {
 .bg-joda-yellow { background-color: var(--joda-yellow); }
 .bg-joda-peach { background-color: var(--joda-peach); }
 .bg-joda-sand { background-color: var(--joda-sand); }
+.bg-joda-gul { background-color: var(--joda-gul); }
+.bg-joda-seagreen { background-color: var(--joda-seagreen); }
+.bg-joda-rød { background-color: var(--joda-rød); }
 .bg-latte { background-color: var(--latte); }
 .bg-bluegreen { background-color: var(--bluegreen); }
 .bg-warmbrown { background-color: var(--warmbrown); }
 .bg-skifer { background-color: var(--skifer); }
 .bg-softpink { background-color: var(--softpink); }
+
+.border-aino-orange { border-color: var(--aino-orange); }
+.border-aino-korall { border-color: var(--aino-korall); }
+.border-aino-teal { border-color: var(--aino-teal); }
+.border-aino-sjøgrønn { border-color: var(--aino-sjøgrønn); }
+.border-aino-grønn { border-color: var(--aino-grønn); }
+.border-aino-blågrønn { border-color: var(--aino-blågrønn); }
 
 .border-joda-green { border-color: var(--joda-green); }
 .border-joda-teal { border-color: var(--joda-teal); }
@@ -61,6 +100,9 @@ button {
 .border-joda-yellow { border-color: var(--joda-yellow); }
 .border-joda-peach { border-color: var(--joda-peach); }
 .border-joda-sand { border-color: var(--joda-sand); }
+.border-joda-gul { border-color: var(--joda-gul); }
+.border-joda-seagreen { border-color: var(--joda-seagreen); }
+.border-joda-rød { border-color: var(--joda-rød); }
 .border-latte { border-color: var(--latte); }
 .border-bluegreen { border-color: var(--bluegreen); }
 .border-warmbrown { border-color: var(--warmbrown); }
