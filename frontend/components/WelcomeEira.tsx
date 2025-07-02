@@ -95,7 +95,7 @@ export default function WelcomeEira() {
                         placeholder="Kom og bli med på reisen"
                         onClick={handleNext}
                         readOnly
-                        className="w-full px-4 py-3 pr-12 border-2 border-orange-400 rounded-lg bg-white text-lg text-black placeholder:text-orange-500/70 shadow-sm transition-all duration-200 cursor-pointer hover:border-orange-500 hover:bg-orange-50 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
+                        className="w-full px-4 py-3 pr-12 border-2 border-orange-400 rounded-lg bg-white text-lg text-black placeholder:text-black/70 shadow-sm transition-all duration-200 cursor-pointer hover:border-orange-500 hover:bg-orange-50 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
                       />
                       <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-orange-500 animate-pulse-slow">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6">
