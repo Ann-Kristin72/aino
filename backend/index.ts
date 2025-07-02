@@ -14,7 +14,7 @@ app.use("/api/content", contentRoute);
 app.use("/api/admins", adminRoute);
 app.use("/api/roles", rolesRoute);
 app.use("/api/categories", categoriesRoute);
-app.use(onboardingRoute);
+app.use("/api", onboardingRoute);
 
 app.listen(3001, () => {
   console.log("✅ Server kjører på http://localhost:3001");

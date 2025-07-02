@@ -1,7 +1,7 @@
 "use client";
 
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SnakkebobleSoft from '../SnakkebobleSoft';
 import { useSteps, type Step } from '@/hooks/useSteps';
 
@@ -9,7 +9,19 @@ interface WelcomeEiraProps {
   onComplete?: (data: any) => void;
 }
 
-const steps = {
+interface Role {
+  id: number;
+  name: string;
+}
+
+interface StepConfig {
+  message: string;
+  placeholder?: string;
+  validation?: (value: string) => boolean;
+  options?: string[];
+}
+
+const steps: { [key in Step]: StepConfig } = {
   welcome: {
     message: "Hei 😊 Jeg er Eira, din personlige assistent i Aino. Jeg gleder meg til å bli kjent med deg!"
   },
@@ -26,13 +38,48 @@ const steps = {
   role: {
     message: "Siste spørsmål - hvilken rolle har du i systemet?",
     placeholder: "Velg rolle",
-    options: ['Superadmin', 'Hovedredaktør', 'Redaktør', 'Veileder', 'Assistent']
+    options: [] // Will be populated from API
   }
 };
 
 export default function WelcomeEira({ onComplete }: WelcomeEiraProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [roles, setRoles] = useState<Role[]>([]);
+  const [stepsWithRoles, setStepsWithRoles] = useState(steps);
+
+  // Fetch roles from API
+  useEffect(() => {
+    const fetchRoles = async () => {
+      try {
+        const response = await fetch('/api/roles');
+        if (response.ok) {
+          const rolesData = await response.json();
+          setRoles(rolesData);
+          // Update the steps with fetched roles
+          setStepsWithRoles(prev => ({
+            ...prev,
+            role: {
+              ...prev.role,
+              options: rolesData.map((role: Role) => role.name)
+            }
+          }));
+        }
+      } catch (err) {
+        console.error('Failed to fetch roles:', err);
+        // Fallback to default roles if API fails
+        setStepsWithRoles(prev => ({
+          ...prev,
+          role: {
+            ...prev.role,
+            options: ['Superadmin', 'Hovedredaktør', 'Redaktør', 'Veileder', 'Assistent']
+          }
+        }));
+      }
+    };
+
+    fetchRoles();
+  }, []);
 
   const {
     currentStep,
@@ -45,7 +92,7 @@ export default function WelcomeEira({ onComplete }: WelcomeEiraProps) {
     canProceed,
     currentStepConfig,
     stepOrder
-  } = useSteps(steps);
+  } = useSteps(stepsWithRoles);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

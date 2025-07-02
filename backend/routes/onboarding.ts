@@ -5,8 +5,8 @@ import { eq } from 'drizzle-orm';
 
 const router = express.Router();
 
-// POST /api/onboarding - Opprett ny bruker og koble til rolle
-router.post('/api/onboarding', async (req, res) => {
+// POST /onboarding - Opprett ny bruker og koble til rolle
+router.post('/onboarding', async (req, res) => {
   try {
     const { name, email, role } = req.body;
 
@@ -30,7 +30,7 @@ router.post('/api/onboarding', async (req, res) => {
       });
     }
 
-    // Finn rolle-ID basert på rolle-navn
+    // Finn rolle-ID
     const roleRecord = await db
       .select()
       .from(roles)
@@ -39,17 +39,14 @@ router.post('/api/onboarding', async (req, res) => {
 
     if (roleRecord.length === 0) {
       return res.status(400).json({ 
-        error: 'Ugyldig rolle' 
+        error: `Ugyldig rolle: ${role}` 
       });
     }
 
     // Opprett ny bruker
     const [newUser] = await db
       .insert(users)
-      .values({
-        name,
-        email,
-      })
+      .values({ name, email })
       .returning();
 
     // Koble bruker til rolle
@@ -57,18 +54,15 @@ router.post('/api/onboarding', async (req, res) => {
       .insert(user_roles)
       .values({
         userId: newUser.id,
-        roleId: roleRecord[0].id,
+        roleId: roleRecord[0].id
       });
 
     // Returner brukerdata
     res.status(201).json({
-      success: true,
-      user: {
-        id: newUser.id,
-        name: newUser.name,
-        email: newUser.email,
-        role: roleRecord[0].name,
-      }
+      id: newUser.id,
+      name: newUser.name,
+      email: newUser.email,
+      role: role
     });
 
   } catch (error) {
