@@ -19,7 +19,7 @@ export async function getAdmins() {
       FROM users u
       INNER JOIN user_roles ur ON u.id = ur.user_id
       INNER JOIN roles r ON ur.role_id = r.id
-      WHERE r.name IN ('superadmin', 'hovedredaktør', 'redaktør');
+      WHERE r.name IN ('superadmin', 'hovedredaktør', 'redaktør')
     `);
 
     console.log("🔍 getAdmins: Query successful, found", rows.length, "admins");
