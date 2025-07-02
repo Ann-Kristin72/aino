@@ -17,7 +17,7 @@ export default function Home() {
         const parsedUser = JSON.parse(storedUser);
         setUserData(parsedUser);
         setOnboardingComplete(true);
-        router.push('/dashboard');
+        router.push('/min-aino');
       } catch (error) {
         console.error('Error parsing stored user data:', error);
         // Clear invalid data
@@ -33,8 +33,8 @@ export default function Home() {
     // Lagre brukerdata i sessionStorage
     sessionStorage.setItem('userData', JSON.stringify(data));
     
-    // Naviger til dashboard
-    router.push('/dashboard');
+    // Naviger til Min Aino
+    router.push('/min-aino');
   };
 
   if (onboardingComplete) {
@@ -42,7 +42,7 @@ export default function Home() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-joda-orange mx-auto mb-4"></div>
-          <p className="text-lg text-skifer">Omdirigerer til dashboard...</p>
+          <p className="text-lg text-skifer">Omdirigerer til Min Aino...</p>
         </div>
       </div>
     );

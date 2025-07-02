@@ -10,10 +10,10 @@ export default function TasksPage() {
       <div className="max-w-7xl mx-auto">
         <div className="mb-6">
           <Link 
-            href="/admin/super"
+            href="/min-aino"
             className="text-bluegreen hover:text-bluegreen/80 mb-4 inline-block"
           >
-            ← Tilbake til Admin Dashboard
+            ← Tilbake til Min Aino
           </Link>
           <h1 className="text-4xl font-slab text-skifer mb-4">Oppgavedeling</h1>
           <p className="text-warmbrown text-lg">

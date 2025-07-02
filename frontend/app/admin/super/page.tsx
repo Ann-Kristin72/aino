@@ -8,14 +8,14 @@ export default function SuperAdminDashboard() {
 
   useEffect(() => {
     // Redirect to dashboard where all functionality now lives
-    router.push('/dashboard');
+    router.push('/min-aino');
   }, [router]);
 
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="text-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-joda-orange mx-auto mb-4"></div>
-        <p className="text-skifer">Omdirigerer til dashboard...</p>
+        <p className="text-skifer">Omdirigerer til Min Aino...</p>
       </div>
     </div>
   );
