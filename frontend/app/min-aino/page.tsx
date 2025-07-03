@@ -138,8 +138,8 @@ export default function Dashboard() {
           <div className="flex-1 max-w-md">
             <SnakkebobleSoft>
               <div>
-                <h2 className="text-xl font-slab text-skifer mb-2">Velkommen tilbake, {userData.name}! 👋</h2>
-                <p className="text-warmbrown text-base">
+                <h2 className="text-xl font-nunito font-semibold text-skifer mb-2">Velkommen tilbake, {userData.name}! 👋</h2>
+                <p className="text-base font-inter text-warmbrown">
                   Her finner du alle dine kjernefunksjoner for å administrere Aino-plattformen.
                 </p>
               </div>
@@ -148,8 +148,10 @@ export default function Dashboard() {
         </div>
 
         {/* Core Functions Section */}
-        <section className="mt-12">
-          <h2 className="text-2xl font-bold text-skifer mb-6">Kjernefunksjoner</h2>
+        <section className="mt-6">
+          <h2 className="text-xl font-nunito font-semibold text-skifer mb-6 flex items-center gap-2">
+            <span role="img" aria-label="Puslespill">🧩</span> Kjernefunksjoner
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Venstre kolonne */}
             <div className="flex flex-col gap-4">

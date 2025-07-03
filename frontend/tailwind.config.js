@@ -42,6 +42,8 @@ module.exports = {
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
         slab: ['"Roboto Slab"', 'Georgia', 'serif'],
+        nunito: ['Nunito', 'sans-serif'],
+        inter: ['Inter', 'sans-serif'],
       },
       borderRadius: {
         xl: '1rem',
