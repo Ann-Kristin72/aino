@@ -5,6 +5,7 @@ import MarkdownEditor from "../writer/MarkdownEditor";
 import PreviewPane from "../writer/PreviewPane";
 import MetadataPanel from "../writer/MetadataPanel";
 import ImportExportPanel from "../writer/ImportExportPanel";
+import SnakkebobleSoft from "../../../components/SnakkebobleSoft";
 
 interface CourseMeta {
   title: string;
@@ -78,59 +79,45 @@ export default function WriterTab() {
 
   if (showWelcome) {
     return (
-      <div className="p-6">
-        <div className="flex items-center justify-center min-h-[600px] p-8">
-          {/* Eira Section - Left Side */}
-          <div className="flex-1 flex justify-center items-center relative">
-            <div className="relative">
-              {/* Eira Image */}
-              <div className="w-80 h-80 relative">
-                <img 
-                  src="/design-guide/eria-skrivestue.png" 
-                  alt="Eira - AI Assistant" 
-                  className="w-full h-full object-contain"
-                />
-              </div>
-              
-              {/* Speech Bubble */}
-              <div className="absolute -top-4 -right-4 bg-white rounded-2xl shadow-lg p-4 max-w-xs border-2 border-[#FF9F6B]">
-                <div className="relative">
-                  <p className="text-gray-800 text-sm leading-relaxed">
-                    Velkommen til SkriveStuen! ✨<br/>
-                    Jeg er Eira, din AI-assistent. La oss sammen skape fantastisk innhold for Aino-plattformen.
-                  </p>
-                  {/* Speech bubble tail */}
-                  <div className="absolute -bottom-2 left-8 w-4 h-4 bg-white border-b-2 border-r-2 border-[#FF9F6B] transform rotate-45"></div>
-                </div>
+      <div className="flex flex-col md:flex-row items-start justify-start min-h-[80vh] w-full bg-transparent gap-y-8 md:gap-y-0 md:gap-x-16 p-6 pt-12">
+        {/* Eira */}
+        <div className="flex flex-col items-center md:items-end flex-1 min-w-[320px] md:min-w-[400px]">
+          <div className="relative">
+            <div className="w-[220px] md:w-[400px] h-[220px] md:h-[400px]">
+              <img
+                src="/design-guide/eria-skrivestue.png"
+                alt="Eira - AI Assistant"
+                className="w-full h-full object-contain"
+              />
+              {/* Snakkeboble - liten absolute-justering for halen */}
+              <div className="absolute top-[-1.5rem] left-[60%] md:left-[90%] z-20 max-w-xs md:max-w-sm">
+                <SnakkebobleSoft>
+                  <div className="py-2 px-4">
+                    <span className="block text-lg font-semibold mb-1">Velkommen til SkriveStuen!</span>
+                    <span className="block text-base">Jeg er din AI-skriveassistent.<br/>La oss skape innhold sammen!</span>
+                  </div>
+                </SnakkebobleSoft>
               </div>
             </div>
           </div>
-
-          {/* PC Section - Right Side */}
-          <div className="flex-1 flex justify-center items-center relative">
-            <div className="relative">
-              {/* PC Background */}
-              <div className="w-96 h-80 relative">
-                <img 
-                  src="/design-guide/Skrivestue-bakgrunn-writer.png" 
-                  alt="PC Background" 
-                  className="w-full h-full object-contain"
-                />
-                
-                {/* "Lag nytt innhold" Button inside PC */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <button
-                    onClick={() => {
-                      setShowWriter(true);
-                      setShowWelcome(false);
-                    }}
-                    className="bg-gradient-to-r from-[#3D897D] to-[#3D897D]/80 hover:from-[#3D897D]/90 hover:to-[#3D897D] text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
-                  >
-                    💻 Lag nytt innhold
-                  </button>
-                </div>
-              </div>
-            </div>
+        </div>
+        {/* PC med knapp */}
+        <div className="flex-1 flex flex-col items-center justify-center w-full -mt-24">
+          <div className="relative w-[450px] md:w-[900px] h-[280px] md:h-[560px] mx-auto md:ml-12">
+            <img
+              src="/design-guide/Skrivestue-bakgrunn-writer.png"
+              alt="SkriveStue PC bakgrunn"
+              className="w-full h-full object-contain drop-shadow-xl"
+            />
+            {/* Knapp midt på PC-skjermen */}
+            <button
+              onClick={() => setShowWelcome(false)}
+              className="absolute top-[40%] left-[55%] transform -translate-x-1/2 px-6 py-3 bg-[#3D897D] text-white rounded-xl font-semibold text-base shadow-2xl hover:scale-110 transition-all duration-300 flex items-center gap-2 group border-2 border-white/20 hover:border-white/40 animate-pulse"
+              style={{ minWidth: 180 }}
+            >
+              Lag nytt innhold
+              <span className="ml-2 text-xl group-hover:animate-bounce">→</span>
+            </button>
           </div>
         </div>
       </div>
