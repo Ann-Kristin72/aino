@@ -19,7 +19,7 @@ export default function PreviewPane({ markdownText }: PreviewPaneProps) {
   const htmlContent = convertMarkdownToHtml(markdownText);
 
   return (
-    <div className="border border-gray-300 rounded-xl p-4 bg-white min-h-96">
+    <div className="border border-gray-300 rounded-xl p-4 bg-white h-96">
       {markdownText ? (
         <div 
           className="prose prose-sm max-w-none"

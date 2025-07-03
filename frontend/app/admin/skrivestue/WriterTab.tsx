@@ -99,7 +99,7 @@ export default function WriterTab() {
     <div className="p-6">
       <div>
         {/* Top Bar */}
-        <div className="border-b border-gray-200 p-6 flex justify-between items-center bg-gradient-to-r from-teal-50 to-blue-50">
+        <div className="border-b border-gray-200 p-6 flex justify-between items-center bg-gradient-to-r from-teal-50 to-blue-50 rounded-xl shadow-lg mb-6">
           <div className="flex space-x-4">
             <button
               onClick={() => setActiveTab('preview')}

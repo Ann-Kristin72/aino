@@ -28,7 +28,7 @@ export default function SkriveStueLayout() {
       <div className="fixed inset-0 w-full h-full z-[-1] bg-gradient-to-br from-[#76BBB9] via-[#AEE6E6] to-[#F6FBFA]" />
       <div className="min-h-screen w-full relative">
         {/* Header */}
-        <header className="w-full bg-[#76BBB9] text-white px-6 py-4">
+        <header className="w-full bg-[#76BBB9] text-white px-6 py-4 mx-4 mt-4 rounded-xl shadow-lg">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-3">
               {/* SkriveStuen-ikonet (samme som i Min Aino) */}
