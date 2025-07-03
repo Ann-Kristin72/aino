@@ -5,7 +5,6 @@ import MarkdownEditor from "../writer/MarkdownEditor";
 import PreviewPane from "../writer/PreviewPane";
 import MetadataPanel from "../writer/MetadataPanel";
 import ImportExportPanel from "../writer/ImportExportPanel";
-import SnakkebobleSoft from "../../../components/SnakkebobleSoft";
 
 interface CourseMeta {
   title: string;
@@ -81,29 +80,39 @@ export default function WriterTab() {
     return (
       <div className="flex flex-col md:flex-row items-start justify-start min-h-[80vh] w-full bg-transparent gap-y-8 md:gap-y-0 md:gap-x-16 p-6 pt-12">
         {/* Eira */}
-        <div className="flex flex-col items-center md:items-end flex-1 min-w-[320px] md:min-w-[400px]">
+        <div className="flex flex-col items-center md:items-end flex-1 min-w-[340px] md:min-w-[520px]">
           <div className="relative">
-            <div className="w-[220px] md:w-[400px] h-[220px] md:h-[400px]">
+            <div className="w-[300px] md:w-[520px] h-[300px] md:h-[520px]">
               <img
                 src="/design-guide/eria-skrivestue.png"
                 alt="Eira - AI Assistant"
                 className="w-full h-full object-contain"
               />
-              {/* Snakkeboble - liten absolute-justering for halen */}
-              <div className="absolute top-[-1.5rem] left-[60%] md:left-[90%] z-20 max-w-xs md:max-w-sm">
-                <SnakkebobleSoft>
-                  <div className="py-2 px-4">
-                    <span className="block text-lg font-semibold mb-1">Velkommen til SkriveStuen!</span>
-                    <span className="block text-base">Jeg er din AI-skriveassistent.<br/>La oss skape innhold sammen!</span>
+              {/* Snakkeboble - spesialversjon for WriterTab med liggende layout og korrekt hale */}
+              <div className="absolute top-[15%] left-[70%] md:left-[85%] z-20 max-w-xs md:max-w-md">
+                <div className="relative bg-white/95 text-gray-800 rounded-xl shadow-lg py-3 px-4 text-sm md:text-base leading-snug whitespace-pre-line border-2 border-[#3D897D] animate-fade-pop transition-opacity duration-500 ease-out max-w-md">
+                  {/* Halen */}
+                  <div
+                    className="absolute w-4 h-4 bg-white/95 border-l-2 border-b-2 border-[#3D897D] rounded-sm"
+                    style={{
+                      left: -8, // venstre kant
+                      top: '50%', // midt på høyden
+                      transform: "translateY(-50%) rotate(45deg)",
+                      zIndex: 1,
+                    }}
+                  />
+                  <div className="font-sans">
+                    <span className="block font-semibold mb-1 text-[#1F2937]">Velkommen til SkriveStuen! 🎉</span>
+                    <span className="block text-gray-700">Jeg er din AI-skriveassistent.{"\n"}La oss skape innhold sammen!</span>
                   </div>
-                </SnakkebobleSoft>
+                </div>
               </div>
             </div>
           </div>
         </div>
         {/* PC med knapp */}
-        <div className="flex-1 flex flex-col items-center justify-center w-full -mt-24">
-          <div className="relative w-[450px] md:w-[900px] h-[280px] md:h-[560px] mx-auto md:ml-12">
+        <div className="flex-1 flex flex-col items-center justify-center w-full mt-8">
+          <div className="relative w-[450px] md:w-[900px] h-[280px] md:h-[560px] mx-auto md:-ml-4">
             <img
               src="/design-guide/Skrivestue-bakgrunn-writer.png"
               alt="SkriveStue PC bakgrunn"
@@ -111,7 +120,10 @@ export default function WriterTab() {
             />
             {/* Knapp midt på PC-skjermen */}
             <button
-              onClick={() => setShowWelcome(false)}
+              onClick={() => {
+                setShowWelcome(false);
+                setShowWriter(true);
+              }}
               className="absolute top-[40%] left-[55%] transform -translate-x-1/2 px-6 py-3 bg-[#3D897D] text-white rounded-xl font-semibold text-base shadow-2xl hover:scale-110 transition-all duration-300 flex items-center gap-2 group border-2 border-white/20 hover:border-white/40 animate-pulse"
               style={{ minWidth: 180 }}
             >
