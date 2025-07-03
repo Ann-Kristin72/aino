@@ -5,6 +5,7 @@ import MarkdownEditor from "../writer/MarkdownEditor";
 import PreviewPane from "../writer/PreviewPane";
 import MetadataPanel from "../writer/MetadataPanel";
 import ImportExportPanel from "../writer/ImportExportPanel";
+import CategoryGrid from '@/components/skrivestuen/CategoryGrid';
 
 interface CourseMeta {
   title: string;
@@ -228,6 +229,12 @@ export default function WriterTab() {
             <p className="font-medium">Kunne ikke lagre artikkel. Prøv igjen.</p>
           </div>
         )}
+
+        {/* Kategorigrid for eksisterende innhold */}
+        <div className="mt-12">
+          <h2 className="text-xl font-nunito font-bold mb-6">Kategorier</h2>
+          <CategoryGrid />
+        </div>
       </div>
     </div>
   );

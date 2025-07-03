@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import CategoryCard from "@/components/CategoryCard";
 import ExistingContentView from "@/components/ExistingContentView";
+import CategoryGrid from '@/components/skrivestuen/CategoryGrid';
 
 export default function ContentTab() {
   const [title, setTitle] = useState("");
@@ -123,7 +124,7 @@ export default function ContentTab() {
       {/* Categories Section */}
       <section>
         <h3 className="text-2xl font-bold text-gray-800 mb-6">🏷️ Kategorier</h3>
-        <ExistingContentView />
+        <CategoryGrid />
       </section>
     </div>
   );

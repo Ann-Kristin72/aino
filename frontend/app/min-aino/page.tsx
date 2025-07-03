@@ -128,7 +128,7 @@ export default function Dashboard() {
         <div className="mb-8 flex flex-col md:flex-row items-start gap-6">
           <div className="flex-shrink-0">
             <Image
-              src="/design-guide/eira-onboarding.png"
+              src="/design-guide/eira-min-aino.png"
               alt="Eira"
               width={180}
               height={180}
