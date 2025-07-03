@@ -14,7 +14,7 @@ export default function SkriveStueLayout() {
   const [language, setLanguage] = useState<"nb" | "en">("nb");
 
   const tabs = [
-    { id: "writer" as TabType, label: "✍️ Writer", component: WriterTab },
+    { id: "writer" as TabType, label: "✍️ Lag nytt innhold", component: WriterTab },
     { id: "existing" as TabType, label: "📚 Eksisterende", component: ContentTab },
     { id: "media" as TabType, label: "🧩 Media", component: MediaTab },
     { id: "ai" as TabType, label: "🤖 AI-verktøy", component: AIToolsTab },
@@ -59,8 +59,8 @@ export default function SkriveStueLayout() {
                 className={`
                   px-6 py-3 rounded-xl font-medium transition-all duration-200
                   ${activeTab === tab.id
-                    ? "bg-teal-600 text-white shadow-md"
-                    : "text-gray-600 hover:text-teal-600 hover:bg-teal-50"
+                    ? "bg-gradient-to-r from-teal-600 to-teal-700 text-white shadow-lg"
+                    : "bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white shadow-md hover:shadow-lg"
                   }
                 `}
               >
