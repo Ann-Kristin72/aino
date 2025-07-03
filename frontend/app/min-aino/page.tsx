@@ -23,6 +23,20 @@ const adminCards = [
     backgroundColor: "#FF9F6B",
   },
   {
+    title: "Prosessveiledning (Tekstoksen)",
+    description: "Eira veileder ansatte i bruk av teknologi — minimerer feil.",
+    href: "/admin/assistant",
+    colorClass: "bg-aino-gul",
+    backgroundColor: "#FDBD5D",
+  },
+  {
+    title: "Tilgangsstyring Kunde",
+    description: "Opprette kunder, adminer, roller og håndtere abonnement.",
+    href: "/admin/access",
+    colorClass: "bg-aino-blågrønn",
+    backgroundColor: "#3D897D",
+  },
+  {
     title: "Oppgavedeling",
     description: "Fordele arbeid, spore progresjon, status og frister.",
     href: "/admin/tasks",
@@ -35,20 +49,6 @@ const adminCards = [
     href: "/admin/communication",
     colorClass: "bg-aino-sand",
     backgroundColor: "#549D91",
-  },
-  {
-    title: "Prosessveiledning (Teknotassen)",
-    description: "Eira veileder ansatte i bruk av teknologi — minimerer feil.",
-    href: "/admin/assistant",
-    colorClass: "bg-aino-grønn",
-    backgroundColor: "#FDBD5D",
-  },
-  {
-    title: "Tilgangsstyring Kunde",
-    description: "Opprette kunder, adminer, roller og håndtere abonnement.",
-    href: "/admin/access",
-    colorClass: "bg-aino-blågrønn",
-    backgroundColor: "#3D897D",
   },
   {
     title: "SkriveStuen",
@@ -93,7 +93,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#FFF4E1] via-[#FFF8F1] to-[#E6F7F4]">
+    <div className="min-h-screen bg-gradient-to-br from-[#FFF4E1] via-[#E6F7F4] to-[#A0D6CE]">
       {/* Header */}
       <header className="bg-white/90 backdrop-blur-sm border-b border-aino-teal/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -150,10 +150,19 @@ export default function Dashboard() {
         {/* Core Functions Section */}
         <section className="mt-12">
           <h2 className="text-2xl font-bold text-skifer mb-6">Kjernefunksjoner</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-            {adminCards.map((card) => (
-              <AdminModuleCard key={card.href} {...card} />
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Venstre kolonne */}
+            <div className="flex flex-col gap-4">
+              <AdminModuleCard {...adminCards[0]} />
+              <AdminModuleCard {...adminCards[1]} />
+              <AdminModuleCard {...adminCards[2]} />
+            </div>
+            {/* Høyre kolonne */}
+            <div className="flex flex-col gap-4">
+              <AdminModuleCard {...adminCards[3]} />
+              <AdminModuleCard {...adminCards[4]} />
+              <AdminModuleCard {...adminCards[5]} />
+            </div>
           </div>
         </section>
       </main>
