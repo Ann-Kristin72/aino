@@ -15,14 +15,17 @@ button {
   @apply focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2;
 }
 
-/* Custom colors for Aino palette - matching the logo */
+/* =============================
+   AINO STANDARDPALETT 2025
+   (fra designmanualen)
+   ============================= */
 :root {
-  --aino-orange: #F6A96B;
-  --aino-korall: #F48C78;
-  --aino-teal: #56B0A3;
-  --aino-sjøgrønn: #9BB8A8;
-  --aino-grønn: #4FB7B2;
-  --aino-blågrønn: #90D9D3;
+  --aino-orange:   #FF9F6B;  /* Kvalitetssystem */
+  --aino-lysgronn: #CBCCAC;  /* Oppgavedeling */
+  --aino-teal:     #549D91;  /* Sikker kommunikasjon */
+  --aino-gul:      #FDBD5D;  /* Prosessveiledning */
+  --aino-dypteal:  #3D897D;  /* Tilgangsstyring Kunde */
+  --aino-lysblagr: #76BBB9;  /* SkriveStuen */
   
   /* Legacy Joda colors for backward compatibility */
   --joda-green: #4AAE9B;
@@ -44,11 +47,11 @@ button {
 
 /* Custom utility classes for Aino palette */
 .text-aino-orange { color: var(--aino-orange); }
-.text-aino-korall { color: var(--aino-korall); }
+.text-aino-lysgronn { color: var(--aino-lysgronn); }
 .text-aino-teal { color: var(--aino-teal); }
-.text-aino-sjøgrønn { color: var(--aino-sjøgrønn); }
-.text-aino-grønn { color: var(--aino-grønn); }
-.text-aino-blågrønn { color: var(--aino-blågrønn); }
+.text-aino-gul { color: var(--aino-gul); }
+.text-aino-dypteal { color: var(--aino-dypteal); }
+.text-aino-lysblagr { color: var(--aino-lysblagr); }
 
 /* Legacy Joda utility classes */
 .text-joda-green { color: var(--joda-green); }
@@ -67,11 +70,11 @@ button {
 .text-softpink { color: var(--softpink); }
 
 .bg-aino-orange { background-color: var(--aino-orange); }
-.bg-aino-korall { background-color: var(--aino-korall); }
+.bg-aino-lysgronn { background-color: var(--aino-lysgronn); }
 .bg-aino-teal { background-color: var(--aino-teal); }
-.bg-aino-sjøgrønn { background-color: var(--aino-sjøgrønn); }
-.bg-aino-grønn { background-color: var(--aino-grønn); }
-.bg-aino-blågrønn { background-color: var(--aino-blågrønn); }
+.bg-aino-gul { background-color: var(--aino-gul); }
+.bg-aino-dypteal { background-color: var(--aino-dypteal); }
+.bg-aino-lysblagr { background-color: var(--aino-lysblagr); }
 
 .bg-joda-green { background-color: var(--joda-green); }
 .bg-joda-teal { background-color: var(--joda-teal); }
@@ -89,11 +92,11 @@ button {
 .bg-softpink { background-color: var(--softpink); }
 
 .border-aino-orange { border-color: var(--aino-orange); }
-.border-aino-korall { border-color: var(--aino-korall); }
+.border-aino-lysgronn { border-color: var(--aino-lysgronn); }
 .border-aino-teal { border-color: var(--aino-teal); }
-.border-aino-sjøgrønn { border-color: var(--aino-sjøgrønn); }
-.border-aino-grønn { border-color: var(--aino-grønn); }
-.border-aino-blågrønn { border-color: var(--aino-blågrønn); }
+.border-aino-gul { border-color: var(--aino-gul); }
+.border-aino-dypteal { border-color: var(--aino-dypteal); }
+.border-aino-lysblagr { border-color: var(--aino-lysblagr); }
 
 .border-joda-green { border-color: var(--joda-green); }
 .border-joda-teal { border-color: var(--joda-teal); }
@@ -124,31 +127,6 @@ button {
 
 .animate-fade-pop {
   animation: fade-pop 0.6s ease-out forwards;
-}
-
-/* Custom component styles */
-.snakkeboble {
-  backdrop-filter: blur(8px);
-  background: rgba(255, 255, 255, 0.9);
-  border: 4px solid var(--joda-green);
-  color: var(--skifer);
-  border-radius: 40px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  position: relative;
-}
-
-.snakkeboble::before {
-  content: '';
-  position: absolute;
-  left: -20px;
-  top: 40px;
-  width: 32px;
-  height: 32px;
-  background: rgba(255, 255, 255, 0.9);
-  border-left: 4px solid var(--joda-green);
-  border-bottom: 4px solid var(--joda-green);
-  transform: rotate(45deg);
-  border-radius: 4px;
 }
 
 /* Animations */
