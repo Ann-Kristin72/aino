@@ -1,5 +1,7 @@
 "use client";
 
+import React from "react";
+
 export default function AIToolsTab() {
   return (
     <div className="p-6 space-y-8">
@@ -19,19 +21,19 @@ export default function AIToolsTab() {
         </p>
         
         <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-          <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
             <div className="text-4xl mb-4">✍️</div>
             <h4 className="font-semibold text-gray-800 mb-2">AI Forfatter</h4>
             <p className="text-gray-600 text-sm">Automatisk innholdsgenerering basert på prompts</p>
           </div>
           
-          <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
             <div className="text-4xl mb-4">🎯</div>
             <h4 className="font-semibold text-gray-800 mb-2">Quiz Generator</h4>
             <p className="text-gray-600 text-sm">Lag interaktive quizzer fra innhold</p>
           </div>
           
-          <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
             <div className="text-4xl mb-4">🔍</div>
             <h4 className="font-semibold text-gray-800 mb-2">RAG System</h4>
             <p className="text-gray-600 text-sm">Retrieval-Augmented Generation for bedre svar</p>

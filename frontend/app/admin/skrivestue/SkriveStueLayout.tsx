@@ -25,7 +25,7 @@ export default function SkriveStueLayout() {
   return (
     <>
       {/* Gradient background always covering the viewport */}
-      <div className="fixed inset-0 w-full h-full z-[-1] bg-gradient-to-br from-[#AEE6E6] via-[#D4F4F4] to-[#F6FBFA]" />
+      <div className="fixed inset-0 w-full h-full z-[-1] bg-gradient-to-br from-[#76BBB9] via-[#AEE6E6] to-[#F6FBFA]" />
       <div className="min-h-screen w-full relative">
         {/* Header */}
         <header className="w-full bg-[#76BBB9] text-white px-6 py-4">
@@ -57,7 +57,7 @@ export default function SkriveStueLayout() {
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`
-                  px-6 py-3 rounded-lg font-medium transition-all duration-200
+                  px-6 py-3 rounded-xl font-medium transition-all duration-200
                   ${activeTab === tab.id
                     ? "bg-teal-600 text-white shadow-md"
                     : "text-gray-600 hover:text-teal-600 hover:bg-teal-50"

@@ -87,11 +87,9 @@ export default function WriterTab() {
   if (!isLoaded) {
     return (
       <div className="p-6">
-        <div className="bg-white rounded-xl shadow-lg p-8">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600 mx-auto"></div>
-            <p className="mt-4 text-gray-600">Laster writer...</p>
-          </div>
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Laster writer...</p>
         </div>
       </div>
     );
@@ -99,13 +97,13 @@ export default function WriterTab() {
 
   return (
     <div className="p-6">
-      <div className="bg-white rounded-xl shadow-lg">
+      <div>
         {/* Top Bar */}
         <div className="border-b border-gray-200 p-6 flex justify-between items-center bg-gradient-to-r from-teal-50 to-blue-50">
           <div className="flex space-x-4">
             <button
               onClick={() => setActiveTab('preview')}
-              className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
+              className={`px-6 py-3 rounded-xl font-medium transition-all duration-200 ${
                 activeTab === 'preview' 
                   ? 'bg-teal-600 text-white shadow-md' 
                   : 'text-gray-600 hover:text-teal-600 hover:bg-teal-50'
@@ -115,7 +113,7 @@ export default function WriterTab() {
             </button>
             <button
               onClick={() => setActiveTab('metadata')}
-              className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
+              className={`px-6 py-3 rounded-xl font-medium transition-all duration-200 ${
                 activeTab === 'metadata' 
                   ? 'bg-teal-600 text-white shadow-md' 
                   : 'text-gray-600 hover:text-teal-600 hover:bg-teal-50'
@@ -125,7 +123,7 @@ export default function WriterTab() {
             </button>
             <button
               onClick={() => setActiveTab('import')}
-              className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
+              className={`px-6 py-3 rounded-xl font-medium transition-all duration-200 ${
                 activeTab === 'import' 
                   ? 'bg-teal-600 text-white shadow-md' 
                   : 'text-gray-600 hover:text-teal-600 hover:bg-teal-50'
@@ -136,11 +134,11 @@ export default function WriterTab() {
           </div>
           
           <div className="flex space-x-3">
-            <button className="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-medium">
+            <button className="px-6 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-colors font-medium">
               👁️ Forhåndsvis
             </button>
             <button
-              className="px-6 py-3 bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 text-white rounded-lg transition-all duration-200 font-medium shadow-lg hover:shadow-xl"
+              className="px-6 py-3 bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 text-white rounded-xl transition-all duration-200 font-medium shadow-lg hover:shadow-xl"
               onClick={handleSave}
             >
               💾 Lagre
@@ -217,13 +215,13 @@ export default function WriterTab() {
 
         {/* Save status feedback */}
         {saveStatus === 'success' && (
-          <div className="p-6 text-green-700 bg-green-50 border border-green-200 rounded-lg m-6 text-center">
+          <div className="p-6 text-green-700 bg-green-50 border border-green-200 rounded-xl m-6 text-center">
             <div className="text-2xl mb-2">✅</div>
             <p className="font-medium">Artikkel lagret!</p>
           </div>
         )}
         {saveStatus === 'error' && (
-          <div className="p-6 text-red-700 bg-red-50 border border-red-200 rounded-lg m-6 text-center">
+          <div className="p-6 text-red-700 bg-red-50 border border-red-200 rounded-xl m-6 text-center">
             <div className="text-2xl mb-2">❌</div>
             <p className="font-medium">Kunne ikke lagre artikkel. Prøv igjen.</p>
           </div>

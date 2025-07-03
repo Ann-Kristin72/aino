@@ -7,7 +7,7 @@ interface MarkdownEditorProps {
 
 export default function MarkdownEditor({ value, onChange }: MarkdownEditorProps) {
   return (
-    <div className="border border-gray-300 rounded-lg overflow-hidden">
+    <div className="border border-gray-300 rounded-xl overflow-hidden">
       <textarea
         value={value}
         onChange={(e) => onChange(e.target.value)}

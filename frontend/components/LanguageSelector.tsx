@@ -9,29 +9,29 @@ interface LanguageSelectorProps {
 
 export default function LanguageSelector({ currentLanguage, onLanguageChange }: LanguageSelectorProps) {
   return (
-    <div className="flex items-center space-x-2">
+    <div className="flex space-x-1">
       <button
         onClick={() => onLanguageChange("nb")}
-        className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors ${
+        className={`flex items-center space-x-2 px-3 py-2 rounded-xl transition-colors ${
           currentLanguage === "nb"
-            ? "bg-teal-600 text-white"
-            : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+            ? "bg-white/20 text-white"
+            : "text-white/70 hover:text-white hover:bg-white/10"
         }`}
       >
-        <span className="text-lg">🇳🇴</span>
-        <span className="text-sm font-medium">NO</span>
+        <span>🇳🇴</span>
+        <span>Norsk</span>
       </button>
       
       <button
         onClick={() => onLanguageChange("en")}
-        className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors ${
+        className={`flex items-center space-x-2 px-3 py-2 rounded-xl transition-colors ${
           currentLanguage === "en"
-            ? "bg-teal-600 text-white"
-            : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+            ? "bg-white/20 text-white"
+            : "text-white/70 hover:text-white hover:bg-white/10"
         }`}
       >
-        <span className="text-lg">🇬🇧</span>
-        <span className="text-sm font-medium">EN</span>
+        <span>🇬🇧</span>
+        <span>English</span>
       </button>
     </div>
   );

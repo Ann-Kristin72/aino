@@ -25,7 +25,7 @@ export default function Input({
           w-full px-4 py-3 
           bg-white 
           border border-gray-200 
-          rounded-full 
+          rounded-xl 
           text-gray-800 
           placeholder-gray-400
           focus:outline-none 

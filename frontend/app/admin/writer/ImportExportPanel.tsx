@@ -42,7 +42,7 @@ export default function ImportExportPanel({ markdownText, setMarkdownText }: Imp
   return (
     <div className="space-y-4">
       {/* Import Section */}
-      <div className="border border-gray-300 rounded-lg p-4">
+      <div className="border border-gray-300 rounded-xl p-4">
         <h4 className="text-md font-semibold text-gray-900 mb-3">Importer Markdown</h4>
         <div className="space-y-3">
           <input
@@ -54,7 +54,7 @@ export default function ImportExportPanel({ markdownText, setMarkdownText }: Imp
           />
           <button
             onClick={() => fileInputRef.current?.click()}
-            className="w-full px-4 py-2 bg-[#4CB6B6] text-white rounded-lg hover:bg-[#379e9e] transition-colors"
+            className="w-full px-4 py-2 bg-[#4CB6B6] text-white rounded-xl hover:bg-[#379e9e] transition-colors"
           >
             Velg .md fil
           </button>
@@ -65,13 +65,13 @@ export default function ImportExportPanel({ markdownText, setMarkdownText }: Imp
       </div>
 
       {/* Export Section */}
-      <div className="border border-gray-300 rounded-lg p-4">
+      <div className="border border-gray-300 rounded-xl p-4">
         <h4 className="text-md font-semibold text-gray-900 mb-3">Eksporter Markdown</h4>
         <div className="space-y-3">
           <button
             onClick={handleExport}
             disabled={!markdownText}
-            className={`w-full px-4 py-2 rounded-lg transition-colors ${
+            className={`w-full px-4 py-2 rounded-xl transition-colors ${
               markdownText
                 ? 'bg-green-600 text-white hover:bg-green-700'
                 : 'bg-gray-300 text-gray-500 cursor-not-allowed'
@@ -90,7 +90,7 @@ export default function ImportExportPanel({ markdownText, setMarkdownText }: Imp
 
       {/* File Info */}
       {markdownText && (
-        <div className="border border-gray-300 rounded-lg p-4 bg-latte">
+        <div className="border border-gray-300 rounded-xl p-4 bg-latte">
           <h4 className="text-md font-semibold text-gray-900 mb-2">Filinformasjon</h4>
           <div className="text-sm text-gray-600 space-y-1">
             <p>Antall tegn: {markdownText.length}</p>

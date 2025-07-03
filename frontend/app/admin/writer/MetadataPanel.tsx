@@ -35,7 +35,7 @@ export default function MetadataPanel({ courseMeta, setCourseMeta }: MetadataPan
             type="text"
             value={courseMeta.title}
             onChange={(e) => handleChange('title', e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Kurs tittel..."
           />
         </div>
@@ -48,7 +48,7 @@ export default function MetadataPanel({ courseMeta, setCourseMeta }: MetadataPan
           <select
             value={courseMeta.category}
             onChange={(e) => handleChange('category', e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="">Velg kategori...</option>
             <option value="kvalitet">Kvalitetssystem</option>
@@ -67,7 +67,7 @@ export default function MetadataPanel({ courseMeta, setCourseMeta }: MetadataPan
           <select
             value={courseMeta.language}
             onChange={(e) => handleChange('language', e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="no">Norsk</option>
             <option value="en">Engelsk</option>
@@ -84,7 +84,7 @@ export default function MetadataPanel({ courseMeta, setCourseMeta }: MetadataPan
             type="text"
             value={courseMeta.audience}
             onChange={(e) => handleChange('audience', e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="f.eks. Assistent, Helsefagarbeider..."
           />
         </div>
@@ -98,7 +98,7 @@ export default function MetadataPanel({ courseMeta, setCourseMeta }: MetadataPan
             type="text"
             value={courseMeta.author}
             onChange={(e) => handleChange('author', e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Forfatter navn..."
           />
         </div>
@@ -111,7 +111,7 @@ export default function MetadataPanel({ courseMeta, setCourseMeta }: MetadataPan
           <select
             value={courseMeta.reviewInterval}
             onChange={(e) => handleChange('reviewInterval', e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="3">3 måneder</option>
             <option value="6">6 måneder</option>
@@ -129,7 +129,7 @@ export default function MetadataPanel({ courseMeta, setCourseMeta }: MetadataPan
             type="text"
             value={courseMeta.keywords}
             onChange={(e) => handleChange('keywords', e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="komma-separerte nøkkelord..."
           />
         </div>

@@ -38,7 +38,7 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ name, description, o
   return (
     <button
       onClick={onClick}
-      className={`rounded-2xl shadow-md p-4 cursor-pointer hover:scale-105 transition-all duration-200 ${colorClass || ''} flex items-center gap-3`}
+      className={`rounded-xl shadow-md p-4 cursor-pointer hover:scale-105 transition-all duration-200 ${colorClass || ''} flex items-center gap-3`}
       style={{ backgroundColor: backgroundColor }}
       aria-label={name}
     >

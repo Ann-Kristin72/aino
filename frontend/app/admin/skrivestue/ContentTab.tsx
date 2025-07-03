@@ -51,7 +51,7 @@ export default function ContentTab() {
                 placeholder="Skriv tittel her..." 
                 value={title} 
                 onChange={e => setTitle(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors"
               />
             </div>
             
@@ -60,7 +60,7 @@ export default function ContentTab() {
               <select 
                 value={category} 
                 onChange={e => setCategory(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors"
               >
                 <option>Ernæring</option>
                 <option>Kommunikasjon</option>
@@ -85,7 +85,7 @@ export default function ContentTab() {
               placeholder="Skriv innhold her i Markdown-format..."
               value={contentMd} 
               onChange={e => setContentMd(e.target.value)}
-              className="w-full h-32 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors resize-none"
+              className="w-full h-32 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors resize-none"
             />
           </div>
         </div>
@@ -93,7 +93,7 @@ export default function ContentTab() {
         <div className="mt-6">
           <button 
             onClick={saveContent} 
-            className="bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 text-white px-8 py-3 rounded-lg font-medium shadow-lg hover:shadow-xl transition-all duration-200"
+            className="bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 text-white px-8 py-3 rounded-xl font-medium shadow-lg hover:shadow-xl transition-all duration-200"
           >
             💾 Lagre innhold
           </button>
@@ -104,14 +104,14 @@ export default function ContentTab() {
       <section>
         <h3 className="text-2xl font-bold text-gray-800 mb-6">📚 Eksisterende innhold</h3>
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl mb-4">
             {error}
           </div>
         )}
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {contents.map((c: any) => (
-            <div key={c.id} className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
+            <div key={c.id} className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
               <h4 className="font-semibold text-gray-800 mb-2">{c.title}</h4>
               <span className="inline-block bg-teal-100 text-teal-800 text-xs px-2 py-1 rounded-full">
                 {c.category}
