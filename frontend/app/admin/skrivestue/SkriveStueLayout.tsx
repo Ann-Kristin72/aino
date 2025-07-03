@@ -23,26 +23,34 @@ export default function SkriveStueLayout() {
   const ActiveComponent = tabs.find(tab => tab.id === activeTab)?.component || WriterTab;
 
   return (
-    <div className="min-h-screen bg-latte">
-      {/* Header */}
-      <header className="bg-gradient-to-r from-teal-600 to-teal-700 text-white shadow-lg">
-        <div className="container mx-auto px-6 py-4">
+    <>
+      {/* Gradient background always covering the viewport */}
+      <div className="fixed inset-0 w-full h-full z-[-1] bg-gradient-to-br from-[#FFF4E1] via-[#F6FBFA] to-[#DAEFEF]" />
+      <div className="min-h-screen w-full relative">
+        {/* Header */}
+        <header className="w-full bg-[#76BBB9] text-white px-6 py-4">
           <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-3xl font-bold">✍️ SkriveStuen</h1>
-              <p className="text-teal-100 mt-2">Innholdsstyring og redigering</p>
+            <div className="flex items-center gap-3">
+              {/* SkriveStuen-ikonet (samme som i Min Aino) */}
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="6" y="10" width="24" height="4" rx="2" fill="white"/>
+                <rect x="6" y="18" width="18" height="4" rx="2" fill="white"/>
+                <rect x="6" y="26" width="12" height="4" rx="2" fill="white"/>
+              </svg>
+              <div>
+                <h1 className="text-3xl font-bold font-atkinson">SkriveStuen</h1>
+                <p className="text-white text-base font-inter mt-1">Innholdsredigering og forfatterskap</p>
+              </div>
             </div>
             <LanguageSelector 
               currentLanguage={language} 
               onLanguageChange={setLanguage} 
             />
           </div>
-        </div>
-      </header>
+        </header>
 
-      {/* Tab Navigation */}
-      <nav className="bg-white shadow-sm border-b">
-        <div className="container mx-auto px-6">
+        {/* Tab Navigation */}
+        <nav className="w-full bg-transparent px-6">
           <div className="flex space-x-1 py-4">
             {tabs.map((tab) => (
               <button
@@ -60,15 +68,13 @@ export default function SkriveStueLayout() {
               </button>
             ))}
           </div>
-        </div>
-      </nav>
+        </nav>
 
-      {/* Content Area */}
-      <main className="container mx-auto px-6 py-8">
-        <div className="bg-white rounded-xl shadow-sm border">
+        {/* Content Area */}
+        <main className="w-full px-8 py-6">
           <ActiveComponent />
-        </div>
-      </main>
-    </div>
+        </main>
+      </div>
+    </>
   );
 } 
