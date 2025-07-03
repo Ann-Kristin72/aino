@@ -19,36 +19,42 @@ const adminCards = [
     description: "Lagre, oppdatere og distribuere prosedyrer, kurs og nanoer.",
     href: "/admin/quality",
     colorClass: "bg-aino-orange",
+    backgroundColor: "#FF9F6B",
   },
   {
     title: "Oppgavedeling",
     description: "Fordele arbeid, spore progresjon, status og frister.",
     href: "/admin/tasks",
     colorClass: "bg-aino-teal",
+    backgroundColor: "#CBCCAC",
   },
   {
     title: "Sikker kommunikasjon",
     description: "Kontrollert intern dialog, journalnotat og meldingsutveksling.",
     href: "/admin/communication",
     colorClass: "bg-aino-sand",
+    backgroundColor: "#549D91",
   },
   {
     title: "Prosessveiledning (Teknotassen)",
     description: "Eira veileder ansatte i bruk av teknologi — minimerer feil.",
     href: "/admin/assistant",
     colorClass: "bg-aino-grønn",
+    backgroundColor: "#FDBD5D",
   },
   {
     title: "Tilgangsstyring Kunde",
     description: "Opprette kunder, adminer, roller og håndtere abonnement.",
     href: "/admin/access",
     colorClass: "bg-aino-blågrønn",
+    backgroundColor: "#3D897D",
   },
   {
     title: "SkriveStuen",
     description: "Rediger innhold og media i rolig kaffestemning ☕",
     href: "/admin/skrivestue?tab=writer",
     colorClass: "bg-aino-korall",
+    backgroundColor: "#76BBB9",
   },
 ];
 
