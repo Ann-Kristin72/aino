@@ -14,8 +14,9 @@ module.exports = {
         'aino-korall': '#F48C78',
         'aino-teal': '#56B0A3',
         'aino-sjøgrønn': '#9BB8A8',
-        'aino-grønn': '#4A7C59',
+        'aino-grønn': '#4FB7B2',
         'aino-blågrønn': '#90D9D3',
+        'aino-sand': '#E5CBAF',
         
         // Legacy colors
         latte: '#F5EEE6',

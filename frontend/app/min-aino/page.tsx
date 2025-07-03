@@ -30,7 +30,7 @@ const adminCards = [
     title: "Sikker kommunikasjon",
     description: "Kontrollert intern dialog, journalnotat og meldingsutveksling.",
     href: "/admin/communication",
-    colorClass: "bg-aino-sjøgrønn",
+    colorClass: "bg-aino-sand",
   },
   {
     title: "Prosessveiledning (Teknotassen)",
