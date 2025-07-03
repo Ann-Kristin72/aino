@@ -25,7 +25,7 @@ export default function SkriveStueLayout() {
   return (
     <>
       {/* Gradient background always covering the viewport */}
-      <div className="fixed inset-0 w-full h-full z-[-1] bg-gradient-to-br from-[#FFF4E1] via-[#F6FBFA] to-[#DAEFEF]" />
+      <div className="fixed inset-0 w-full h-full z-[-1] bg-gradient-to-br from-[#AEE6E6] via-[#D4F4F4] to-[#F6FBFA]" />
       <div className="min-h-screen w-full relative">
         {/* Header */}
         <header className="w-full bg-[#76BBB9] text-white px-6 py-4">
