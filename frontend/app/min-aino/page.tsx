@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import AdminModuleCard from "@/components/admin/AdminCard";
 import PrimaryButton from "@/components/PrimaryButton";
+import SnakkebobleSoft from "@/components/SnakkebobleSoft";
 
 interface UserData {
   id: string;
@@ -112,7 +113,7 @@ export default function Dashboard() {
               </span>
               <button
                 onClick={handleLogout}
-                className="px-4 py-2 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+                className="px-4 py-2 text-sm bg-aino-orange text-white rounded-lg hover:brightness-105 transition-colors"
               >
                 Logg ut
               </button>
@@ -123,12 +124,27 @@ export default function Dashboard() {
 
       {/* Main content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Welcome Section */}
-        <div className="mb-8">
-          <h2 className="text-3xl font-slab text-skifer mb-2">Velkommen tilbake!</h2>
-          <p className="text-warmbrown text-lg">
-            Her finner du alle dine kjernefunksjoner for å administrere Aino-plattformen.
-          </p>
+        {/* Welcome Section with Eira */}
+        <div className="mb-8 flex flex-col md:flex-row items-start gap-6">
+          <div className="flex-shrink-0">
+            <Image
+              src="/design-guide/eira-onboarding.png"
+              alt="Eira"
+              width={120}
+              height={120}
+              className="rounded-full hover:animate-wiggle cursor-pointer transition-all duration-300"
+            />
+          </div>
+          <div className="flex-1">
+            <SnakkebobleSoft>
+              <div>
+                <h2 className="text-2xl font-slab text-skifer mb-2">Velkommen tilbake, {userData.name}! 👋</h2>
+                <p className="text-warmbrown text-lg">
+                  Her finner du alle dine kjernefunksjoner for å administrere Aino-plattformen.
+                </p>
+              </div>
+            </SnakkebobleSoft>
+          </div>
         </div>
 
         {/* Core Functions Section */}
