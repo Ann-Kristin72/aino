@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import WriterTab from "./WriterTab";
 import ContentTab from "./ContentTab";
 import MediaTab from "./MediaTab";
@@ -10,6 +11,7 @@ import LanguageSelector from "@/components/LanguageSelector";
 type TabType = "writer" | "existing" | "media" | "ai";
 
 export default function SkriveStueLayout() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<TabType>("writer");
   const [language, setLanguage] = useState<"nb" | "en">("nb");
 
@@ -42,10 +44,21 @@ export default function SkriveStueLayout() {
                 <p className="text-white text-base font-inter mt-1">Innholdsredigering og forfatterskap</p>
               </div>
             </div>
-            <LanguageSelector 
-              currentLanguage={language} 
-              onLanguageChange={setLanguage} 
-            />
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => router.push('/min-aino')}
+                className="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg transition-all duration-200 font-medium"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M19 12H5M12 19L5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                Tilbake til Min Aino
+              </button>
+              <LanguageSelector 
+                currentLanguage={language} 
+                onLanguageChange={setLanguage} 
+              />
+            </div>
           </div>
         </header>
 
