@@ -130,16 +130,16 @@ export default function Dashboard() {
             <Image
               src="/design-guide/eira-onboarding.png"
               alt="Eira"
-              width={120}
-              height={120}
+              width={180}
+              height={180}
               className="rounded-full hover:animate-wiggle cursor-pointer transition-all duration-300"
             />
           </div>
-          <div className="flex-1">
+          <div className="flex-1 max-w-md">
             <SnakkebobleSoft>
               <div>
-                <h2 className="text-2xl font-slab text-skifer mb-2">Velkommen tilbake, {userData.name}! 👋</h2>
-                <p className="text-warmbrown text-lg">
+                <h2 className="text-xl font-slab text-skifer mb-2">Velkommen tilbake, {userData.name}! 👋</h2>
+                <p className="text-warmbrown text-base">
                   Her finner du alle dine kjernefunksjoner for å administrere Aino-plattformen.
                 </p>
               </div>
@@ -149,7 +149,7 @@ export default function Dashboard() {
 
         {/* Core Functions Section */}
         <section className="mt-12">
-          <h2 className="text-2xl font-bold text-skifer mb-6">🎯 Kjernefunksjoner</h2>
+          <h2 className="text-2xl font-bold text-skifer mb-6">Kjernefunksjoner</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
             {adminCards.map((card) => (
               <AdminModuleCard key={card.href} {...card} />
