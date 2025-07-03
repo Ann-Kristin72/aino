@@ -114,8 +114,12 @@ export default function WriterTab() {
       <div className="p-6">
         <div className="flex flex-col items-center justify-center min-h-[600px] p-8">
           <div className="text-center max-w-2xl">
-            <div className="w-24 h-24 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg mx-auto mb-8">
-              <span className="text-white font-bold text-3xl">E</span>
+            <div className="w-64 h-64 mx-auto mb-8">
+              <img 
+                src="/design-guide/eria-skrivestue.png" 
+                alt="Eira - AI Assistant" 
+                className="w-full h-full object-contain"
+              />
             </div>
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Velkommen til SkriveStuen! ✨</h2>
             <p className="text-lg text-gray-600 mb-8">
