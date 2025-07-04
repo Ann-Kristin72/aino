@@ -30,10 +30,13 @@ export default function ImportExportPanel({
     let cleanContent = content;
     let metadata: Partial<CourseMeta> = {};
 
+    console.log('🔍 Starting metadata extraction...');
+
     // Sjekk for YAML frontmatter (--- ... ---)
     const frontmatterMatch = content.match(/^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/);
     
     if (frontmatterMatch) {
+      console.log('📋 Found YAML frontmatter');
       const frontmatter = frontmatterMatch[1];
       cleanContent = frontmatterMatch[2];
       
@@ -45,31 +48,47 @@ export default function ImportExportPanel({
           const value = valueParts.join(':').trim();
           const cleanKey = key.trim().toLowerCase();
           
+          console.log(`🔍 Processing key: "${cleanKey}" with value: "${value}"`);
+          
           switch (cleanKey) {
             case 'title':
               metadata.title = value;
+              console.log(`✅ Set title: "${value}"`);
               break;
             case 'category':
               metadata.category = value;
+              console.log(`✅ Set category: "${value}"`);
               break;
             case 'language':
               metadata.language = value;
+              console.log(`✅ Set language: "${value}"`);
               break;
             case 'audience':
+            case 'targetuser':
+            case 'target_user':
               metadata.audience = value;
+              console.log(`✅ Set audience/targetUser: "${value}"`);
               break;
             case 'author':
               metadata.author = value;
+              console.log(`✅ Set author: "${value}"`);
               break;
             case 'reviewinterval':
+            case 'review_interval':
               metadata.reviewInterval = value;
+              console.log(`✅ Set reviewInterval: "${value}"`);
               break;
             case 'keywords':
               metadata.keywords = value;
+              console.log(`✅ Set keywords: "${value}"`);
               break;
+            default:
+              console.log(`❓ Unknown key: "${cleanKey}"`);
           }
         }
       });
+    } else {
+      console.log('📋 No YAML frontmatter found, checking other formats...');
     }
 
     // Hvis ingen tittel i frontmatter, prøv å hente fra første overskrift
@@ -77,6 +96,7 @@ export default function ImportExportPanel({
       const titleMatch = cleanContent.match(/^#\s+(.+)$/m);
       if (titleMatch) {
         metadata.title = titleMatch[1].trim();
+        console.log(`✅ Set title from heading: "${metadata.title}"`);
       }
     }
 
@@ -86,6 +106,19 @@ export default function ImportExportPanel({
                          cleanContent.match(/<!--\s*author[:\s]+(.+?)\s*-->/i);
       if (authorMatch) {
         metadata.author = authorMatch[1].trim();
+        console.log(`✅ Set author from content: "${metadata.author}"`);
+      }
+    }
+
+    // Hvis ingen målgruppe, prøv å hente fra overskrifter eller kommentarer
+    if (!metadata.audience) {
+      const audienceMatch = cleanContent.match(/^##\s+Target User[:\s]+(.+)$/mi) ||
+                           cleanContent.match(/^##\s+Målgruppe[:\s]+(.+)$/mi) ||
+                           cleanContent.match(/<!--\s*targetuser[:\s]+(.+?)\s*-->/i) ||
+                           cleanContent.match(/<!--\s*audience[:\s]+(.+?)\s*-->/i);
+      if (audienceMatch) {
+        metadata.audience = audienceMatch[1].trim();
+        console.log(`✅ Set audience from content: "${metadata.audience}"`);
       }
     }
 
@@ -95,18 +128,22 @@ export default function ImportExportPanel({
                            cleanContent.match(/^##\s+Kategori[:\s]+(.+)$/mi);
       if (categoryMatch) {
         metadata.category = categoryMatch[1].trim();
+        console.log(`✅ Set category from content: "${metadata.category}"`);
       }
     }
 
+    console.log('📊 Final metadata:', metadata);
     return { content: cleanContent, metadata };
   };
 
   const handleImport = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      console.log('📁 Importing file:', file.name);
       const reader = new FileReader();
       reader.onload = (e) => {
         const content = e.target?.result as string;
+        console.log('📄 File content length:', content.length);
         const { content: cleanContent, metadata } = extractMetadata(content);
         
         // Sett innholdet
@@ -114,7 +151,7 @@ export default function ImportExportPanel({
         
         // Sett metadata hvis funksjonen er tilgjengelig
         if (setCourseMeta) {
-          setCourseMeta({
+          const finalMeta = {
             title: metadata.title || "",
             category: metadata.category || "",
             language: metadata.language || "nb-NO",
@@ -122,7 +159,11 @@ export default function ImportExportPanel({
             author: metadata.author || "",
             reviewInterval: metadata.reviewInterval || "",
             keywords: metadata.keywords || ""
-          });
+          };
+          console.log('🎯 Setting course metadata:', finalMeta);
+          setCourseMeta(finalMeta);
+        } else {
+          console.log('⚠️ setCourseMeta function not available');
         }
       };
       reader.readAsText(file);
@@ -173,7 +214,8 @@ export default function ImportExportPanel({
             <ul className="list-disc list-inside space-y-1">
               <li>YAML frontmatter (--- ... ---)</li>
               <li>Første overskrift (# Tittel)</li>
-              <li>HTML-kommentarer (&lt;!-- author: Navn --&gt;)</li>
+              <li>Overskrifter (## Target User: Gruppe)</li>
+              <li>HTML-kommentarer (&lt;!-- targetuser: Gruppe --&gt;)</li>
             </ul>
           </div>
         </div>

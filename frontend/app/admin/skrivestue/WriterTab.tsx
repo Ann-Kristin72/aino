@@ -32,6 +32,11 @@ export default function WriterTab() {
   const [saveStatus, setSaveStatus] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // Debug logging for metadata changes
+  useEffect(() => {
+    console.log('📊 WriterTab - courseMeta updated:', courseMeta);
+  }, [courseMeta]);
+
   const handleSave = async () => {
     try {
       const response = await fetch('/api/content', {
@@ -102,12 +107,15 @@ export default function WriterTab() {
                     metadata.language = value;
                     break;
                   case 'audience':
+                  case 'targetuser':
+                  case 'target_user':
                     metadata.audience = value;
                     break;
                   case 'author':
                     metadata.author = value;
                     break;
                   case 'reviewinterval':
+                  case 'review_interval':
                     metadata.reviewInterval = value;
                     break;
                   case 'keywords':
@@ -132,6 +140,17 @@ export default function WriterTab() {
                                cleanContent.match(/<!--\s*author[:\s]+(.+?)\s*-->/i);
             if (authorMatch) {
               metadata.author = authorMatch[1].trim();
+            }
+          }
+
+          // Hvis ingen målgruppe, prøv å hente fra overskrifter eller kommentarer
+          if (!metadata.audience) {
+            const audienceMatch = cleanContent.match(/^##\s+Target User[:\s]+(.+)$/mi) ||
+                                 cleanContent.match(/^##\s+Målgruppe[:\s]+(.+)$/mi) ||
+                                 cleanContent.match(/<!--\s*targetuser[:\s]+(.+?)\s*-->/i) ||
+                                 cleanContent.match(/<!--\s*audience[:\s]+(.+?)\s*-->/i);
+            if (audienceMatch) {
+              metadata.audience = audienceMatch[1].trim();
             }
           }
 
