@@ -2,12 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { courseId: string } }
+  { params }: { params: Promise<{ courseId: string }> }
 ) {
   try {
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('userId');
-    const courseId = params.courseId;
+    const { courseId } = await params;
 
     if (!userId) {
       return NextResponse.json({ error: 'userId er påkrevd' }, { status: 400 });

@@ -54,7 +54,15 @@ export default function CourseDetailPage() {
   const courseId = content?.id || '';
 
   // Use progress tracking hook
-  const { completedUnits, toggleUnit, loading: progressLoading } = useProgress(userId, courseId);
+  const { 
+    completedUnits, 
+    completedNanos,
+    toggleUnit, 
+    completeAndNext,
+    calculateNanoProgress,
+    isNanoCompleted,
+    loading: progressLoading 
+  } = useProgress(userId, courseId);
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -97,6 +105,32 @@ export default function CourseDetailPage() {
       setOpenUnitId(null);
     } else {
       setOpenUnitId(unitId);
+    }
+  };
+
+  const handleNextUnit = async (currentUnitId: string) => {
+    if (!content?.nano) return;
+    
+    const nextResult = await completeAndNext(currentUnitId, [], content.nano);
+    
+    if (nextResult && nextResult.type === 'completed') {
+      // Kurset er ferdig - vis gratulasjon
+      alert('🎉 Gratulerer! Du har fullført kurset!');
+      return;
+    }
+    
+    if (nextResult) {
+      // Åpne riktig nano og unit
+      setOpenNanoId(nextResult.nanoId);
+      setOpenUnitId(nextResult.unitId);
+      
+      // Smooth scroll til neste unit
+      setTimeout(() => {
+        const element = document.getElementById(`unit-${nextResult.unitId}`);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
     }
   };
 
@@ -150,9 +184,41 @@ export default function CourseDetailPage() {
             Tilbake til kursoversikt
           </button>
           <h1 className="text-2xl sm:text-4xl font-slab text-skifer mb-2">{content.title}</h1>
-          <p className="text-base sm:text-lg text-gray-600">
+          <p className="text-base sm:text-lg text-gray-600 mb-4">
             Kurs for {content.targetUser.toLowerCase()} innenfor {content.category.toLowerCase()} i {content.location.toLowerCase()}
           </p>
+          
+          {/* Kurs progress bar */}
+          {content?.nano && (
+            <div className="bg-white rounded-lg p-4 border border-gray-200">
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-sm font-medium text-gray-700">Kursfremdrift</h3>
+                <span className="text-sm text-gray-600">
+                  {(() => {
+                    const totalUnits = content.nano.reduce((sum: number, nano: any) => 
+                      sum + (nano.units?.length || 0), 0
+                    );
+                    const completedUnitsCount = completedUnits.length;
+                    const percentage = totalUnits > 0 ? Math.round((completedUnitsCount / totalUnits) * 100) : 0;
+                    return `${completedUnitsCount}/${totalUnits} (${percentage}%)`;
+                  })()}
+                </span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-3">
+                <div 
+                  className="bg-green-500 h-3 rounded-full transition-all duration-500"
+                  style={{ 
+                    width: `${(() => {
+                      const totalUnits = content.nano.reduce((sum: number, nano: any) => 
+                        sum + (nano.units?.length || 0), 0
+                      );
+                      return totalUnits > 0 ? Math.round((completedUnits.length / totalUnits) * 100) : 0;
+                    })()}%` 
+                  }}
+                />
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Course Content Structure - Mobile Optimized */}
@@ -181,9 +247,37 @@ export default function CourseDetailPage() {
                             {nanoItem.title}
                           </h3>
                           {nanoItem.units && nanoItem.units.length > 0 && (
-                            <p className="text-sm text-gray-500 mt-1">
-                              {nanoItem.units.length} enhet{nanoItem.units.length !== 1 ? 'er' : ''}
-                            </p>
+                            <div className="text-sm text-gray-500 mt-1">
+                              <p>{nanoItem.units.length} enhet{nanoItem.units.length !== 1 ? 'er' : ''}</p>
+                              {content?.nano && (
+                                <div className="mt-1">
+                                  {(() => {
+                                    const progress = calculateNanoProgress(nanoItem.id, content.nano);
+                                    const isCompleted = isNanoCompleted(nanoItem.id, content.nano);
+                                    return (
+                                      <div className="flex items-center space-x-2">
+                                        <div className="flex-1 bg-gray-200 rounded-full h-2">
+                                          <div 
+                                            className={`h-2 rounded-full transition-all duration-300 ${
+                                              isCompleted ? 'bg-green-500' : 'bg-blue-500'
+                                            }`}
+                                            style={{ width: `${progress.percentage}%` }}
+                                          />
+                                        </div>
+                                        <span className={`text-xs font-medium ${
+                                          isCompleted ? 'text-green-600' : 'text-gray-600'
+                                        }`}>
+                                          {progress.completed}/{progress.total}
+                                        </span>
+                                        {isCompleted && (
+                                          <span className="text-green-600 text-xs">✓</span>
+                                        )}
+                                      </div>
+                                    );
+                                  })()}
+                                </div>
+                              )}
+                            </div>
                           )}
                         </div>
                       </div>
@@ -203,19 +297,22 @@ export default function CourseDetailPage() {
                       <div className="p-4 sm:p-6">
                         <div className="space-y-3">
                           {nanoItem.units.map((unit, unitIndex) => (
-                            <UnitCard
-                              key={unit.id}
-                              unit={{
-                                id: unit.id,
-                                title: unit.title,
-                                content: unit.body,
-                                nanoId: unit.nanoId,
-                                illustrationUrl: unit.illustrationUrl
-                              }}
-                              isCompleted={completedUnits.includes(unit.id)}
-                              onToggle={() => toggleUnit(unit.id, unit.nanoId)}
-                              loading={progressLoading}
-                            />
+                            <div key={unit.id} id={`unit-${unit.id}`}>
+                              <UnitCard
+                                unit={{
+                                  id: unit.id,
+                                  title: unit.title,
+                                  content: unit.body,
+                                  nanoId: unit.nanoId,
+                                  illustrationUrl: unit.illustrationUrl
+                                }}
+                                isCompleted={completedUnits.includes(unit.id)}
+                                onToggle={() => toggleUnit(unit.id, unit.nanoId)}
+                                onNext={() => handleNextUnit(unit.id)}
+                                loading={progressLoading}
+                                showNextButton={true}
+                              />
+                            </div>
                           ))}
                         </div>
                       </div>

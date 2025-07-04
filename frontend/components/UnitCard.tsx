@@ -8,10 +8,19 @@ interface UnitCardProps {
   };
   isCompleted: boolean;
   onToggle: () => void;
+  onNext?: () => void;
   loading?: boolean;
+  showNextButton?: boolean;
 }
 
-export function UnitCard({ unit, isCompleted, onToggle, loading = false }: UnitCardProps) {
+export function UnitCard({ 
+  unit, 
+  isCompleted, 
+  onToggle, 
+  onNext, 
+  loading = false, 
+  showNextButton = false 
+}: UnitCardProps) {
   return (
     <div
       className={`p-4 rounded-lg shadow-sm border transition-all duration-200 ${
@@ -93,6 +102,31 @@ export function UnitCard({ unit, isCompleted, onToggle, loading = false }: UnitC
       {loading && (
         <div className="mt-3 text-sm text-gray-500">
           Oppdaterer...
+        </div>
+      )}
+      
+      {/* Neste-knapp */}
+      {showNextButton && onNext && (
+        <div className="mt-6 pt-4 border-t border-gray-200">
+          <button
+            onClick={onNext}
+            disabled={loading}
+            className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2"
+          >
+            {loading ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                <span>Laster...</span>
+              </>
+            ) : (
+              <>
+                <span>Neste unit</span>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </>
+            )}
+          </button>
         </div>
       )}
     </div>
