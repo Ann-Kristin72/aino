@@ -70,11 +70,81 @@ router.get("/id/:id", async (req: Request, res: Response) => {
       return res.status(404).json({ error: "Kurs ikke funnet" });
     }
     
-    console.log("✅ Found course:", result[0].title);
-    res.json(result[0]);
+    const course = result[0];
+    console.log("✅ Found course:", course.title);
+    
+    // Fetch nano for this course
+    const nanoResult = await db.select().from(nano).where(eq(nano.courseId, course.id)).orderBy(nano.order);
+    console.log("✅ Found nano items:", nanoResult.length);
+    
+    // Fetch units for each nano
+    const courseWithNanoAndUnits = {
+      ...course,
+      nano: await Promise.all(
+        nanoResult.map(async (nanoItem) => {
+          const unitsResult = await db.select().from(unit).where(eq(unit.nanoId, nanoItem.id)).orderBy(unit.order);
+          return {
+            ...nanoItem,
+            units: unitsResult
+          };
+        })
+      )
+    };
+    
+    res.json(courseWithNanoAndUnits);
   } catch (err) {
     console.error("🔥 Backend ERROR GET /api/content/id/:id:", err);
     res.status(500).json({ error: "Noe gikk galt ved henting av kurs" });
+  }
+});
+
+// GET /api/content/unit/:unitId - Get specific unit by ID
+router.get("/unit/:unitId", async (req: Request, res: Response) => {
+  try {
+    const { unitId } = req.params;
+    console.log("✅ Backend: GET /api/content/unit/:unitId - fetching:", unitId);
+    
+    // Fetch the unit
+    const unitResult = await db.select().from(unit).where(eq(unit.id, unitId));
+    
+    if (unitResult.length === 0) {
+      return res.status(404).json({ error: "Enhet ikke funnet" });
+    }
+    
+    const unitData = unitResult[0];
+    console.log("✅ Found unit:", unitData.title);
+    
+    // Fetch the parent nano
+    const nanoResult = await db.select().from(nano).where(eq(nano.id, unitData.nanoId));
+    
+    if (nanoResult.length === 0) {
+      return res.status(404).json({ error: "Nano ikke funnet" });
+    }
+    
+    const nanoData = nanoResult[0];
+    console.log("✅ Found nano:", nanoData.title);
+    
+    // Fetch the parent course
+    const courseResult = await db.select().from(courses).where(eq(courses.id, nanoData.courseId));
+    
+    if (courseResult.length === 0) {
+      return res.status(404).json({ error: "Kurs ikke funnet" });
+    }
+    
+    const courseData = courseResult[0];
+    console.log("✅ Found course:", courseData.title);
+    
+    // Return unit with context
+    const unitWithContext = {
+      unit: unitData,
+      nano: nanoData,
+      course: courseData
+    };
+    
+    res.json(unitWithContext);
+  } catch (err) {
+    console.error("🔥 Backend ERROR GET /api/content/unit/:unitId:", err);
+    res.status(500).json({ error: "Noe gikk galt ved henting av enhet" });
   }
 });
 

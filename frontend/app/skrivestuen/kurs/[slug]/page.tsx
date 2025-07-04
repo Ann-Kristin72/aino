@@ -42,6 +42,8 @@ export default function CourseDetailPage() {
   const [content, setContent] = useState<ContentItem | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [openNanoId, setOpenNanoId] = useState<string | null>(null);
+  const [openUnitId, setOpenUnitId] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -69,9 +71,27 @@ export default function CourseDetailPage() {
     }
   }, [slug]);
 
+  const handleNanoClick = (nanoId: string) => {
+    if (openNanoId === nanoId) {
+      setOpenNanoId(null);
+      setOpenUnitId(null); // Close any open unit when closing nano
+    } else {
+      setOpenNanoId(nanoId);
+      setOpenUnitId(null); // Close any previously open unit
+    }
+  };
+
+  const handleUnitClick = (unitId: string) => {
+    if (openUnitId === unitId) {
+      setOpenUnitId(null);
+    } else {
+      setOpenUnitId(unitId);
+    }
+  };
+
   if (loading) {
     return (
-      <div className="min-h-screen bg-latte p-8">
+      <div className="min-h-screen bg-latte p-4 sm:p-8">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
@@ -86,7 +106,7 @@ export default function CourseDetailPage() {
 
   if (error || !content) {
     return (
-      <div className="min-h-screen bg-latte p-8">
+      <div className="min-h-screen bg-latte p-4 sm:p-8">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
@@ -107,171 +127,109 @@ export default function CourseDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-latte p-8">
+    <div className="min-h-screen bg-latte p-4 sm:p-8">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <button
             onClick={() => router.back()}
-            className="flex items-center text-gray-600 hover:text-gray-800 mb-4 transition-colors"
+            className="flex items-center text-gray-600 hover:text-gray-800 mb-4 transition-colors text-sm sm:text-base"
           >
             <span className="mr-2">←</span>
             Tilbake til kursoversikt
           </button>
-          <h1 className="text-4xl font-slab text-skifer mb-2">{content.title}</h1>
-          <p className="text-lg text-gray-600">
+          <h1 className="text-2xl sm:text-4xl font-slab text-skifer mb-2">{content.title}</h1>
+          <p className="text-base sm:text-lg text-gray-600">
             Kurs for {content.targetUser.toLowerCase()} innenfor {content.category.toLowerCase()} i {content.location.toLowerCase()}
           </p>
         </div>
 
-        {/* Course Details */}
-        <div className="bg-white rounded-xl p-8 shadow-lg mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Left Column - Course Info */}
-            <div>
-              <h2 className="text-2xl font-bold text-gray-800 mb-6">Kursinformasjon</h2>
-              
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Tittel</label>
-                  <p className="text-gray-900">{content.title}</p>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
-                  <span className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
-                    {content.category}
-                  </span>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Lokasjon</label>
-                  <span className="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">
-                    {content.location}
-                  </span>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Målgruppe</label>
-                  <span className="inline-block bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">
-                    {content.targetUser}
-                  </span>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Forfatter</label>
-                  <p className="text-gray-900">{content.author}</p>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Revisjonsintervall</label>
-                  <p className="text-gray-900">{content.revisionInterval} måneder</p>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Språk</label>
-                  <p className="text-gray-900">{content.language === 'nb-NO' ? 'Norsk (Bokmål)' : content.language}</p>
-                </div>
-              </div>
-            </div>
-            
-            {/* Right Column - Metadata */}
-            <div>
-              <h2 className="text-2xl font-bold text-gray-800 mb-6">Metadata</h2>
-              
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Opprettet</label>
-                  <p className="text-gray-900">{new Date(content.createdAt).toLocaleDateString('nb-NO', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                  })}</p>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Sist oppdatert</label>
-                  <p className="text-gray-900">{new Date(content.updatedAt).toLocaleDateString('nb-NO', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                  })}</p>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Kurs-ID</label>
-                  <p className="text-gray-900 font-mono text-sm">{content.id}</p>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Slug</label>
-                  <p className="text-gray-900 font-mono text-sm">{content.slug}</p>
-                </div>
-                
-                {content.keywords && content.keywords.length > 0 && (
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Nøkkelord</label>
-                    <div className="flex flex-wrap gap-2">
-                      {content.keywords.map((keyword, index) => (
-                        <span key={index} className="inline-block bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs">
-                          {keyword}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Course Content Structure */}
+        {/* Course Content Structure - Mobile Optimized */}
         {content.nano && content.nano.length > 0 ? (
-          <div className="bg-white rounded-xl p-8 shadow-lg mb-8">
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">Kursinnhold</h2>
+          <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+            <div className="p-4 sm:p-6 border-b border-gray-200">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Kursinnhold</h2>
+              <p className="text-sm text-gray-600 mt-1">Klikk på en nano for å se enhetene</p>
+            </div>
             
-            <div className="space-y-6">
+            <div className="divide-y divide-gray-100">
               {content.nano.map((nanoItem, nanoIndex) => (
-                <div key={nanoItem.id} className="border border-gray-200 rounded-lg p-6">
-                  <div className="flex items-center mb-4">
-                    <div className="bg-blue-100 text-blue-800 rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mr-3">
-                      {nanoIndex + 1}
-                    </div>
-                    <h3 className="text-xl font-semibold text-gray-800">{nanoItem.title}</h3>
-                  </div>
-                  
-                  {nanoItem.content && (
-                    <div className="mb-4">
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Beskrivelse</label>
-                      <div className="bg-gray-50 rounded-lg p-4 text-gray-800">
-                        {nanoItem.content}
+                <div key={nanoItem.id} className="bg-white">
+                  {/* Nano Header - Clickable */}
+                  <button
+                    onClick={() => handleNanoClick(nanoItem.id)}
+                    className="w-full p-4 sm:p-6 text-left hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-inset"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center flex-1 min-w-0">
+                        <div className="bg-blue-100 text-blue-800 rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mr-3 flex-shrink-0">
+                          {nanoIndex + 1}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-lg sm:text-xl font-semibold text-gray-800 truncate">
+                            {nanoItem.title}
+                          </h3>
+                          {nanoItem.units && nanoItem.units.length > 0 && (
+                            <p className="text-sm text-gray-500 mt-1">
+                              {nanoItem.units.length} enhet{nanoItem.units.length !== 1 ? 'er' : ''}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                      <div className="ml-4 flex-shrink-0">
+                        <div className={`transform transition-transform duration-200 ${openNanoId === nanoItem.id ? 'rotate-180' : ''}`}>
+                          <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </div>
                       </div>
                     </div>
-                  )}
-                  
-                  {nanoItem.units && nanoItem.units.length > 0 && (
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-3">Enheter</label>
-                      <div className="space-y-3">
-                        {nanoItem.units.map((unit, unitIndex) => (
-                          <div key={unit.id} className="bg-gray-50 rounded-lg p-4 border-l-4 border-green-500">
-                            <div className="flex items-center mb-2">
-                              <div className="bg-green-100 text-green-800 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mr-2">
-                                {unitIndex + 1}
-                              </div>
-                              <h4 className="font-medium text-gray-800">{unit.title}</h4>
+                  </button>
+
+                  {/* Nano Content - Units */}
+                  {openNanoId === nanoItem.id && nanoItem.units && nanoItem.units.length > 0 && (
+                    <div className="bg-gray-50 border-t border-gray-200">
+                      <div className="p-4 sm:p-6">
+                        <div className="space-y-3">
+                          {nanoItem.units.map((unit, unitIndex) => (
+                            <div key={unit.id} className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                              {/* Unit Header */}
+                              <button
+                                onClick={() => handleUnitClick(unit.id)}
+                                className="w-full p-4 text-left hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-green-300 focus:ring-inset"
+                              >
+                                <div className="flex items-center justify-between">
+                                  <div className="flex items-center flex-1 min-w-0">
+                                    <div className="bg-green-100 text-green-800 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mr-3 flex-shrink-0">
+                                      {unitIndex + 1}
+                                    </div>
+                                    <h4 className="text-base font-medium text-gray-800 truncate">
+                                      {unit.title}
+                                    </h4>
+                                  </div>
+                                  <div className="ml-4 flex-shrink-0">
+                                    <div className={`transform transition-transform duration-200 ${openUnitId === unit.id ? 'rotate-180' : ''}`}>
+                                      <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                      </svg>
+                                    </div>
+                                  </div>
+                                </div>
+                              </button>
+
+                              {/* Unit Content */}
+                              {openUnitId === unit.id && (
+                                <div className="border-t border-gray-200 bg-gray-50">
+                                  <div className="p-4">
+                                    <div className="prose prose-sm max-w-none text-gray-700 whitespace-pre-line">
+                                      {unit.content}
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
                             </div>
-                            {unit.content && (
-                              <div className="text-gray-700 text-sm ml-8">
-                                {unit.content}
-                              </div>
-                            )}
-                          </div>
-                        ))}
+                          ))}
+                        </div>
                       </div>
                     </div>
                   )}
@@ -296,17 +254,17 @@ export default function CourseDetailPage() {
         )}
 
         {/* Action Buttons */}
-        <div className="flex flex-wrap gap-4 mb-8">
+        <div className="flex flex-col sm:flex-row gap-4 mt-8">
           <button
             onClick={() => router.push(`/admin/skrivestue?tab=writer&edit=${content.id}`)}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-medium transition-colors flex items-center"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-medium transition-colors flex items-center justify-center"
           >
             <span className="mr-2">✏️</span>
             Rediger kurs
           </button>
           <button
             onClick={() => router.push(`/skrivestuen/${content.category.toLowerCase().replace(/æ/g, 'ae').replace(/ø/g, 'o').replace(/å/g, 'a')}/${content.location.toLowerCase().replace(/æ/g, 'ae').replace(/ø/g, 'o').replace(/å/g, 'a')}/${content.targetUser.toLowerCase().replace(/æ/g, 'ae').replace(/ø/g, 'o').replace(/å/g, 'a')}`)}
-            className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-xl font-medium transition-colors flex items-center"
+            className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-xl font-medium transition-colors flex items-center justify-center"
           >
             <span className="mr-2">📚</span>
             Se andre kurs i samme kategori
@@ -314,7 +272,7 @@ export default function CourseDetailPage() {
         </div>
 
         {/* Breadcrumb */}
-        <div className="text-sm text-gray-500">
+        <div className="text-sm text-gray-500 mt-8 hidden sm:block">
           <span className="hover:text-gray-700 cursor-pointer" onClick={() => router.push('/skrivestuen/existing')}>
             Kategorier
           </span>
