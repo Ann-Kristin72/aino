@@ -80,7 +80,7 @@ export default function WriterTab() {
           language: courseMeta.language,
           audience: courseMeta.audience,
           author: courseMeta.author,
-          reviewInterval: courseMeta.reviewInterval,
+          revisionInterval: courseMeta.reviewInterval,
           keywords: courseMeta.keywords
         }),
       });

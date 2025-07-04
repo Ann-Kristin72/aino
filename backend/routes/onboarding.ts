@@ -1,6 +1,6 @@
 import express from 'express';
 import { db } from '../drizzle/db';
-import { users, user_roles, roles } from '../drizzle/schema';
+import { users, userRoles, roles } from '../drizzle/schema';
 import { eq } from 'drizzle-orm';
 
 const router = express.Router();
@@ -51,7 +51,7 @@ router.post('/onboarding', async (req, res) => {
 
     // Koble bruker til rolle
     await db
-      .insert(user_roles)
+      .insert(userRoles)
       .values({
         userId: newUser.id,
         roleId: roleRecord[0].id
