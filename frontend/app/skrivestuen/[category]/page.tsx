@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import { titleCase, kebabCase } from '@/lib/utils';
 
 const locations = [
   {
@@ -26,16 +27,6 @@ const locations = [
     backgroundColor: '#8B5CF6'
   }
 ];
-
-function kebabCase(text: string) {
-  return text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]/g, '');
-}
-
-function titleCase(text: string) {
-  return text.split('-').map(word => 
-    word.charAt(0).toUpperCase() + word.slice(1)
-  ).join(' ');
-}
 
 export default function CategoryPage() {
   const params = useParams();

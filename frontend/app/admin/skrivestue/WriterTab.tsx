@@ -6,6 +6,7 @@ import MarkdownEditor from "../writer/MarkdownEditor";
 import PreviewPane from "../writer/PreviewPane";
 import MetadataPanel from "../writer/MetadataPanel";
 import ImportExportPanel from "../writer/ImportExportPanel";
+import { titleCase } from "@/lib/utils";
 
 interface CourseMeta {
   title: string;
@@ -16,12 +17,6 @@ interface CourseMeta {
   author: string;
   reviewInterval: string;
   keywords: string;
-}
-
-function titleCase(text: string) {
-  return text.split('-').map(word => 
-    word.charAt(0).toUpperCase() + word.slice(1)
-  ).join(' ');
 }
 
 export default function WriterTab() {

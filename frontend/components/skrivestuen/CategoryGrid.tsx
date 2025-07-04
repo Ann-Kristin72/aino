@@ -3,6 +3,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import CategoryCard from '../CategoryCard';
+import { kebabCase } from '@/lib/utils';
 
 const categories = [
   {
@@ -84,10 +85,6 @@ const categories = [
     icon: '🤖'
   }
 ];
-
-function kebabCase(text: string) {
-  return text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]/g, '');
-}
 
 const CategoryGrid: React.FC = () => {
   const router = useRouter();

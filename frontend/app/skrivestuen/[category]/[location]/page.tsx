@@ -2,12 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-
-function titleCase(text: string) {
-  return text.split('-').map(word => 
-    word.charAt(0).toUpperCase() + word.slice(1)
-  ).join(' ');
-}
+import { titleCase } from '@/lib/utils';
 
 interface ContentItem {
   id: string;
