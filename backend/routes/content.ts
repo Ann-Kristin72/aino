@@ -20,6 +20,64 @@ router.get("/", async (req: Request, res: Response) => {
   }
 });
 
+// GET /api/content/:slug - Get specific course by slug
+router.get("/slug/:slug", async (req: Request, res: Response) => {
+  try {
+    const { slug } = req.params;
+    console.log("✅ Backend: GET /api/content/slug/:slug - fetching:", slug);
+    
+    const result = await db.select().from(courses).where(eq(courses.slug, slug));
+    
+    if (result.length === 0) {
+      return res.status(404).json({ error: "Kurs ikke funnet" });
+    }
+    
+    const course = result[0];
+    console.log("✅ Found course:", course.title);
+    
+    // Fetch nano for this course
+    const nanoResult = await db.select().from(nano).where(eq(nano.courseId, course.id)).orderBy(nano.order);
+    console.log("✅ Found nano items:", nanoResult.length);
+    
+    // Fetch units for each nano
+    const courseWithContent = {
+      ...course,
+      nano: await Promise.all(nanoResult.map(async (nanoItem) => {
+        const unitsResult = await db.select().from(unit).where(eq(unit.nanoId, nanoItem.id)).orderBy(unit.order);
+        return {
+          ...nanoItem,
+          units: unitsResult
+        };
+      }))
+    };
+    
+    res.json(courseWithContent);
+  } catch (err) {
+    console.error("🔥 Backend ERROR GET /api/content/slug/:slug:", err);
+    res.status(500).json({ error: "Noe gikk galt ved henting av kurs" });
+  }
+});
+
+// GET /api/content/id/:id - Get specific course by ID
+router.get("/id/:id", async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    console.log("✅ Backend: GET /api/content/id/:id - fetching:", id);
+    
+    const result = await db.select().from(courses).where(eq(courses.id, id));
+    
+    if (result.length === 0) {
+      return res.status(404).json({ error: "Kurs ikke funnet" });
+    }
+    
+    console.log("✅ Found course:", result[0].title);
+    res.json(result[0]);
+  } catch (err) {
+    console.error("🔥 Backend ERROR GET /api/content/id/:id:", err);
+    res.status(500).json({ error: "Noe gikk galt ved henting av kurs" });
+  }
+});
+
 // POST /api/content - Create new course content from WriterTab
 router.post("/", async (req: Request, res: Response) => {
   const { 
@@ -48,8 +106,7 @@ router.post("/", async (req: Request, res: Response) => {
       targetUser 
     });
     
-    // Generate unique slug from title with timestamp
-    const timestamp = Date.now();
+    // Generate unique slug from title
     const baseSlug = title
       .toLowerCase()
       .replace(/æ/g, 'ae')
@@ -59,7 +116,18 @@ router.post("/", async (req: Request, res: Response) => {
       .replace(/\s+/g, '-')
       .replace(/-+/g, '-')
       .trim();
-    const slug = `${baseSlug}-${timestamp}`;
+    
+    // Check if slug already exists and add timestamp if needed
+    let slug = baseSlug;
+    let counter = 1;
+    while (true) {
+      const existing = await db.select().from(courses).where(eq(courses.slug, slug));
+      if (existing.length === 0) {
+        break;
+      }
+      slug = `${baseSlug}-${counter}`;
+      counter++;
+    }
 
     // Create course record
     const courseResult = await db.insert(courses).values({

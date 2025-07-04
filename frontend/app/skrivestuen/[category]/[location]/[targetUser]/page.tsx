@@ -92,6 +92,11 @@ export default function CategoryLocationTargetUserPage() {
     router.push(`/admin/skrivestue?tab=writer&category=${categorySlug}&location=${locationSlug}&targetUser=${targetUserSlug}`);
   };
 
+  const handleCourseClick = (content: ContentItem) => {
+    // Naviger til kursdetalj-side
+    router.push(`/skrivestuen/kurs/${content.slug}`);
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-latte p-8">
@@ -172,7 +177,8 @@ export default function CategoryLocationTargetUserPage() {
           {contents.map((content) => (
             <div
               key={content.id}
-              className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200"
+              className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 cursor-pointer transform hover:scale-105"
+              onClick={() => handleCourseClick(content)}
             >
               <h3 className="text-xl font-bold text-gray-800 mb-3">{content.title}</h3>
               <p className="text-gray-600 mb-4">
@@ -197,6 +203,12 @@ export default function CategoryLocationTargetUserPage() {
                     {content.keywords.length} nøkkelord
                   </span>
                 )}
+              </div>
+              <div className="mt-4 pt-4 border-t border-gray-100">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-blue-600 font-medium">Klikk for å åpne</span>
+                  <span className="text-blue-600">→</span>
+                </div>
               </div>
             </div>
           ))}
