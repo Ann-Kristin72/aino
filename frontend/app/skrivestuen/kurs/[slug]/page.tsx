@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import { useProgress } from '@/lib/hooks/useProgress';
+import { UnitCard } from '@/components/UnitCard';
 
 interface ContentItem {
   id: string;
@@ -46,6 +48,13 @@ export default function CourseDetailPage() {
   const [error, setError] = useState<string | null>(null);
   const [openNanoId, setOpenNanoId] = useState<string | null>(null);
   const [openUnitId, setOpenUnitId] = useState<string | null>(null);
+
+  // Temporary user ID for testing - in production this would come from auth
+  const userId = 'test-user-123';
+  const courseId = content?.id || '';
+
+  // Use progress tracking hook
+  const { completedUnits, toggleUnit, loading: progressLoading } = useProgress(userId, courseId);
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -194,76 +203,19 @@ export default function CourseDetailPage() {
                       <div className="p-4 sm:p-6">
                         <div className="space-y-3">
                           {nanoItem.units.map((unit, unitIndex) => (
-                            <div key={unit.id} className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-                              {/* Unit Header */}
-                              <button
-                                onClick={() => handleUnitClick(unit.id)}
-                                className="w-full p-4 text-left hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-green-300 focus:ring-inset"
-                              >
-                                <div className="flex items-center justify-between">
-                                  <div className="flex items-center flex-1 min-w-0">
-                                    <div className="bg-green-100 text-green-800 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mr-3 flex-shrink-0">
-                                      {unitIndex + 1}
-                                    </div>
-                                    <h4 className="text-base font-medium text-gray-800 truncate">
-                                      {unit.title}
-                                    </h4>
-                                  </div>
-                                  <div className="ml-4 flex-shrink-0">
-                                    <div className={`transform transition-transform duration-200 ${openUnitId === unit.id ? 'rotate-180' : ''}`}>
-                                      <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                      </svg>
-                                    </div>
-                                  </div>
-                                </div>
-                              </button>
-
-                              {/* Unit Content */}
-                              {openUnitId === unit.id && (
-                                <div className="border-t border-gray-200 bg-gray-50">
-                                  <div className="p-4 space-y-4">
-                                    {/* Illustrasjon/bilde/video øverst */}
-                                    {unit.illustrationUrl && (
-                                      <div className="mb-4">
-                                        {unit.illustrationUrl.match(/\.(jpg|jpeg|png|gif|webp|svg)$/i) ? (
-                                          <img
-                                            src={unit.illustrationUrl}
-                                            alt={unit.title + ' illustrasjon'}
-                                            className="max-w-full h-auto rounded-lg shadow border"
-                                          />
-                                        ) : unit.illustrationUrl.match(/(youtube\.com|youtu\.be)/i) ? (
-                                          <iframe
-                                            src={unit.illustrationUrl.replace('watch?v=', 'embed/')}
-                                            title={unit.title}
-                                            className="w-full aspect-video rounded-lg shadow border"
-                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                            allowFullScreen
-                                          />
-                                        ) : unit.illustrationUrl.match(/\.(mp4|webm|ogg)$/i) ? (
-                                          <video
-                                            src={unit.illustrationUrl}
-                                            controls
-                                            className="w-full rounded-lg shadow border"
-                                          >
-                                            Din nettleser støtter ikke video.
-                                          </video>
-                                        ) : (
-                                          // Fallback: vis som bilde/iframe
-                                          <iframe
-                                            src={unit.illustrationUrl}
-                                            title={unit.title}
-                                            className="w-full min-h-[200px] rounded-lg shadow border"
-                                          />
-                                        )}
-                                      </div>
-                                    )}
-                                    {/* Tekstlig innhold */}
-                                    <div className="prose prose-sm max-w-none text-gray-700 whitespace-pre-line" dangerouslySetInnerHTML={{ __html: unit.body }} />
-                                  </div>
-                                </div>
-                              )}
-                            </div>
+                            <UnitCard
+                              key={unit.id}
+                              unit={{
+                                id: unit.id,
+                                title: unit.title,
+                                content: unit.body,
+                                nanoId: unit.nanoId,
+                                illustrationUrl: unit.illustrationUrl
+                              }}
+                              isCompleted={completedUnits.includes(unit.id)}
+                              onToggle={() => toggleUnit(unit.id, unit.nanoId)}
+                              loading={progressLoading}
+                            />
                           ))}
                         </div>
                       </div>
