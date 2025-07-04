@@ -180,25 +180,29 @@ export default function WriterTab() {
           </div>
 
           {/* Main Content */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 min-h-[700px]">
             {/* Editor */}
-            <div className="lg:col-span-1">
-              <div className="bg-white rounded-xl shadow-lg p-6 h-[600px]">
+            <div className="lg:col-span-1 flex flex-col">
+              <div className="bg-white rounded-xl shadow-lg p-6 flex flex-col h-full min-h-[600px] max-h-[80vh]">
                 <h3 className="text-lg font-semibold text-gray-800 mb-4">📝 Markdown Editor</h3>
-                <MarkdownEditor
-                  value={markdownText}
-                  onChange={setMarkdownText}
-                />
+                <div className="flex-1 min-h-0">
+                  <MarkdownEditor
+                    value={markdownText}
+                    onChange={setMarkdownText}
+                  />
+                </div>
               </div>
             </div>
 
             {/* Preview */}
-            <div className="lg:col-span-1">
-              <div className="bg-white rounded-xl shadow-lg p-6 h-[600px]">
+            <div className="lg:col-span-1 flex flex-col">
+              <div className="bg-white rounded-xl shadow-lg p-6 flex flex-col h-full min-h-[600px] max-h-[80vh]">
                 <h3 className="text-lg font-semibold text-gray-800 mb-4">👁️ Forhåndsvis</h3>
-                <PreviewPane
-                  markdownText={markdownText}
-                />
+                <div className="flex-1 min-h-0">
+                  <PreviewPane
+                    markdownText={markdownText}
+                  />
+                </div>
               </div>
             </div>
 

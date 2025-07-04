@@ -19,14 +19,14 @@ export default function PreviewPane({ markdownText }: PreviewPaneProps) {
   const htmlContent = convertMarkdownToHtml(markdownText);
 
   return (
-    <div className="border border-gray-300 rounded-xl p-4 bg-white h-96">
+    <div className="border border-gray-300 rounded-xl p-4 bg-white flex flex-col h-full min-h-[600px] max-h-[80vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
       {markdownText ? (
         <div 
-          className="prose prose-sm max-w-none"
+          className="prose prose-sm max-w-none flex-1"
           dangerouslySetInnerHTML={{ __html: htmlContent }}
         />
       ) : (
-        <div className="text-gray-500 text-center py-8">
+        <div className="text-gray-500 text-center py-8 flex-1 flex items-center justify-center">
           <p>Forhåndsvis vil vises her når du skriver markdown...</p>
         </div>
       )}
