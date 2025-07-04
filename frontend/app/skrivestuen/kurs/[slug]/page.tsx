@@ -30,6 +30,8 @@ interface ContentItem {
       content: string;
       order: number;
       nanoId: string;
+      body: string;
+      illustrationUrl?: string;
     }>;
   }>;
 }
@@ -220,10 +222,44 @@ export default function CourseDetailPage() {
                               {/* Unit Content */}
                               {openUnitId === unit.id && (
                                 <div className="border-t border-gray-200 bg-gray-50">
-                                  <div className="p-4">
-                                    <div className="prose prose-sm max-w-none text-gray-700 whitespace-pre-line">
-                                      {unit.content}
-                                    </div>
+                                  <div className="p-4 space-y-4">
+                                    {/* Illustrasjon/bilde/video øverst */}
+                                    {unit.illustrationUrl && (
+                                      <div className="mb-4">
+                                        {unit.illustrationUrl.match(/\.(jpg|jpeg|png|gif|webp|svg)$/i) ? (
+                                          <img
+                                            src={unit.illustrationUrl}
+                                            alt={unit.title + ' illustrasjon'}
+                                            className="max-w-full h-auto rounded-lg shadow border"
+                                          />
+                                        ) : unit.illustrationUrl.match(/(youtube\.com|youtu\.be)/i) ? (
+                                          <iframe
+                                            src={unit.illustrationUrl.replace('watch?v=', 'embed/')}
+                                            title={unit.title}
+                                            className="w-full aspect-video rounded-lg shadow border"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowFullScreen
+                                          />
+                                        ) : unit.illustrationUrl.match(/\.(mp4|webm|ogg)$/i) ? (
+                                          <video
+                                            src={unit.illustrationUrl}
+                                            controls
+                                            className="w-full rounded-lg shadow border"
+                                          >
+                                            Din nettleser støtter ikke video.
+                                          </video>
+                                        ) : (
+                                          // Fallback: vis som bilde/iframe
+                                          <iframe
+                                            src={unit.illustrationUrl}
+                                            title={unit.title}
+                                            className="w-full min-h-[200px] rounded-lg shadow border"
+                                          />
+                                        )}
+                                      </div>
+                                    )}
+                                    {/* Tekstlig innhold */}
+                                    <div className="prose prose-sm max-w-none text-gray-700 whitespace-pre-line" dangerouslySetInnerHTML={{ __html: unit.body }} />
                                   </div>
                                 </div>
                               )}

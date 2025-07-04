@@ -69,3 +69,13 @@ export const unit = pgTable("unit", {
 	order: integer("order").notNull(),
 	createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
 });
+
+// --- Tabell: userProgress (brukerprogresjon) ---
+export const userProgress = pgTable('user_progress', {
+	id: serial('id').primaryKey(),
+	userId: varchar('user_id', { length: 255 }).notNull(),
+	courseId: varchar('course_id', { length: 255 }),
+	nanoId: varchar('nano_id', { length: 255 }),
+	unitId: varchar('unit_id', { length: 255 }).notNull(),
+	completedAt: timestamp('completed_at').defaultNow(),
+});
