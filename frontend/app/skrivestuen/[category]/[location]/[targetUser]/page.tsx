@@ -2,17 +2,23 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { titleCase } from '@/lib/utils';
+import { titleCase, kebabCase } from '@/lib/utils';
 
 interface ContentItem {
   id: string;
   title: string;
-  description: string;
-  author: string;
-  createdAt: string;
+  slug: string;
   category: string;
   location: string;
   targetUser: string;
+  language: string;
+  author: string;
+  revisionInterval: string;
+  keywords: string[];
+  imageUrl: string | null;
+  metadata: any;
+  createdAt: string;
+  updatedAt: string;
 }
 
 // Mapping av target user IDs til visningsnavn
@@ -38,37 +44,48 @@ export default function CategoryLocationTargetUserPage() {
   
   const [contents, setContents] = useState<ContentItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Simuler henting av innhold basert på kategori, lokasjon og målbruker
-    // I en ekte applikasjon ville dette være en API-kall
-    setTimeout(() => {
-      const mockContents: ContentItem[] = [
-        {
-          id: '1',
-          title: `${categoryTitle} - ${locationTitle} for ${targetUserName}`,
-          description: 'Dette er spesialtilpasset innhold for ' + targetUserName.toLowerCase() + ' innenfor ' + categoryTitle.toLowerCase() + ' i ' + locationTitle.toLowerCase() + '.',
-          author: 'Aino Team',
-          createdAt: '2024-01-15',
-          category: categoryTitle,
-          location: locationTitle,
-          targetUser: targetUserName
-        },
-        {
-          id: '2',
-          title: `${categoryTitle} - Praksisveiledning for ${targetUserName}`,
-          description: 'Praktisk veiledning og tips tilpasset ' + targetUserName.toLowerCase() + ' i deres daglige arbeid.',
-          author: 'Aino Team',
-          createdAt: '2024-01-10',
-          category: categoryTitle,
-          location: locationTitle,
-          targetUser: targetUserName
+    const fetchContent = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        const response = await fetch('/api/content');
+        if (!response.ok) {
+          throw new Error(`Failed to fetch content: ${response.status}`);
         }
-      ];
-      setContents(mockContents);
-      setLoading(false);
-    }, 1000);
-  }, [categoryTitle, locationTitle, targetUserName]);
+        
+        const allContent: ContentItem[] = await response.json();
+        
+        // Filtrer innhold basert på URL-parametrene
+        const filteredContent = allContent.filter(item => {
+          // Normaliser både URL-parametrene og databasen-innholdet for sammenligning
+          const itemCategoryNormalized = kebabCase(item.category);
+          const itemLocationNormalized = kebabCase(item.location);
+          const itemTargetUserNormalized = kebabCase(item.targetUser);
+          
+          const urlCategory = categorySlug;
+          const urlLocation = locationSlug;
+          const urlTargetUser = targetUserSlug;
+          
+          return itemCategoryNormalized === urlCategory && 
+                 itemLocationNormalized === urlLocation && 
+                 itemTargetUserNormalized === urlTargetUser;
+        });
+        
+        setContents(filteredContent);
+      } catch (err) {
+        console.error('Error fetching content:', err);
+        setError(err instanceof Error ? err.message : 'Failed to fetch content');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContent();
+  }, [categorySlug, locationSlug, targetUserSlug]);
 
   const handleCreateNew = () => {
     // Naviger til writer med pre-fylt kategori, lokasjon og målbruker
@@ -83,6 +100,28 @@ export default function CategoryLocationTargetUserPage() {
             <div className="text-center">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
               <p className="text-gray-600">Laster innhold...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-latte p-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-center h-64">
+            <div className="text-center">
+              <div className="text-red-600 text-6xl mb-4">⚠️</div>
+              <h3 className="text-2xl font-bold text-gray-800 mb-2">Feil ved lasting</h3>
+              <p className="text-gray-600 mb-6">{error}</p>
+              <button
+                onClick={() => window.location.reload()}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-medium transition-colors"
+              >
+                Prøv igjen
+              </button>
             </div>
           </div>
         </div>
@@ -136,7 +175,9 @@ export default function CategoryLocationTargetUserPage() {
               className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200"
             >
               <h3 className="text-xl font-bold text-gray-800 mb-3">{content.title}</h3>
-              <p className="text-gray-600 mb-4">{content.description}</p>
+              <p className="text-gray-600 mb-4">
+                Innhold for {content.targetUser.toLowerCase()} innenfor {content.category.toLowerCase()} i {content.location.toLowerCase()}
+              </p>
               <div className="flex items-center justify-between text-sm text-gray-500">
                 <span>Av: {content.author}</span>
                 <span>{new Date(content.createdAt).toLocaleDateString('nb-NO')}</span>
@@ -151,6 +192,11 @@ export default function CategoryLocationTargetUserPage() {
                 <span className="inline-block bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded-full">
                   {content.targetUser}
                 </span>
+                {content.keywords && content.keywords.length > 0 && (
+                  <span className="inline-block bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">
+                    {content.keywords.length} nøkkelord
+                  </span>
+                )}
               </div>
             </div>
           ))}

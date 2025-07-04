@@ -66,6 +66,10 @@ export default function WriterTab() {
 
   const handleSave = async () => {
     try {
+      const keywordsArray = typeof courseMeta.keywords === "string"
+        ? courseMeta.keywords.split(",").map(k => k.trim()).filter(Boolean)
+        : Array.isArray(courseMeta.keywords) ? courseMeta.keywords : [];
+
       const response = await fetch('/api/content', {
         method: 'POST',
         headers: {
@@ -81,7 +85,7 @@ export default function WriterTab() {
           audience: courseMeta.audience,
           author: courseMeta.author,
           revisionInterval: courseMeta.reviewInterval,
-          keywords: courseMeta.keywords
+          keywords: keywordsArray
         }),
       });
 

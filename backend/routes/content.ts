@@ -48,8 +48,9 @@ router.post("/", async (req: Request, res: Response) => {
       targetUser 
     });
     
-    // Generate slug from title
-    const slug = title
+    // Generate unique slug from title with timestamp
+    const timestamp = Date.now();
+    const baseSlug = title
       .toLowerCase()
       .replace(/æ/g, 'ae')
       .replace(/ø/g, 'oe')
@@ -58,6 +59,7 @@ router.post("/", async (req: Request, res: Response) => {
       .replace(/\s+/g, '-')
       .replace(/-+/g, '-')
       .trim();
+    const slug = `${baseSlug}-${timestamp}`;
 
     // Create course record
     const courseResult = await db.insert(courses).values({

@@ -26,16 +26,16 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { title, category, content_md } = body;
+    const { title, content, category, location, targetUser, language, author, revisionInterval, keywords, audience } = body;
 
-    if (!title || !category || !content_md) {
+    if (!title || !content) {
       return NextResponse.json(
-        { error: "Mangler påkrevde felt" },
+        { error: "Tittel og innhold er påkrevd" },
         { status: 400 }
       );
     }
 
-    console.log('API /content POST: Sending data to backend:', { title, category, content_md });
+    console.log('API /content POST: Sending data to backend:', { title, category, location, targetUser });
     
     // Send data to backend
     const response = await fetch(`${BACKEND_URL}/api/content`, {
@@ -43,9 +43,15 @@ export async function POST(request: Request) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         title,
-        content: content_md,
-        category_id: 1, // TODO: Map category to category_id
-        created_by: 1, // TODO: Get from auth context
+        content,
+        category,
+        location,
+        targetUser,
+        language,
+        author,
+        revisionInterval,
+        keywords,
+        audience
       }),
     });
 
