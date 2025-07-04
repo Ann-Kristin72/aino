@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useSearchParams } from "next/navigation";
 import MarkdownEditor from "../writer/MarkdownEditor";
 import PreviewPane from "../writer/PreviewPane";
 import MetadataPanel from "../writer/MetadataPanel";
@@ -9,6 +10,7 @@ import ImportExportPanel from "../writer/ImportExportPanel";
 interface CourseMeta {
   title: string;
   category: string;
+  location: string;
   language: string;
   audience: string;
   author: string;
@@ -16,11 +18,19 @@ interface CourseMeta {
   keywords: string;
 }
 
+function titleCase(text: string) {
+  return text.split('-').map(word => 
+    word.charAt(0).toUpperCase() + word.slice(1)
+  ).join(' ');
+}
+
 export default function WriterTab() {
+  const searchParams = useSearchParams();
   const [markdownText, setMarkdownText] = useState("# Velkommen til Aino Writer\n\nStart å skrive din artikkel her...");
   const [courseMeta, setCourseMeta] = useState<CourseMeta>({
     title: "",
     category: "",
+    location: "",
     language: "nb-NO",
     audience: "",
     author: "",
@@ -31,6 +41,24 @@ export default function WriterTab() {
   const [showWelcome, setShowWelcome] = useState(true);
   const [saveStatus, setSaveStatus] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Håndter URL-parametere for kategori og lokasjon
+  useEffect(() => {
+    const categoryParam = searchParams.get('category');
+    const locationParam = searchParams.get('location');
+    
+    if (categoryParam || locationParam) {
+      setCourseMeta(prev => ({
+        ...prev,
+        category: categoryParam ? titleCase(categoryParam) : prev.category,
+        location: locationParam ? titleCase(locationParam) : prev.location
+      }));
+      
+      // Automatisk gå til writer-visningen hvis parametere er satt
+      setShowWelcome(false);
+      setShowWriter(true);
+    }
+  }, [searchParams]);
 
   // Debug logging for metadata changes
   useEffect(() => {
@@ -48,6 +76,7 @@ export default function WriterTab() {
           title: courseMeta.title,
           content: markdownText,
           category: courseMeta.category,
+          location: courseMeta.location,
           language: courseMeta.language,
           audience: courseMeta.audience,
           author: courseMeta.author,
@@ -102,6 +131,9 @@ export default function WriterTab() {
                     break;
                   case 'category':
                     metadata.category = value;
+                    break;
+                  case 'location':
+                    metadata.location = value;
                     break;
                   case 'language':
                     metadata.language = value;
@@ -163,6 +195,15 @@ export default function WriterTab() {
             }
           }
 
+          // Hvis ingen lokasjon, prøv å hente fra kommentarer eller spesielle tags
+          if (!metadata.location) {
+            const locationMatch = cleanContent.match(/<!--\s*location[:\s]+(.+?)\s*-->/i) ||
+                                 cleanContent.match(/^##\s+Lokasjon[:\s]+(.+)$/mi);
+            if (locationMatch) {
+              metadata.location = locationMatch[1].trim();
+            }
+          }
+
           return { content: cleanContent, metadata };
         };
 
@@ -175,6 +216,7 @@ export default function WriterTab() {
         setCourseMeta({
           title: metadata.title || "",
           category: metadata.category || "",
+          location: metadata.location || "",
           language: metadata.language || "nb-NO",
           audience: metadata.audience || "",
           author: metadata.author || "",

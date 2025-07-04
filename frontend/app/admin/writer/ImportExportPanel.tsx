@@ -5,6 +5,7 @@ import { useRef } from "react";
 interface CourseMeta {
   title: string;
   category: string;
+  location: string;
   language: string;
   audience: string;
   author: string;
@@ -58,6 +59,10 @@ export default function ImportExportPanel({
             case 'category':
               metadata.category = value;
               console.log(`✅ Set category: "${value}"`);
+              break;
+            case 'location':
+              metadata.location = value;
+              console.log(`✅ Set location: "${value}"`);
               break;
             case 'language':
               metadata.language = value;
@@ -132,6 +137,16 @@ export default function ImportExportPanel({
       }
     }
 
+    // Hvis ingen lokasjon, prøv å hente fra kommentarer eller spesielle tags
+    if (!metadata.location) {
+      const locationMatch = cleanContent.match(/<!--\s*location[:\s]+(.+?)\s*-->/i) ||
+                           cleanContent.match(/^##\s+Lokasjon[:\s]+(.+)$/mi);
+      if (locationMatch) {
+        metadata.location = locationMatch[1].trim();
+        console.log(`✅ Set location from content: "${metadata.location}"`);
+      }
+    }
+
     console.log('📊 Final metadata:', metadata);
     return { content: cleanContent, metadata };
   };
@@ -154,6 +169,7 @@ export default function ImportExportPanel({
           const finalMeta = {
             title: metadata.title || "",
             category: metadata.category || "",
+            location: metadata.location || "",
             language: metadata.language || "nb-NO",
             audience: metadata.audience || "",
             author: metadata.author || "",
