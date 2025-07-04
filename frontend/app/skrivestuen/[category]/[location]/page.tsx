@@ -1,18 +1,54 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { titleCase } from '@/lib/utils';
 
-interface ContentItem {
-  id: string;
-  title: string;
-  description: string;
-  author: string;
-  createdAt: string;
-  category: string;
-  location: string;
-}
+// Definerer målbrukere basert på roller
+const targetUsers = [
+  {
+    id: 'pleieassistenter',
+    name: 'Pleieassistenter',
+    description: 'Innhold tilpasset for pleieassistenter',
+    icon: '👥',
+    color: 'bg-blue-500'
+  },
+  {
+    id: 'helsefagarbeidere',
+    name: 'Helsefagarbeidere',
+    description: 'Innhold tilpasset for helsefagarbeidere',
+    icon: '🏥',
+    color: 'bg-green-500'
+  },
+  {
+    id: 'sykepleiere',
+    name: 'Sykepleiere',
+    description: 'Innhold tilpasset for sykepleiere',
+    icon: '⚕️',
+    color: 'bg-purple-500'
+  },
+  {
+    id: 'fagsykepleiere',
+    name: 'Fagsykepleiere',
+    description: 'Innhold tilpasset for fagsykepleiere',
+    icon: '🎓',
+    color: 'bg-indigo-500'
+  },
+  {
+    id: 'avdelingsledere',
+    name: 'Avdelingsledere',
+    description: 'Innhold tilpasset for avdelingsledere',
+    icon: '👔',
+    color: 'bg-orange-500'
+  },
+  {
+    id: 'prosjektledere',
+    name: 'Prosjektledere',
+    description: 'Innhold tilpasset for prosjektledere',
+    icon: '📊',
+    color: 'bg-teal-500'
+  }
+];
 
 export default function CategoryLocationPage() {
   const params = useParams();
@@ -21,58 +57,10 @@ export default function CategoryLocationPage() {
   const locationSlug = params.location as string;
   const categoryTitle = titleCase(categorySlug);
   const locationTitle = titleCase(locationSlug);
-  
-  const [contents, setContents] = useState<ContentItem[]>([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // Simuler henting av innhold basert på kategori og lokasjon
-    // I en ekte applikasjon ville dette være en API-kall
-    setTimeout(() => {
-      const mockContents: ContentItem[] = [
-        {
-          id: '1',
-          title: `${categoryTitle} - ${locationTitle} Innhold 1`,
-          description: 'Dette er et eksempel på innhold som er tilpasset for denne kombinasjonen av kategori og lokasjon.',
-          author: 'Aino Team',
-          createdAt: '2024-01-15',
-          category: categoryTitle,
-          location: locationTitle
-        },
-        {
-          id: '2',
-          title: `${categoryTitle} - ${locationTitle} Innhold 2`,
-          description: 'Mer relevant innhold for denne spesifikke konteksten.',
-          author: 'Aino Team',
-          createdAt: '2024-01-10',
-          category: categoryTitle,
-          location: locationTitle
-        }
-      ];
-      setContents(mockContents);
-      setLoading(false);
-    }, 1000);
-  }, [categoryTitle, locationTitle]);
-
-  const handleCreateNew = () => {
-    // Naviger til writer med pre-fylt kategori og lokasjon
-    router.push(`/admin/skrivestue?tab=writer&category=${categorySlug}&location=${locationSlug}`);
+  const handleTargetUserClick = (targetUserId: string) => {
+    router.push(`/skrivestuen/${categorySlug}/${locationSlug}/${targetUserId}`);
   };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-latte p-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-center h-64">
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-              <p className="text-gray-600">Laster innhold...</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-latte p-8">
@@ -90,69 +78,39 @@ export default function CategoryLocationPage() {
             {categoryTitle} - {locationTitle}
           </h1>
           <p className="text-lg text-gray-600">
-            Innhold tilpasset for {locationTitle.toLowerCase()} innenfor {categoryTitle.toLowerCase()}
+            Velg målbruker for å se eller lage innhold
           </p>
         </div>
 
-        {/* Action Buttons */}
-        <div className="mb-8 flex flex-wrap gap-4">
-          <button
-            onClick={handleCreateNew}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-medium transition-colors flex items-center"
-          >
-            <span className="mr-2">✏️</span>
-            Lag nytt innhold
-          </button>
-          <button
-            onClick={() => router.push('/admin/skrivestue?tab=content')}
-            className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-xl font-medium transition-colors flex items-center"
-          >
-            <span className="mr-2">📚</span>
-            Se alt innhold
-          </button>
-        </div>
-
-        {/* Content Grid */}
+        {/* Target Users Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {contents.map((content) => (
+          {targetUsers.map((targetUser) => (
             <div
-              key={content.id}
-              className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200"
+              key={targetUser.id}
+              onClick={() => handleTargetUserClick(targetUser.id)}
+              className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 cursor-pointer group"
             >
-              <h3 className="text-xl font-bold text-gray-800 mb-3">{content.title}</h3>
-              <p className="text-gray-600 mb-4">{content.description}</p>
-              <div className="flex items-center justify-between text-sm text-gray-500">
-                <span>Av: {content.author}</span>
-                <span>{new Date(content.createdAt).toLocaleDateString('nb-NO')}</span>
+              <div className="flex items-center mb-4">
+                <div className={`${targetUser.color} text-white p-3 rounded-full mr-4 group-hover:scale-110 transition-transform`}>
+                  <span className="text-2xl">{targetUser.icon}</span>
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-gray-800">{targetUser.name}</h3>
+                  <p className="text-sm text-gray-600">{targetUser.description}</p>
+                </div>
               </div>
-              <div className="mt-4 flex gap-2">
-                <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
-                  {content.category}
+              
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-gray-500">
+                  Klikk for å se innhold
                 </span>
-                <span className="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
-                  {content.location}
+                <span className="text-gray-400 group-hover:text-gray-600 transition-colors">
+                  →
                 </span>
               </div>
             </div>
           ))}
         </div>
-
-        {/* Empty State */}
-        {contents.length === 0 && (
-          <div className="text-center py-12">
-            <div className="text-6xl mb-4">📝</div>
-            <h3 className="text-2xl font-bold text-gray-800 mb-2">Ingen innhold ennå</h3>
-            <p className="text-gray-600 mb-6">
-              Det finnes ikke noe innhold for {categoryTitle} - {locationTitle} ennå.
-            </p>
-            <button
-              onClick={handleCreateNew}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-medium transition-colors"
-            >
-              Lag det første innholdet
-            </button>
-          </div>
-        )}
 
         {/* Breadcrumb */}
         <div className="mt-12 text-sm text-gray-500">
@@ -164,7 +122,11 @@ export default function CategoryLocationPage() {
             {categoryTitle}
           </span>
           <span className="mx-2">→</span>
-          <span className="text-gray-800">{locationTitle}</span>
+          <span className="hover:text-gray-700 cursor-pointer" onClick={() => router.push(`/skrivestuen/${categorySlug}/${locationSlug}`)}>
+            {locationTitle}
+          </span>
+          <span className="mx-2">→</span>
+          <span className="text-gray-800">Målbrukere</span>
         </div>
       </div>
     </div>

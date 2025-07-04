@@ -6,6 +6,7 @@ interface CourseMeta {
   title: string;
   category: string;
   location: string;
+  targetUser: string;
   language: string;
   audience: string;
   author: string;
@@ -63,6 +64,11 @@ export default function ImportExportPanel({
             case 'location':
               metadata.location = value;
               console.log(`✅ Set location: "${value}"`);
+              break;
+            case 'targetuser':
+            case 'target_user':
+              metadata.targetUser = value;
+              console.log(`✅ Set targetUser: "${value}"`);
               break;
             case 'language':
               metadata.language = value;
@@ -147,6 +153,17 @@ export default function ImportExportPanel({
       }
     }
 
+    // Hvis ingen målbruker, prøv å hente fra kommentarer eller spesielle tags
+    if (!metadata.targetUser) {
+      const targetUserMatch = cleanContent.match(/<!--\s*targetuser[:\s]+(.+?)\s*-->/i) ||
+                             cleanContent.match(/^##\s+Målbruker[:\s]+(.+)$/mi) ||
+                             cleanContent.match(/^##\s+Target User[:\s]+(.+)$/mi);
+      if (targetUserMatch) {
+        metadata.targetUser = targetUserMatch[1].trim();
+        console.log(`✅ Set targetUser from content: "${metadata.targetUser}"`);
+      }
+    }
+
     console.log('📊 Final metadata:', metadata);
     return { content: cleanContent, metadata };
   };
@@ -170,6 +187,7 @@ export default function ImportExportPanel({
             title: metadata.title || "",
             category: metadata.category || "",
             location: metadata.location || "",
+            targetUser: metadata.targetUser || "",
             language: metadata.language || "nb-NO",
             audience: metadata.audience || "",
             author: metadata.author || "",

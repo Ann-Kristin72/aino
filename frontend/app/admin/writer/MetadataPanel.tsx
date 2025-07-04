@@ -4,6 +4,7 @@ interface CourseMeta {
   title: string;
   category: string;
   location: string;
+  targetUser: string;
   language: string;
   audience: string;
   author: string;
@@ -82,6 +83,26 @@ export default function MetadataPanel({ courseMeta, setCourseMeta }: MetadataPan
             <option value="Institusjon">Institusjon</option>
             <option value="Hjemmetjenesten">Hjemmetjenesten</option>
             <option value="Miljøarbeidertjenesten">Miljøarbeidertjenesten</option>
+          </select>
+        </div>
+
+        {/* Target User */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Målbruker
+          </label>
+          <select
+            value={courseMeta.targetUser}
+            onChange={(e) => handleChange('targetUser', e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">Velg målbruker...</option>
+            <option value="Pleieassistenter">Pleieassistenter</option>
+            <option value="Helsefagarbeidere">Helsefagarbeidere</option>
+            <option value="Sykepleiere">Sykepleiere</option>
+            <option value="Fagsykepleiere">Fagsykepleiere</option>
+            <option value="Avdelingsledere">Avdelingsledere</option>
+            <option value="Prosjektledere">Prosjektledere</option>
           </select>
         </div>
 

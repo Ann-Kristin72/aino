@@ -12,6 +12,7 @@ interface CourseMeta {
   title: string;
   category: string;
   location: string;
+  targetUser: string;
   language: string;
   audience: string;
   author: string;
@@ -26,6 +27,7 @@ export default function WriterTab() {
     title: "",
     category: "",
     location: "",
+    targetUser: "",
     language: "nb-NO",
     audience: "",
     author: "",
@@ -37,16 +39,18 @@ export default function WriterTab() {
   const [saveStatus, setSaveStatus] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Håndter URL-parametere for kategori og lokasjon
+  // Håndter URL-parametere for kategori, lokasjon og målbruker
   useEffect(() => {
     const categoryParam = searchParams.get('category');
     const locationParam = searchParams.get('location');
+    const targetUserParam = searchParams.get('targetUser');
     
-    if (categoryParam || locationParam) {
+    if (categoryParam || locationParam || targetUserParam) {
       setCourseMeta(prev => ({
         ...prev,
         category: categoryParam ? titleCase(categoryParam) : prev.category,
-        location: locationParam ? titleCase(locationParam) : prev.location
+        location: locationParam ? titleCase(locationParam) : prev.location,
+        targetUser: targetUserParam ? titleCase(targetUserParam) : prev.targetUser
       }));
       
       // Automatisk gå til writer-visningen hvis parametere er satt
@@ -72,6 +76,7 @@ export default function WriterTab() {
           content: markdownText,
           category: courseMeta.category,
           location: courseMeta.location,
+          targetUser: courseMeta.targetUser,
           language: courseMeta.language,
           audience: courseMeta.audience,
           author: courseMeta.author,
@@ -129,6 +134,10 @@ export default function WriterTab() {
                     break;
                   case 'location':
                     metadata.location = value;
+                    break;
+                  case 'targetuser':
+                  case 'target_user':
+                    metadata.targetUser = value;
                     break;
                   case 'language':
                     metadata.language = value;
@@ -199,6 +208,16 @@ export default function WriterTab() {
             }
           }
 
+          // Hvis ingen målbruker, prøv å hente fra kommentarer eller spesielle tags
+          if (!metadata.targetUser) {
+            const targetUserMatch = cleanContent.match(/<!--\s*targetuser[:\s]+(.+?)\s*-->/i) ||
+                                   cleanContent.match(/^##\s+Målbruker[:\s]+(.+)$/mi) ||
+                                   cleanContent.match(/^##\s+Target User[:\s]+(.+)$/mi);
+            if (targetUserMatch) {
+              metadata.targetUser = targetUserMatch[1].trim();
+            }
+          }
+
           return { content: cleanContent, metadata };
         };
 
@@ -212,6 +231,7 @@ export default function WriterTab() {
           title: metadata.title || "",
           category: metadata.category || "",
           location: metadata.location || "",
+          targetUser: metadata.targetUser || "",
           language: metadata.language || "nb-NO",
           audience: metadata.audience || "",
           author: metadata.author || "",
