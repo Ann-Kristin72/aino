@@ -24,7 +24,7 @@ export default function WriterTab() {
     language: "nb-NO",
     audience: "",
     author: "",
-    reviewInterval: "",
+    reviewInterval: "12",
     keywords: ""
   });
   const [showWriter, setShowWriter] = useState(false);
@@ -70,7 +70,98 @@ export default function WriterTab() {
       const reader = new FileReader();
       reader.onload = (e) => {
         const content = e.target?.result as string;
-        setMarkdownText(content);
+        
+        // Ekstraher metadata fra innholdet
+        const extractMetadata = (content: string): { content: string; metadata: Partial<CourseMeta> } => {
+          let cleanContent = content;
+          let metadata: Partial<CourseMeta> = {};
+
+          // Sjekk for YAML frontmatter (--- ... ---)
+          const frontmatterMatch = content.match(/^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/);
+          
+          if (frontmatterMatch) {
+            const frontmatter = frontmatterMatch[1];
+            cleanContent = frontmatterMatch[2];
+            
+            // Parse YAML frontmatter
+            const lines = frontmatter.split('\n');
+            lines.forEach(line => {
+              const [key, ...valueParts] = line.split(':');
+              if (key && valueParts.length > 0) {
+                const value = valueParts.join(':').trim();
+                const cleanKey = key.trim().toLowerCase();
+                
+                switch (cleanKey) {
+                  case 'title':
+                    metadata.title = value;
+                    break;
+                  case 'category':
+                    metadata.category = value;
+                    break;
+                  case 'language':
+                    metadata.language = value;
+                    break;
+                  case 'audience':
+                    metadata.audience = value;
+                    break;
+                  case 'author':
+                    metadata.author = value;
+                    break;
+                  case 'reviewinterval':
+                    metadata.reviewInterval = value;
+                    break;
+                  case 'keywords':
+                    metadata.keywords = value;
+                    break;
+                }
+              }
+            });
+          }
+
+          // Hvis ingen tittel i frontmatter, prøv å hente fra første overskrift
+          if (!metadata.title) {
+            const titleMatch = cleanContent.match(/^#\s+(.+)$/m);
+            if (titleMatch) {
+              metadata.title = titleMatch[1].trim();
+            }
+          }
+
+          // Hvis ingen forfatter, prøv å hente fra andre overskrift eller spesielle kommentarer
+          if (!metadata.author) {
+            const authorMatch = cleanContent.match(/^##\s+Forfatter[:\s]+(.+)$/mi) || 
+                               cleanContent.match(/<!--\s*author[:\s]+(.+?)\s*-->/i);
+            if (authorMatch) {
+              metadata.author = authorMatch[1].trim();
+            }
+          }
+
+          // Hvis ingen kategori, prøv å hente fra kommentarer eller spesielle tags
+          if (!metadata.category) {
+            const categoryMatch = cleanContent.match(/<!--\s*category[:\s]+(.+?)\s*-->/i) ||
+                                 cleanContent.match(/^##\s+Kategori[:\s]+(.+)$/mi);
+            if (categoryMatch) {
+              metadata.category = categoryMatch[1].trim();
+            }
+          }
+
+          return { content: cleanContent, metadata };
+        };
+
+        const { content: cleanContent, metadata } = extractMetadata(content);
+        
+        // Sett innholdet
+        setMarkdownText(cleanContent);
+        
+        // Sett metadata
+        setCourseMeta({
+          title: metadata.title || "",
+          category: metadata.category || "",
+          language: metadata.language || "nb-NO",
+          audience: metadata.audience || "",
+          author: metadata.author || "",
+          reviewInterval: metadata.reviewInterval || "",
+          keywords: metadata.keywords || ""
+        });
       };
       reader.readAsText(file);
     }
@@ -223,6 +314,7 @@ export default function WriterTab() {
                 <ImportExportPanel
                   markdownText={markdownText}
                   setMarkdownText={setMarkdownText}
+                  setCourseMeta={setCourseMeta}
                 />
               </div>
             </div>
