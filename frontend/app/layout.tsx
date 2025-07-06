@@ -4,6 +4,17 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
 
+// Enkel passordbeskyttelse for utvikling
+if (typeof window !== "undefined") {
+  const user = prompt("Brukernavn:");
+  const pass = prompt("Passord:");
+
+  if (user !== "aino" || pass !== "dev2025") {
+    alert("Feil innlogging.");
+    window.location.href = "https://google.com";
+  }
+}
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],

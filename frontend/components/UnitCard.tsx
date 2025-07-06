@@ -1,3 +1,7 @@
+"use client";
+
+import React from 'react';
+
 interface UnitCardProps {
   unit: { 
     id: string; 
@@ -11,6 +15,7 @@ interface UnitCardProps {
   onNext?: () => void;
   loading?: boolean;
   showNextButton?: boolean;
+  onMobileClick?: () => void; // New prop for mobile fullscreen
 }
 
 export function UnitCard({ 
@@ -19,7 +24,8 @@ export function UnitCard({
   onToggle, 
   onNext, 
   loading = false, 
-  showNextButton = false 
+  showNextButton = false,
+  onMobileClick
 }: UnitCardProps) {
   return (
     <div
@@ -27,7 +33,8 @@ export function UnitCard({
         isCompleted 
           ? 'bg-green-50 border-green-200' 
           : 'bg-white border-gray-200 hover:border-gray-300'
-      }`}
+      } ${onMobileClick ? 'cursor-pointer md:cursor-default' : ''}`}
+      onClick={onMobileClick}
     >
       <div className="flex items-center justify-between mb-3">
         <h3 className={`font-semibold text-base ${
@@ -46,6 +53,7 @@ export function UnitCard({
             checked={isCompleted}
             onChange={onToggle}
             disabled={loading}
+            onClick={(e) => e.stopPropagation()}
             className={`w-5 h-5 rounded border-2 transition-colors ${
               isCompleted 
                 ? 'bg-green-500 border-green-500 text-white' 
@@ -109,7 +117,10 @@ export function UnitCard({
       {showNextButton && onNext && (
         <div className="mt-6 pt-4 border-t border-gray-200">
           <button
-            onClick={onNext}
+            onClick={(e) => {
+              e.stopPropagation();
+              onNext();
+            }}
             disabled={loading}
             className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2"
           >

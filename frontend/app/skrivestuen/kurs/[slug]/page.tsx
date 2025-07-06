@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useProgress } from '@/lib/hooks/useProgress';
 import { UnitCard } from '@/components/UnitCard';
+import UnitFullView from '@/components/UnitFullView';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 interface ContentItem {
   id: string;
@@ -48,6 +50,9 @@ export default function CourseDetailPage() {
   const [error, setError] = useState<string | null>(null);
   const [openNanoId, setOpenNanoId] = useState<string | null>(null);
   const [openUnitId, setOpenUnitId] = useState<string | null>(null);
+
+  // Mobile detection
+  const isMobile = useMediaQuery('(max-width: 768px)');
 
   // Temporary user ID for testing - in production this would come from auth
   const userId = 'test-user-123';
@@ -134,6 +139,34 @@ export default function CourseDetailPage() {
     }
   };
 
+  // Find selected unit for mobile fullscreen view
+  const selectedUnit = (() => {
+    if (!openUnitId || !content?.nano) return null;
+    
+    for (const nano of content.nano) {
+      const unit = nano.units?.find(u => u.id === openUnitId);
+      if (unit) {
+        return {
+          id: unit.id,
+          title: unit.title,
+          content: unit.body,
+          nanoId: unit.nanoId,
+          illustrationUrl: unit.illustrationUrl
+        };
+      }
+    }
+    return null;
+  })();
+
+  // Check if selected unit is the last one
+  const isLastUnit = (() => {
+    if (!selectedUnit || !content?.nano) return false;
+    
+    const allUnits = content.nano.flatMap(nano => nano.units || []);
+    const currentUnitIndex = allUnits.findIndex(u => u.id === selectedUnit.id);
+    return currentUnitIndex === allUnits.length - 1;
+  })();
+
   if (loading) {
     return (
       <div className="min-h-screen bg-latte p-4 sm:p-8">
@@ -168,6 +201,18 @@ export default function CourseDetailPage() {
           </div>
         </div>
       </div>
+    );
+  }
+
+  // Show fullscreen unit view on mobile
+  if (isMobile && selectedUnit) {
+    return (
+      <UnitFullView
+        unit={selectedUnit}
+        onNext={() => handleNextUnit(selectedUnit.id)}
+        isLast={isLastUnit}
+        eiraActive={true}
+      />
     );
   }
 
@@ -311,6 +356,7 @@ export default function CourseDetailPage() {
                                 onNext={() => handleNextUnit(unit.id)}
                                 loading={progressLoading}
                                 showNextButton={true}
+                                onMobileClick={isMobile ? () => setOpenUnitId(unit.id) : undefined}
                               />
                             </div>
                           ))}
