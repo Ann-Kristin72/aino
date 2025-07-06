@@ -2,7 +2,17 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['aino.no', 'skillaidmedia.blob.core.windows.net'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'ainomobil.no',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ainomedia.blob.core.windows.net',
+        pathname: '/aino-media/**',
+      },
+    ],
   },
 }
 
