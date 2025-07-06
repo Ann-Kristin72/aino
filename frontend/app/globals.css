@@ -2,6 +2,27 @@
 
 @import "tailwindcss";
 
+@theme {
+  --color-aino-orange: #F6A96B;
+  --color-aino-korall: #F48C78;
+  --color-aino-teal: #56B0A3;
+  --color-aino-sjøgrønn: #9BB8A8;
+  --color-aino-grønn: #4FB7B2;
+  --color-aino-blågrønn: #90D9D3;
+  --color-aino-sand: #E5CBAF;
+  --color-latte: #F5EEE6;
+  --color-bluegreen: #4AAE9B;
+  --color-warmbrown: #A67C52;
+  --color-skifer: #333F48;
+  --color-softpink: #F8D9D6;
+  --color-joda-teal: #4CB6B6;
+  --color-joda-green: #4AAE9B;
+  --color-joda-orange: #F6A96B;
+  --color-joda-gul: #F9C74F;
+  --color-joda-seagreen: #C7D3B3;
+  --color-joda-rød: #F48C78;
+}
+
 /* Base styles */
 html, body {
   font-family: 'Inter', sans-serif;
@@ -20,99 +41,8 @@ button {
    AINO STANDARDPALETT 2025
    (fra designmanualen)
    ============================= */
-:root {
-  --aino-orange:   #FF9F6B;  /* Kvalitetssystem */
-  --aino-lysgronn: #CBCCAC;  /* Oppgavedeling */
-  --aino-teal:     #549D91;  /* Sikker kommunikasjon */
-  --aino-gul:      #FDBD5D;  /* Prosessveiledning */
-  --aino-dypteal:  #3D897D;  /* Tilgangsstyring Kunde */
-  --aino-lysblagr: #76BBB9;  /* SkriveStuen */
-  
-  /* Legacy Joda colors for backward compatibility */
-  --joda-green: #4AAE9B;
-  --joda-teal: #4CB6B6;
-  --joda-orange: #F6A96B;
-  --joda-yellow: #F6D06B;
-  --joda-peach: #F6B6A6;
-  --joda-sand: #E6E6C6;
-  --joda-gul: #F9C74F;
-  --joda-seagreen: #C7D3B3;
-  --joda-rød: #F48C78;
-  --latte: #F5EEE6;
-  --bluegreen: #4AAE9B;
-  --warmbrown: #A67C52;
-  --skifer: #333F48;
-  --softpink: #F8D9D6;
-  --aino-sand: #E5CBAF;
-}
 
 /* Custom utility classes for Aino palette */
-.text-aino-orange { color: var(--aino-orange); }
-.text-aino-lysgronn { color: var(--aino-lysgronn); }
-.text-aino-teal { color: var(--aino-teal); }
-.text-aino-gul { color: var(--aino-gul); }
-.text-aino-dypteal { color: var(--aino-dypteal); }
-.text-aino-lysblagr { color: var(--aino-lysblagr); }
-
-/* Legacy Joda utility classes */
-.text-joda-green { color: var(--joda-green); }
-.text-joda-teal { color: var(--joda-teal); }
-.text-joda-orange { color: var(--joda-orange); }
-.text-joda-yellow { color: var(--joda-yellow); }
-.text-joda-peach { color: var(--joda-peach); }
-.text-joda-sand { color: var(--joda-sand); }
-.text-joda-gul { color: var(--joda-gul); }
-.text-joda-seagreen { color: var(--joda-seagreen); }
-.text-joda-rød { color: var(--joda-rød); }
-.text-latte { color: var(--latte); }
-.text-bluegreen { color: var(--bluegreen); }
-.text-warmbrown { color: var(--warmbrown); }
-.text-skifer { color: var(--skifer); }
-.text-softpink { color: var(--softpink); }
-
-.bg-aino-orange { background-color: var(--aino-orange); }
-.bg-aino-lysgronn { background-color: var(--aino-lysgronn); }
-.bg-aino-teal { background-color: var(--aino-teal); }
-.bg-aino-gul { background-color: var(--aino-gul); }
-.bg-aino-dypteal { background-color: var(--aino-dypteal); }
-.bg-aino-lysblagr { background-color: var(--aino-lysblagr); }
-
-.bg-joda-green { background-color: var(--joda-green); }
-.bg-joda-teal { background-color: var(--joda-teal); }
-.bg-joda-orange { background-color: var(--joda-orange); }
-.bg-joda-yellow { background-color: var(--joda-yellow); }
-.bg-joda-peach { background-color: var(--joda-peach); }
-.bg-joda-sand { background-color: var(--joda-sand); }
-.bg-joda-gul { background-color: var(--joda-gul); }
-.bg-joda-seagreen { background-color: var(--joda-seagreen); }
-.bg-joda-rød { background-color: var(--joda-rød); }
-.bg-latte { background-color: var(--latte); }
-.bg-bluegreen { background-color: var(--bluegreen); }
-.bg-warmbrown { background-color: var(--warmbrown); }
-.bg-skifer { background-color: var(--skifer); }
-.bg-softpink { background-color: var(--softpink); }
-
-.border-aino-orange { border-color: var(--aino-orange); }
-.border-aino-lysgronn { border-color: var(--aino-lysgronn); }
-.border-aino-teal { border-color: var(--aino-teal); }
-.border-aino-gul { border-color: var(--aino-gul); }
-.border-aino-dypteal { border-color: var(--aino-dypteal); }
-.border-aino-lysblagr { border-color: var(--aino-lysblagr); }
-
-.border-joda-green { border-color: var(--joda-green); }
-.border-joda-teal { border-color: var(--joda-teal); }
-.border-joda-orange { border-color: var(--joda-orange); }
-.border-joda-yellow { border-color: var(--joda-yellow); }
-.border-joda-peach { border-color: var(--joda-peach); }
-.border-joda-sand { border-color: var(--joda-sand); }
-.border-joda-gul { border-color: var(--joda-gul); }
-.border-joda-seagreen { border-color: var(--joda-seagreen); }
-.border-joda-rød { border-color: var(--joda-rød); }
-.border-latte { border-color: var(--latte); }
-.border-bluegreen { border-color: var(--bluegreen); }
-.border-warmbrown { border-color: var(--warmbrown); }
-.border-skifer { border-color: var(--skifer); }
-.border-softpink { border-color: var(--softpink); }
 
 /* Animation classes */
 @keyframes fade-pop {

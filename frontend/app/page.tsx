@@ -7,15 +7,14 @@ import WelcomeEira from '@/components/onboarding/WelcomeEira';
 export default function Home() {
   const router = useRouter();
   const [onboardingComplete, setOnboardingComplete] = useState(false);
-  const [userData, setUserData] = useState(null);
+
 
   // Sjekk om bruker allerede har fullført onboarding
   useEffect(() => {
     const storedUser = sessionStorage.getItem('userData');
     if (storedUser && storedUser !== 'undefined' && storedUser !== 'null') {
       try {
-        const parsedUser = JSON.parse(storedUser);
-        setUserData(parsedUser);
+        JSON.parse(storedUser);
         setOnboardingComplete(true);
         router.push('/min-aino');
       } catch (error) {
@@ -26,8 +25,7 @@ export default function Home() {
     }
   }, [router]);
 
-  const handleOnboardingComplete = (data: any) => {
-    setUserData(data);
+  const handleOnboardingComplete = (data: Record<string, unknown>) => {
     setOnboardingComplete(true);
     
     // Lagre brukerdata i sessionStorage

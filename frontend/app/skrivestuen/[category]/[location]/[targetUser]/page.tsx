@@ -16,7 +16,7 @@ interface ContentItem {
   revisionInterval: string;
   keywords: string[];
   imageUrl: string | null;
-  metadata: any;
+  metadata: Record<string, unknown>;
   createdAt: string;
   updatedAt: string;
 }

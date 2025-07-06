@@ -8,6 +8,8 @@ export default function AdminWriterPage() {
   const [courseMeta, setCourseMeta] = useState({
     title: "",
     category: "",
+    location: "",
+    targetUser: "",
     language: "no",
     audience: "",
     author: "",

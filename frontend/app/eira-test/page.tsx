@@ -8,7 +8,7 @@ export default function EiraTestPage() {
         
         <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg">
           <h2 className="text-2xl font-semibold text-skifer mb-6">
-            Test Eira's humør-endringer
+            Test Eira&apos;s humør-endringer
           </h2>
           <p className="text-skifer/80 mb-8">
             Klikk på emoji-knappene nedenfor for å se Eira endre humør med animerte overganger og glød-effekter.

@@ -12,11 +12,11 @@ export function useProgress(userId: string, courseId: string) {
     fetch(`/api/progress/course/${courseId}?userId=${userId}`)
       .then(res => res.json())
       .then(data => {
-        const unitIds = data.map((item: any) => item.unitId) || [];
+        const unitIds = data.map((item: { unitId: string }) => item.unitId) || [];
         setCompletedUnits(unitIds);
         
         // Beregn completed nanos basert på completed units
-        const nanoProgress = data.reduce((acc: any, item: any) => {
+        const nanoProgress = data.reduce((acc: Record<string, { completed: number; total: number }>, item: { nanoId: string }) => {
           if (!acc[item.nanoId]) {
             acc[item.nanoId] = { completed: 0, total: 0 };
           }
@@ -72,14 +72,14 @@ export function useProgress(userId: string, courseId: string) {
     }
   };
 
-  const getNextUnit = (currentUnitId: string, units: any[], nanos: any[]) => {
+  const getNextUnit = (currentUnitId: string, units: Array<{ id: string }>, nanos: Array<{ id: string; units: Array<{ id: string }> }>) => {
     // Finn hvilken nano og unit vi er i
     let currentNanoIndex = -1;
     let currentUnitIndex = -1;
     
     for (let nanoIndex = 0; nanoIndex < nanos.length; nanoIndex++) {
       const nano = nanos[nanoIndex];
-      const unitIndex = nano.units.findIndex((unit: any) => unit.id === currentUnitId);
+      const unitIndex = nano.units.findIndex((unit: { id: string }) => unit.id === currentUnitId);
       if (unitIndex !== -1) {
         currentNanoIndex = nanoIndex;
         currentUnitIndex = unitIndex;
@@ -120,7 +120,7 @@ export function useProgress(userId: string, courseId: string) {
     return { type: 'completed' };
   };
 
-  const completeAndNext = async (currentUnitId: string, units: any[], nanos: any[]) => {
+  const completeAndNext = async (currentUnitId: string, units: Array<{ id: string }>, nanos: Array<{ id: string; units: Array<{ id: string }> }>) => {
     // Marker som fullført hvis ikke allerede
     if (!completedUnits.includes(currentUnitId)) {
       await toggleUnit(currentUnitId);
@@ -129,12 +129,12 @@ export function useProgress(userId: string, courseId: string) {
     return getNextUnit(currentUnitId, units, nanos);
   };
 
-  const calculateNanoProgress = (nanoId: string, allNanos: any[]) => {
-    const nano = allNanos.find((n: any) => n.id === nanoId);
+  const calculateNanoProgress = (nanoId: string, allNanos: Array<{ id: string; units?: Array<{ id: string }> }>) => {
+    const nano = allNanos.find((n: { id: string; units?: Array<{ id: string }> }) => n.id === nanoId);
     if (!nano || !nano.units) return { completed: 0, total: 0, percentage: 0 };
     
     const totalUnits = nano.units.length;
-    const completedUnitsInNano = nano.units.filter((unit: any) => 
+    const completedUnitsInNano = nano.units.filter((unit: { id: string }) => 
       completedUnits.includes(unit.id)
     ).length;
     
@@ -145,7 +145,7 @@ export function useProgress(userId: string, courseId: string) {
     };
   };
 
-  const isNanoCompleted = (nanoId: string, allNanos: any[]) => {
+  const isNanoCompleted = (nanoId: string, allNanos: Array<{ id: string; units?: Array<{ id: string }> }>) => {
     const progress = calculateNanoProgress(nanoId, allNanos);
     return progress.completed === progress.total && progress.total > 0;
   };

@@ -35,8 +35,7 @@ const ExistingContentView: React.FC = () => {
           key={cat.id}
           name={cat.name}
           description={cat.description ?? undefined}
-          index={i % palette.length}
-          color={palette[i % palette.length]}
+          backgroundColor={palette[i % palette.length]}
           onClick={() => console.log("Klikket på kategori:", cat.name)}
         />
       ))}

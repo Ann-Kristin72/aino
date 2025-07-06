@@ -51,7 +51,6 @@ export async function DELETE(
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('userId');
     const { unitId } = await params;
-    const body = await request.json();
 
     if (!userId) {
       return NextResponse.json({ error: 'userId er påkrevd' }, { status: 400 });

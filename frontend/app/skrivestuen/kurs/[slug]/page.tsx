@@ -19,7 +19,7 @@ interface ContentItem {
   revisionInterval: string;
   keywords: string[];
   imageUrl: string | null;
-  metadata: any;
+  metadata: Record<string, unknown>;
   createdAt: string;
   updatedAt: string;
   nano?: Array<{
@@ -61,7 +61,6 @@ export default function CourseDetailPage() {
   // Use progress tracking hook
   const { 
     completedUnits, 
-    completedNanos,
     toggleUnit, 
     completeAndNext,
     calculateNanoProgress,
@@ -105,13 +104,7 @@ export default function CourseDetailPage() {
     }
   };
 
-  const handleUnitClick = (unitId: string) => {
-    if (openUnitId === unitId) {
-      setOpenUnitId(null);
-    } else {
-      setOpenUnitId(unitId);
-    }
-  };
+
 
   const handleNextUnit = async (currentUnitId: string) => {
     if (!content?.nano) return;
@@ -126,8 +119,8 @@ export default function CourseDetailPage() {
     
     if (nextResult) {
       // Åpne riktig nano og unit
-      setOpenNanoId(nextResult.nanoId);
-      setOpenUnitId(nextResult.unitId);
+      setOpenNanoId(nextResult.nanoId || null);
+      setOpenUnitId(nextResult.unitId || null);
       
       // Smooth scroll til neste unit
       setTimeout(() => {
@@ -240,7 +233,7 @@ export default function CourseDetailPage() {
                 <h3 className="text-sm font-medium text-gray-700">Kursfremdrift</h3>
                 <span className="text-sm text-gray-600">
                   {(() => {
-                    const totalUnits = content.nano.reduce((sum: number, nano: any) => 
+                    const totalUnits = content.nano.reduce((sum: number, nano) => 
                       sum + (nano.units?.length || 0), 0
                     );
                     const completedUnitsCount = completedUnits.length;
@@ -254,7 +247,7 @@ export default function CourseDetailPage() {
                   className="bg-green-500 h-3 rounded-full transition-all duration-500"
                   style={{ 
                     width: `${(() => {
-                      const totalUnits = content.nano.reduce((sum: number, nano: any) => 
+                      const totalUnits = content.nano.reduce((sum: number, nano) => 
                         sum + (nano.units?.length || 0), 0
                       );
                       return totalUnits > 0 ? Math.round((completedUnits.length / totalUnits) * 100) : 0;
@@ -341,7 +334,7 @@ export default function CourseDetailPage() {
                     <div className="bg-gray-50 border-t border-gray-200">
                       <div className="p-4 sm:p-6">
                         <div className="space-y-3">
-                          {nanoItem.units.map((unit, unitIndex) => (
+                          {nanoItem.units.map((unit) => (
                             <div key={unit.id} id={`unit-${unit.id}`}>
                               <UnitCard
                                 unit={{

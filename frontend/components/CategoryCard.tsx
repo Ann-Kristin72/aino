@@ -1,27 +1,17 @@
 import React from "react";
 
-const palette = [
-  "#F6C177", // yellow/orange
-  "#F7A072", // orange
-  "#6DB3A0", // teal
-  "#4A8C8C", // blue-green
-  "#A3B18A", // olive
-  "#3A6B6C", // dark teal
-];
+
 
 export interface CategoryCardProps {
   name: string;
   description?: string;
   onClick?: () => void;
-  color?: string;
-  index?: number; // for palette fallback
   colorClass?: string;
   backgroundColor?: string;
   icon?: string;
 }
 
-export const CategoryCard: React.FC<CategoryCardProps> = ({ name, description, onClick, color, index, colorClass, backgroundColor, icon }) => {
-  const bg = color || palette[index ?? 0 % palette.length];
+export const CategoryCard: React.FC<CategoryCardProps> = ({ name, description, onClick, colorClass, backgroundColor, icon }) => {
 
   // Bestem tekstfarge basert på bakgrunnsfarge
   const getTextColor = (bgColor: string) => {

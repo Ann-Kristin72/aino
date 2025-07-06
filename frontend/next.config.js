@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['aino.no'],
+    domains: ['aino.no', 'skillaidmedia.blob.core.windows.net'],
   },
 }
 

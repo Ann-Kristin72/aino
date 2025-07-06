@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 // For å sjekke at variabler faktisk er der:
 console.log("POSTGRES_URL:", process.env.POSTGRES_URL);

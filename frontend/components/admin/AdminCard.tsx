@@ -4,11 +4,10 @@ interface AdminCardProps {
   href: string;
   title: string;
   description: string;
-  colorClass: string;
   backgroundColor?: string;
 }
 
-export default function AdminCard({ href, title, description, colorClass, backgroundColor }: AdminCardProps) {
+export default function AdminCard({ href, title, description, backgroundColor }: AdminCardProps) {
   return (
     <Link 
       href={href} 

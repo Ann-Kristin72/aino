@@ -6,7 +6,7 @@ import SnakkebobleSoft from '../SnakkebobleSoft';
 import { useSteps, type Step } from '@/hooks/useSteps';
 
 interface WelcomeEiraProps {
-  onComplete?: (data: any) => void;
+  onComplete?: (data: Record<string, unknown>) => void;
 }
 
 interface Role {
@@ -45,7 +45,6 @@ const steps: { [key in Step]: StepConfig } = {
 export default function WelcomeEira({ onComplete }: WelcomeEiraProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [roles, setRoles] = useState<Role[]>([]);
   const [stepsWithRoles, setStepsWithRoles] = useState(steps);
 
   // Fetch roles from API
@@ -54,9 +53,8 @@ export default function WelcomeEira({ onComplete }: WelcomeEiraProps) {
       try {
         const response = await fetch('/api/roles');
         if (response.ok) {
-          const rolesData = await response.json();
-          setRoles(rolesData);
-          // Update the steps with fetched roles
+                  const rolesData = await response.json();
+        // Update the steps with fetched roles
           setStepsWithRoles(prev => ({
             ...prev,
             role: {
@@ -90,8 +88,7 @@ export default function WelcomeEira({ onComplete }: WelcomeEiraProps) {
     handleNext,
     handleInputChange,
     canProceed,
-    currentStepConfig,
-    stepOrder
+    currentStepConfig
   } = useSteps(stepsWithRoles);
 
   const handleSubmit = async (e: React.FormEvent) => {

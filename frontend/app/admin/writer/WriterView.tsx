@@ -9,6 +9,8 @@ import ImportExportPanel from "./ImportExportPanel";
 interface CourseMeta {
   title: string;
   category: string;
+  location: string;
+  targetUser: string;
   language: string;
   audience: string;
   author: string;

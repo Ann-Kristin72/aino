@@ -30,7 +30,7 @@ export default function ImportExportPanel({
   // Funksjon for å ekstrahere metadata fra markdown-innhold
   const extractMetadata = (content: string): { content: string; metadata: Partial<CourseMeta> } => {
     let cleanContent = content;
-    let metadata: Partial<CourseMeta> = {};
+    const metadata: Partial<CourseMeta> = {};
 
     console.log('🔍 Starting metadata extraction...');
 

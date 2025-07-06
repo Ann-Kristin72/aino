@@ -6,7 +6,6 @@ import { useQuery } from "@tanstack/react-query";
 import Image from 'next/image';
 import { getAdmins } from "@/lib/api/admins";
 import AdminCard from "@/components/AdminCard";
-import AdminModuleCard from "@/components/admin/AdminCard";
 import PrimaryButton from "@/components/PrimaryButton";
 import Spinner from "@/components/Spinner";
 
@@ -49,7 +48,7 @@ export default function AccessPage() {
   }, []);
 
   // Fetch admins
-  const { data: admins = [], isLoading, error } = useQuery({
+  const { data: admins = [], isLoading } = useQuery({
     queryKey: ['admins'],
     queryFn: getAdmins,
   });
@@ -81,18 +80,7 @@ export default function AccessPage() {
     );
   }
 
-  if (error) {
-    return (
-      <div className="min-h-screen bg-latte flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-red-600 mb-4">Feil ved lasting av admins</p>
-          <PrimaryButton onClick={() => window.location.reload()}>
-            Prøv igjen
-          </PrimaryButton>
-        </div>
-      </div>
-    );
-  }
+
 
   return (
     <div className="min-h-screen bg-latte">
