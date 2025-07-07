@@ -18,6 +18,10 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: true
+      - name: Clean cache
+        run: |
+          cd frontend
+          rm -rf .next/cache .next/trace .next/types .next/diagnostics
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
@@ -26,14 +30,7 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           app_location: "./frontend"
           api_location: ""
-          output_location: ".next"
-          app_build_command: |
-            cd frontend
-            rm -rf .next/cache
-            rm -rf .next/trace
-            rm -rf .next/types
-            rm -rf .next/diagnostics
-            npm run build
+          app_build_command: "npm run build"
           api_build_command: ""
           deployment_environment: production
           skip_app_build: false
