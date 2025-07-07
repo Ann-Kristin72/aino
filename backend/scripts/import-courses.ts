@@ -7,6 +7,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { MarkdownCourseParser } from '../utils/parser';
 import { courses, nano, unit } from '../drizzle/schema';
+import { ImageProcessor } from '../utils/imageProcessor';
 
 // Database connection
 const pool = new Pool({
@@ -96,11 +97,26 @@ async function importCourse(parsedCourse: any) {
       
       // Insert units for this nano
       for (const parsedUnit of parsedNano.units) {
+        // Process illustrationUrl if it exists
+        let processedIllustrationUrl = parsedUnit.illustrationUrl;
+        if (parsedUnit.illustrationUrl) {
+          console.log(`    🖼️ Processing illustration URL: ${parsedUnit.illustrationUrl}`);
+          processedIllustrationUrl = await ImageProcessor.processSingleImage(parsedUnit.illustrationUrl) || parsedUnit.illustrationUrl;
+        }
+
+        // Process images in unit body
+        let processedBody = parsedUnit.body;
+        if (parsedUnit.body) {
+          console.log(`    🖼️ Processing images in unit body: ${parsedUnit.title}`);
+          const { processedContent } = await ImageProcessor.processMarkdownImages(parsedUnit.body);
+          processedBody = processedContent;
+        }
+
         await db.insert(unit).values({
           nanoId: insertedNano.id,
           title: parsedUnit.title,
-          body: parsedUnit.body,
-          illustrationUrl: parsedUnit.illustrationUrl,
+          body: processedBody,
+          illustrationUrl: processedIllustrationUrl,
           order: parsedUnit.order
         });
         
@@ -111,8 +127,7 @@ async function importCourse(parsedCourse: any) {
     console.log(`✅ Course "${parsedCourse.title}" imported successfully!`);
     
   } catch (error) {
-    console.error(`❌ Failed to import course "${parsedCourse.title}":`, error);
-    throw error;
+    console.error(`❌ Error importing course "${parsedCourse.title}":`, error);
   }
 }
 

@@ -1,0 +1,62 @@
+name: Deploy AINO
+
+on:
+  push:
+    branches: [main, staging]
+  pull_request:
+    branches: [main, staging]
+
+env:
+  NODE_VERSION: '18'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        cache-dependency-path: frontend/package-lock.json
+
+    - name: Install dependencies
+      run: |
+        cd frontend
+        npm ci
+
+    - name: Build application
+      run: |
+        cd frontend
+        npm run build
+      env:
+        NEXT_PUBLIC_BACKEND_URL: ${{ secrets.NEXT_PUBLIC_BACKEND_URL }}
+        NEXT_PUBLIC_AZURE_STORAGE_URL: ${{ secrets.NEXT_PUBLIC_AZURE_STORAGE_URL }}
+        NEXT_PUBLIC_AZURE_STORAGE_CONTAINER: ${{ secrets.NEXT_PUBLIC_AZURE_STORAGE_CONTAINER }}
+        NEXT_PUBLIC_PROTECTED: ${{ secrets.NEXT_PUBLIC_PROTECTED }}
+        BASIC_AUTH_USERNAME: ${{ secrets.BASIC_AUTH_USERNAME }}
+        BASIC_AUTH_PASSWORD: ${{ secrets.BASIC_AUTH_PASSWORD }}
+
+    - name: Deploy to Staging
+      if: github.ref == 'refs/heads/staging'
+      uses: Azure/static-web-apps-deploy@v1
+      with:
+        azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_STAGING }}
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        app_location: "frontend"
+        output_location: "frontend/.next"
+        skip_app_build: true
+
+    - name: Deploy to Production
+      if: github.ref == 'refs/heads/main'
+      uses: Azure/static-web-apps-deploy@v1
+      with:
+        azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_PRODUCTION }}
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        app_location: "frontend"
+        output_location: "frontend/.next"
+        skip_app_build: true 

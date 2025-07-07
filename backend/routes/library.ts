@@ -3,6 +3,7 @@ import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
 import { eq, and } from 'drizzle-orm';
 import { courses, nano, unit } from '../drizzle/schema';
+import { ImageUrlConverter } from "../utils/imageUrlConverter";
 
 const router = Router();
 
@@ -74,15 +75,23 @@ router.get('/:slug', async (req, res) => {
     // Get nano for this course
     const nanoResult = await db.select().from(nano).where(eq(nano.courseId, course.id));
     
-    // Get units for each nano
+    // Get units for each nano and convert image URLs
     const courseWithContent = {
       ...course,
       nano: await Promise.all(
         nanoResult.map(async (nanoItem) => {
           const units = await db.select().from(unit).where(eq(unit.nanoId, nanoItem.id));
+          
+          // Convert image URLs in unit content
+          const unitsWithConvertedImages = units.map(unitItem => ({
+            ...unitItem,
+            body: ImageUrlConverter.convertHtmlContent(unitItem.body),
+            illustrationUrl: unitItem.illustrationUrl ? ImageUrlConverter.convertImageUrl(unitItem.illustrationUrl) : undefined
+          }));
+          
           return {
             ...nanoItem,
-            units: units.sort((a, b) => a.order - b.order)
+            units: unitsWithConvertedImages.sort((a, b) => a.order - b.order)
           };
         })
       )

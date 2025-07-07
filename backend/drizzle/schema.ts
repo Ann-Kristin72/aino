@@ -19,6 +19,16 @@ export const library = pgTable("library", {
 	createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
 });
 
+// --- Media-tabell for bildeopplasting ---
+export const media = pgTable("media", {
+	id: serial("id").primaryKey(),
+	filename: varchar("filename", { length: 256 }).notNull(),
+	url: text("url").notNull(),
+	type: varchar("type", { length: 50 }),
+	tags: text("tags"),
+	createdAt: timestamp("created_at").defaultNow(),
+});
+
 export const users = pgTable("users", {
 	id: uuid("id").defaultRandom().primaryKey().notNull(),
 	name: text("name").notNull(),

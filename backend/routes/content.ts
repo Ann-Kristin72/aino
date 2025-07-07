@@ -2,6 +2,8 @@ import express, { Request, Response } from "express";
 import { db } from "../drizzle/db";
 import { courses, nano, unit } from "../drizzle/schema";
 import { MarkdownCourseParser, ParsedCourse } from "../utils/parser";
+import { ImageUrlConverter } from "../utils/imageUrlConverter";
+import { ImageProcessor } from "../utils/imageProcessor";
 import { marked } from 'marked';
 import { eq } from "drizzle-orm";
 
@@ -39,14 +41,22 @@ router.get("/slug/:slug", async (req: Request, res: Response) => {
     const nanoResult = await db.select().from(nano).where(eq(nano.courseId, course.id)).orderBy(nano.order);
     console.log("✅ Found nano items:", nanoResult.length);
     
-    // Fetch units for each nano
+    // Fetch units for each nano and convert image URLs
     const courseWithContent = {
       ...course,
       nano: await Promise.all(nanoResult.map(async (nanoItem) => {
         const unitsResult = await db.select().from(unit).where(eq(unit.nanoId, nanoItem.id)).orderBy(unit.order);
+        
+        // Convert image URLs in unit content
+        const unitsWithConvertedImages = unitsResult.map(unitItem => ({
+          ...unitItem,
+          body: ImageUrlConverter.convertHtmlContent(unitItem.body),
+          illustrationUrl: unitItem.illustrationUrl ? ImageUrlConverter.convertImageUrl(unitItem.illustrationUrl) : undefined
+        }));
+        
         return {
           ...nanoItem,
-          units: unitsResult
+          units: unitsWithConvertedImages
         };
       }))
     };
@@ -77,15 +87,23 @@ router.get("/id/:id", async (req: Request, res: Response) => {
     const nanoResult = await db.select().from(nano).where(eq(nano.courseId, course.id)).orderBy(nano.order);
     console.log("✅ Found nano items:", nanoResult.length);
     
-    // Fetch units for each nano
+    // Fetch units for each nano and convert image URLs
     const courseWithNanoAndUnits = {
       ...course,
       nano: await Promise.all(
         nanoResult.map(async (nanoItem) => {
           const unitsResult = await db.select().from(unit).where(eq(unit.nanoId, nanoItem.id)).orderBy(unit.order);
+          
+          // Convert image URLs in unit content
+          const unitsWithConvertedImages = unitsResult.map(unitItem => ({
+            ...unitItem,
+            body: ImageUrlConverter.convertHtmlContent(unitItem.body),
+            illustrationUrl: unitItem.illustrationUrl ? ImageUrlConverter.convertImageUrl(unitItem.illustrationUrl) : undefined
+          }));
+          
           return {
             ...nanoItem,
-            units: unitsResult
+            units: unitsWithConvertedImages
           };
         })
       )
@@ -176,6 +194,16 @@ router.post("/", async (req: Request, res: Response) => {
       targetUser 
     });
     
+    // Process images in markdown content - migrate to Azure
+    console.log("🖼️ Processing images in markdown content...");
+    const { processedContent, migratedImages } = await ImageProcessor.processMarkdownImages(markdownContent);
+    
+    if (migratedImages.length > 0) {
+      console.log(`✅ Migrated ${migratedImages.length} images to Azure Blob Storage`);
+    } else {
+      console.log("ℹ️ No images found to migrate");
+    }
+    
     // Generate unique slug from title
     const baseSlug = title
       .toLowerCase()
@@ -216,8 +244,8 @@ router.post("/", async (req: Request, res: Response) => {
     const courseId = courseResult[0].id;
     console.log("✅ Course created with ID:", courseId);
 
-    // Parse markdown to extract nano and units
-    const parsedCourse = parseMarkdownToStructuredData(markdownContent, title);
+    // Parse markdown to extract nano and units (using processed content with Azure URLs)
+    const parsedCourse = parseMarkdownToStructuredData(processedContent, title);
     
     // Insert nano records
     for (const nanoItem of parsedCourse.nano) {
@@ -232,11 +260,18 @@ router.post("/", async (req: Request, res: Response) => {
 
       // Insert unit records for this nano
       for (const unitItem of nanoItem.units) {
+        // Process illustrationUrl if it exists
+        let processedIllustrationUrl = unitItem.illustrationUrl;
+        if (unitItem.illustrationUrl) {
+          console.log(`🖼️ Processing illustration URL: ${unitItem.illustrationUrl}`);
+          processedIllustrationUrl = await ImageProcessor.processSingleImage(unitItem.illustrationUrl) || unitItem.illustrationUrl;
+        }
+
         await db.insert(unit).values({
           nanoId,
           title: unitItem.title,
           body: unitItem.body,
-          illustrationUrl: unitItem.illustrationUrl,
+          illustrationUrl: processedIllustrationUrl,
           order: unitItem.order
         });
         console.log("✅ Unit created:", unitItem.title);
@@ -247,7 +282,8 @@ router.post("/", async (req: Request, res: Response) => {
     res.status(201).json({ 
       id: courseId,
       slug,
-      message: "Kurs lagret successfully" 
+      message: "Kurs lagret successfully",
+      migratedImages: migratedImages.length
     });
   } catch (err) {
     console.error("🔥 Backend ERROR POST /api/content:", err);

@@ -1,6 +1,7 @@
 import { marked } from 'marked';
 import * as fs from 'fs';
 import * as path from 'path';
+import { ImageUrlConverter } from './imageUrlConverter';
 
 // TypeScript interfaces for parsed data
 export interface ParsedCourse {
@@ -226,7 +227,22 @@ export class MarkdownCourseParser {
     if (!markdown.trim()) return '';
     
     try {
-      return marked(markdown.trim());
+      // First convert markdown image URLs to Azure URLs
+      const convertedMarkdown = ImageUrlConverter.convertMarkdownImages(markdown.trim());
+      
+      // Then convert to HTML
+      const html = marked(convertedMarkdown);
+      
+      // Handle both synchronous and asynchronous marked output
+      if (typeof html === 'string') {
+        // Finally convert any remaining image URLs in the HTML
+        return ImageUrlConverter.convertHtmlContent(html);
+      } else {
+        // If marked returns a Promise, we need to handle it differently
+        // For now, return the original markdown and log a warning
+        console.warn('⚠️ Marked returned a Promise, using original markdown');
+        return markdown;
+      }
     } catch (error) {
       console.error('❌ Error converting markdown to HTML:', error);
       return markdown; // Return original if conversion fails
