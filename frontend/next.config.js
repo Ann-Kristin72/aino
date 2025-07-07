@@ -23,8 +23,6 @@ const nextConfig = {
     // Optimize image formats
     formats: ['image/webp', 'image/avif'],
   },
-  // Reduce build output
-  output: 'standalone',
   // Optimize webpack
   webpack: (config, { dev, isServer }) => {
     if (!dev && !isServer) {
@@ -38,18 +36,9 @@ const nextConfig = {
             chunks: 'all',
           },
         },
-      }
-      
-      // Exclude large dependencies from client bundle
-      config.externals = config.externals || []
-      if (!isServer) {
-        config.externals.push({
-          'pg': 'pg',
-          'postgres': 'postgres',
-        })
-      }
+      };
     }
-    return config
+    return config;
   },
   // Reduce build artifacts
   distDir: '.next',

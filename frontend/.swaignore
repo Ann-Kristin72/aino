@@ -6,6 +6,7 @@ node_modules/
 
 # Build artifacts - exclude large cache and diagnostic files
 .next/cache/
+.next/standalone/
 .next/trace
 .next/types/
 .next/diagnostics/
