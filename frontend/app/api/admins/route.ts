@@ -4,13 +4,19 @@ import { NextResponse } from "next/server";
 console.log("POSTGRES_URL:", process.env.POSTGRES_URL);
 console.log("DATABASE_URL:", process.env.DATABASE_URL);
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL!;
+// Use environment variable or fallback to production backend URL
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://aino-backend.azurewebsites.net';
 
 export async function GET() {
   try {
     console.log("✅ Frontend API: GET /api/admins - calling backend...");
     
-    const response = await fetch(`${BACKEND_URL}/api/admins`);
+    const response = await fetch(`${BACKEND_URL}/api/admins`, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+    });
     
     if (!response.ok) {
       throw new Error(`Backend responded with status: ${response.status}`);
@@ -42,7 +48,10 @@ export async function POST(req: Request) {
     
     const response = await fetch(`${BACKEND_URL}/api/admins`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json; charset=utf-8",
+        "Accept": "application/json"
+      },
       body: JSON.stringify({ name, email }),
     });
 
@@ -77,6 +86,10 @@ export async function DELETE(req: Request) {
     
     const response = await fetch(`${BACKEND_URL}/api/admins/${id}`, {
       method: "DELETE",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json; charset=utf-8',
+      },
     });
 
     if (!response.ok) {
@@ -110,7 +123,10 @@ export async function PUT(request: Request) {
     
     const response = await fetch(`${BACKEND_URL}/api/admins/${id}`, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json; charset=utf-8",
+        "Accept": "application/json"
+      },
       body: JSON.stringify({ name, email, role_id }),
     });
 
