@@ -32,7 +32,7 @@ const steps: { [key in Step]: StepConfig } = {
   },
   email: {
     message: "Perfekt! Nå trenger jeg e-postadressen din.",
-    placeholder: "Din e-postadresse",
+    placeholder: "Din e-postadresse (norske tegn som æøå er tillatt)",
     validation: (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
   },
   role: {
@@ -206,7 +206,7 @@ export default function WelcomeEira({ onComplete }: WelcomeEiraProps) {
                     )}
                     {currentStep === 'email' && (
                       <input
-                        type="email"
+                        type="text"
                         placeholder={currentStepConfig.placeholder}
                         value={userData.email}
                         onChange={(e) => handleInputChange('email', e.target.value)}
