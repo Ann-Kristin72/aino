@@ -6,7 +6,6 @@ import { NextRequest, NextResponse } from 'next/server'
 // Lokalt og i testmiljø er det ALLTID ÅPENT
 // ---
 
-// Basic authentication middleware
 export function middleware(request: NextRequest) {
   // Unntak for statiske filer og API
   if (
@@ -17,17 +16,14 @@ export function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // Beskyttelse styres kun av NEXT_PUBLIC_PROTECTED (Edge Runtime kompatibel)
+  // Beskyttelse styres av NEXT_PUBLIC_PROTECTED (Edge Runtime-kompatibel)
   const isProtected = process.env.NEXT_PUBLIC_PROTECTED === 'true'
-  
+
   if (!isProtected) {
-    // Alltid åpent i utvikling/test
     return NextResponse.next()
   }
 
-  // ---
-  // Basic Auth (kun i produksjon)
-  // ---
+  // --- Basic Auth ---
   const authHeader = request.headers.get('authorization')
 
   if (!authHeader) {
@@ -39,12 +35,10 @@ export function middleware(request: NextRequest) {
     })
   }
 
-  // Parse basic auth
   const encoded = authHeader.split(' ')[1]
-  const decoded = Buffer.from(encoded, 'base64').toString()
+  const decoded = atob(encoded) // <- Edge Runtime-støttet
   const [username, password] = decoded.split(':')
 
-  // Check credentials from environment variables
   const validUsername = process.env.BASIC_AUTH_USERNAME || 'aino'
   const validPassword = process.env.BASIC_AUTH_PASSWORD || 'aino2025'
 
@@ -62,13 +56,6 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     */
     '/((?!api|_next/static|_next/image|favicon.ico).*)',
   ],
-} 
+}
