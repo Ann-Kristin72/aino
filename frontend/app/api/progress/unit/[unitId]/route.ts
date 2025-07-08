@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+// Use environment variable or fallback to production backend URL
+const backendUrl = process.env.BACKEND_URL || 'https://aino-backend.azurewebsites.net';
+
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ unitId: string }> }
@@ -14,7 +17,6 @@ export async function POST(
       return NextResponse.json({ error: 'userId er påkrevd' }, { status: 400 });
     }
 
-    const backendUrl = process.env.BACKEND_URL || 'http://localhost:3001';
     const response = await fetch(`${backendUrl}/api/progress/unit/${unitId}?userId=${userId}`, {
       method: 'POST',
       headers: {
@@ -56,7 +58,6 @@ export async function DELETE(
       return NextResponse.json({ error: 'userId er påkrevd' }, { status: 400 });
     }
 
-    const backendUrl = process.env.BACKEND_URL || 'http://localhost:3001';
     const response = await fetch(`${backendUrl}/api/progress/unit/${unitId}?userId=${userId}`, {
       method: 'DELETE',
       headers: {
