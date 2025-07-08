@@ -1,11 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL! || 'http://127.0.0.1:3001';
+// Use environment variable or fallback to production backend URL
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://aino-backend.azurewebsites.net';
 
 export async function GET() {
   try {
     console.log('API /content: Fetching content from backend...');
-    const response = await fetch(`${BACKEND_URL}/api/content`);
+    const response = await fetch(`${BACKEND_URL}/api/content`, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+    });
     
     if (!response.ok) {
       throw new Error(`Backend responded with status: ${response.status}`);
@@ -40,7 +46,10 @@ export async function POST(request: Request) {
     // Send data to backend
     const response = await fetch(`${BACKEND_URL}/api/content`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json; charset=utf-8",
+        "Accept": "application/json"
+      },
       body: JSON.stringify({
         title,
         content,
@@ -76,6 +85,10 @@ export async function DELETE(req: NextRequest) {
     
     const response = await fetch(`${BACKEND_URL}/api/content/${id}`, {
       method: "DELETE",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json; charset=utf-8',
+      },
     });
 
     if (!response.ok) {

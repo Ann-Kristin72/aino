@@ -9,7 +9,14 @@ export async function GET(
     
     console.log(`API /content/[slug]: Fetching course with slug: ${slug}`);
     
-    const response = await fetch(`${process.env.BACKEND_URL || 'http://127.0.0.1:3001'}/api/content/slug/${slug}`);
+    // Use environment variable or fallback to production backend URL
+    const backendUrl = process.env.BACKEND_URL || 'https://aino-backend.azurewebsites.net';
+    const response = await fetch(`${backendUrl}/api/content/slug/${slug}`, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+    });
     
     if (!response.ok) {
       throw new Error(`Backend responded with status: ${response.status}`);
