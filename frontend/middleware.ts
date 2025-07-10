@@ -18,6 +18,16 @@ export function middleware(request: NextRequest) {
 
   // Beskyttelse styres av NEXT_PUBLIC_PROTECTED (Edge Runtime-kompatibel)
   const isProtected = process.env.NEXT_PUBLIC_PROTECTED === 'true'
+  
+  // Debug logging (kun i development)
+  if (process.env.NODE_ENV === 'development') {
+    console.log('🔐 Middleware Debug:', {
+      pathname: request.nextUrl.pathname,
+      isProtected,
+      NEXT_PUBLIC_PROTECTED: process.env.NEXT_PUBLIC_PROTECTED,
+      NODE_ENV: process.env.NODE_ENV
+    })
+  }
 
   if (!isProtected) {
     return NextResponse.next()
