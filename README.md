@@ -217,3 +217,4 @@ linked_quizzes:
 ---
 
 Dette dokumentet fungerer som grunnmuren for alle videre diskusjoner, moduler og prioriteringer i Aino-prosjektet.
+# Trigger new deploy
