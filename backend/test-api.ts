@@ -1,5 +1,5 @@
 import { db } from "./drizzle/db";
-import { users, roles, user_roles } from "./drizzle/schema";
+import { users, roles, userRoles } from "./drizzle/schema";
 import { eq } from "drizzle-orm";
 
 async function testApi() {
@@ -28,8 +28,8 @@ async function testApi() {
         email: users.email
       })
       .from(users)
-      .innerJoin(user_roles, eq(users.id, user_roles.userId))
-      .where(eq(user_roles.roleId, hovedredaktørRole[0].id));
+      .innerJoin(userRoles, eq(users.id, userRoles.userId))
+      .where(eq(userRoles.roleId, hovedredaktørRole[0].id));
 
     console.log("✅ Found admins:", redaktører);
     
