@@ -7,7 +7,7 @@ import MarkdownEditor from "../writer/MarkdownEditor";
 import PreviewPane from "../writer/PreviewPane";
 import MetadataPanel from "../writer/MetadataPanel";
 import ImportExportPanel from "../writer/ImportExportPanel";
-import { titleCase } from "@/lib/utils";
+import { titleCase } from "../../../lib/utils";
 
 interface CourseMeta {
   title: string;
