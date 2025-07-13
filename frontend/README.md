@@ -1,3 +1,9 @@
+# Aino Frontend
+
+This is the frontend application for the Aino project.
+
+<!-- Trigger Vercel deployment -->
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
