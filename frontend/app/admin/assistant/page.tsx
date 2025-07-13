@@ -1,7 +1,7 @@
 "use client";
 
-import * as React from "react";
-import Link from "next/link";
+import React from "react";
+import { default as Link } from "next/link";
 import PrimaryButton from "../../../components/PrimaryButton";
 
 export default function AssistantPage() {
