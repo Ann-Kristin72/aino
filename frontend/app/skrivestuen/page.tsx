@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getContent } from "@/lib/api/content";
+import { getContent } from "../../lib/api/content";
 import ContentCard from "../../components/ContentCard";
 import PrimaryButton from "../../components/PrimaryButton";
 import Spinner from "../../components/Spinner";

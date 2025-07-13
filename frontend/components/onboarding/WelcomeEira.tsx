@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import SnakkebobleSoft from '../SnakkebobleSoft';
-import { useSteps, type Step } from '@/hooks/useSteps';
+import { useSteps, type Step } from '../../hooks/useSteps';
 
 interface WelcomeEiraProps {
   onComplete?: (data: Record<string, unknown>) => void;

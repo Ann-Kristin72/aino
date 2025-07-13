@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { titleCase } from '@/lib/utils';
+import { titleCase } from '../../../../lib/utils';
 
 // Definerer målbrukere basert på roller
 const targetUsers = [

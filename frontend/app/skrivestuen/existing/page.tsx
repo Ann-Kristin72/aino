@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import CategoryGrid from '@/components/skrivestuen/CategoryGrid';
+import CategoryGrid from '../../../components/skrivestuen/CategoryGrid';
 
 export default function ExistingCategoriesPage() {
   return (

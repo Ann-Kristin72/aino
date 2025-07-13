@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import CategoryCard from '@/components/CategoryCard';
-import { kebabCase } from '@/lib/utils';
+import CategoryCard from '../CategoryCard';
+import { kebabCase } from '../../lib/utils';
 
 const categories = [
   {

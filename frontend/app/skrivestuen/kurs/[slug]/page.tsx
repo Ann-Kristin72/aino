@@ -2,10 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { useProgress } from '@/lib/hooks/useProgress';
-import { UnitCard } from '@/components/UnitCard';
-import UnitFullView from '@/components/UnitFullView';
-import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { useProgress } from '../../../../lib/hooks/useProgress';
+import { UnitCard } from '../../../../components/UnitCard';
+import UnitFullView from '../../../../components/UnitFullView';
+import { useMediaQuery } from '../../../../hooks/useMediaQuery';
 
 interface ContentItem {
   id: string;

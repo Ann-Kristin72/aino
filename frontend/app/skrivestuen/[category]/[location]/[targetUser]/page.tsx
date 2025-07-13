@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { titleCase, kebabCase } from '@/lib/utils';
+import { titleCase, kebabCase } from '../../../../../lib/utils';
 
 interface ContentItem {
   id: string;

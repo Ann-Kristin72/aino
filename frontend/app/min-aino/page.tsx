@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import AdminModuleCard from "@/components/admin/AdminCard";
-import SnakkebobleSoft from "@/components/SnakkebobleSoft";
+import AdminModuleCard from "../../components/admin/AdminCard";
+import SnakkebobleSoft from "../../components/SnakkebobleSoft";
 
 interface UserData {
   id: string;
