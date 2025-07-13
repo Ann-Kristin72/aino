@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Roboto_Slab:wght@400;700&display=swap');
 
-@import "tailwindcss";
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 @theme {
   --color-aino-orange: #F6A96B;

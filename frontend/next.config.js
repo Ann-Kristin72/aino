@@ -5,8 +5,6 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['@tanstack/react-query'],
   },
-  // Bundle router dependencies
-  bundlePagesRouterDependencies: true,
   // Optimize images
   images: {
     remotePatterns: [
