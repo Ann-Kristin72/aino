@@ -1,0 +1,10 @@
+backend/
+drizzle/
+scripts/
+docs/
+*.md
+.env
+.env.local
+.env.production
+node_modules/
+.next/ 
