@@ -6,7 +6,7 @@ import WriterTab from "./WriterTab";
 import ContentTab from "./ContentTab";
 import MediaTab from "./MediaTab";
 import AIToolsTab from "./AIToolsTab";
-import LanguageSelector from "@/components/LanguageSelector";
+import LanguageSelector from "../../../components/LanguageSelector";
 
 type TabType = "writer" | "existing" | "media" | "ai";
 
