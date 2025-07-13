@@ -5,9 +5,9 @@ import { useRouter } from 'next/navigation';
 import { useQuery } from "@tanstack/react-query";
 import Image from 'next/image';
 import { getAdmins } from "../../../lib/api/admins";
-import AdminCard from "@/components/AdminCard";
-import PrimaryButton from "@/components/PrimaryButton";
-import Spinner from "@/components/Spinner";
+import AdminCard from "../../../components/AdminCard";
+import PrimaryButton from "../../../components/PrimaryButton";
+import Spinner from "../../../components/Spinner";
 
 interface UserData {
   id: string;
