@@ -9,7 +9,7 @@ export async function GET(
     
     console.log(`API /content/unit/[unitId]: Fetching unit with ID: ${unitId}`);
     
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://aino-backend.azurewebsites.net'}/api/content/unit/${unitId}`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://aino-backend-win-g4bdh6a7hxcgdhce.norwayeast-01.azurewebsites.net'}/api/content/unit/${unitId}`);
     
     if (!response.ok) {
       throw new Error(`Backend responded with status: ${response.status}`);

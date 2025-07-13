@@ -1,6 +1,6 @@
 export async function GET() {
   // Use environment variable or fallback to production backend URL
-  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://aino-backend.azurewebsites.net';
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://aino-backend-win-g4bdh6a7hxcgdhce.norwayeast-01.azurewebsites.net';
   
   try {
     const res = await fetch(`${BACKEND_URL}/api/categories`, {

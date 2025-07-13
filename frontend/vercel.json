@@ -10,7 +10,7 @@
   },
   "env": {
     "NEXT_DISABLE_ESLINT": "1",
-    "NEXT_PUBLIC_BACKEND_URL": "https://aino-backend.azurewebsites.net",
+    "NEXT_PUBLIC_BACKEND_URL": "https://aino-backend-win-g4bdh6a7hxcgdhce.norwayeast-01.azurewebsites.net",
     "NEXT_PUBLIC_AZURE_STORAGE_URL": "https://ainomedia.blob.core.windows.net",
     "NEXT_PUBLIC_AZURE_STORAGE_CONTAINER": "aino-media",
     "NEXT_PUBLIC_PROTECTED": "false"
