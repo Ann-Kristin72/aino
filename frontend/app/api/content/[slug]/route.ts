@@ -10,7 +10,7 @@ export async function GET(
     console.log(`API /content/[slug]: Fetching course with slug: ${slug}`);
     
     // Use environment variable or fallback to production backend URL
-    const backendUrl = process.env.BACKEND_URL || 'https://aino-backend.azurewebsites.net';
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://aino-backend.azurewebsites.net';
     const response = await fetch(`${backendUrl}/api/content/slug/${slug}`, {
       headers: {
         'Accept': 'application/json',
