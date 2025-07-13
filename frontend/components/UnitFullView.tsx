@@ -1,7 +1,6 @@
 "use client";
 
 import React from 'react';
-import Image from 'next/image';
 
 interface Unit {
   id: string;
@@ -21,12 +20,10 @@ interface UnitFullViewProps {
 const EiraTip = ({ text }: { text: string }) => (
   <div className="bg-aino-sand rounded-xl p-3 mt-6 flex items-start gap-3 shadow-md">
     <div className="flex-shrink-0">
-      <Image 
+      <img 
         src="/design-guide/eira-thinking.png" 
-        width={32} 
-        height={32} 
         alt="Eira" 
-        className="rounded-full"
+        className="rounded-full w-8 h-8"
       />
     </div>
     <p className="text-sm text-gray-700 leading-relaxed">{text}</p>
@@ -69,12 +66,10 @@ export default function UnitFullView({
         {/* Illustration section */}
         {unit.illustrationUrl && (
           <div className="relative w-full h-[40vh] min-h-[300px] bg-gray-100">
-            <Image
+            <img
               src={unit.illustrationUrl}
               alt={unit.title}
-              fill
-              className="object-cover"
-              priority
+              className="object-cover w-full h-full"
             />
           </div>
         )}
