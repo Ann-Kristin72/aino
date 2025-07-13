@@ -1,7 +1,6 @@
 "use client";
 
 import React from 'react';
-import Image from 'next/image';
 
 interface UnitCardProps {
   unit: { 
@@ -68,11 +67,9 @@ export function UnitCard({
       {unit.illustrationUrl && (
         <div className="mb-4">
           {unit.illustrationUrl.match(/\.(jpg|jpeg|png|gif|webp|svg)$/i) ? (
-            <Image
+            <img
               src={unit.illustrationUrl}
               alt={unit.title + ' illustrasjon'}
-              width={400}
-              height={300}
               className="max-w-full h-auto rounded-lg shadow border"
             />
           ) : unit.illustrationUrl.match(/(youtube\.com|youtu\.be)/i) ? (

@@ -1,220 +1,102 @@
-# aino
-# 🧠 Aino
+# Aino - Learning Management System
 
-**Aino** er en modulær, AI-drevet plattform for kvalitetssikring, kunnskapsdeling, kursadministrasjon og velferdsteknologisk støtte – bygget med moderne webteknologi og full ISO 27001/AIAkt-kompatibilitet.
+Aino is a comprehensive learning management system designed for healthcare professionals. The system provides an intuitive interface for creating, managing, and delivering educational content.
 
-## 🚀 Teknisk arkitektur
+## 🚀 Deployment Status
 
-- **Monorepo** med `frontend/` (Next.js 14) og `backend/` (Express.js + TypeScript)
-- CI/CD med GitHub Actions
-- Azure Key Vault for secrets
-- PostgreSQL som database
-- AI-veileder **Eira** integrert med RAG
+- **Frontend**: Deployed on Vercel (Next.js 15.3.3)
+- **Backend**: Deployed on Azure App Service (Node.js)
+- **Database**: Azure PostgreSQL
+- **Storage**: Azure Blob Storage
 
-## 📚 Hovedmoduler
+## 🏗️ Architecture
 
-- **Bibliotek**: Markdown-parser med 13 kategorier og fallback
-- **Kurs**: Strukturert `kurs → nanoer → units`, med metadata og visning
-- **Dashboards**:
-  - For assistenter, helsefagarbeidere og sykepleiere
-  - For avdelingsledere, fagsykepleiere og prosjektledere
+### Frontend (Next.js)
+- **Framework**: Next.js 15.3.3 with App Router
+- **Styling**: Tailwind CSS v4
+- **Language**: TypeScript
+- **Deployment**: Vercel
 
-## 👤 Brukerroller
+### Backend (Node.js)
+- **Runtime**: Node.js with TypeScript
+- **Framework**: Express.js
+- **Database**: Drizzle ORM with PostgreSQL
+- **Deployment**: Azure App Service
 
-- Assistent
-- Helsefagarbeider
-- Sykepleier
-- Fagsykepleier
-- Avdelingsleder
-- Prosjektleder (velferdsteknologi)
+## 🔧 Development
 
-## 🧪 Lokal utvikling
+### Prerequisites
+- Node.js 18+
+- pnpm (recommended) or npm
+- PostgreSQL database
 
-```bash
-# Start backend
-cd backend && pnpm dev
+### Local Development
 
-# Start frontend
-cd frontend && pnpm dev
-# 🛠️ Teknisk logg – Aino backend oppsett
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/Ann-Kristin72/aino.git
+   cd aino
+   ```
 
-> Sist oppdatert: 2025-06-08
-> Ansvarlig: Ann-Kristin Johansen
+2. **Install dependencies**
+   ```bash
+   # Install workspace dependencies
+   pnpm install
+   
+   # Or install individually
+   cd frontend && npm install
+   cd ../backend && npm install
+   ```
 
-## ✅ Oppsummering
+3. **Environment Setup**
+   - Copy `.env.example` to `.env` in both frontend and backend directories
+   - Configure database connection and other environment variables
 
-Oppsett av backend, database og migrasjoner er fullført og fungerer som forventet. Prosjektet kjører lokalt på port `3001`, med fungerende ruter og databasekobling.
+4. **Start development servers**
+   ```bash
+   # Terminal 1: Start backend (port 3001)
+   cd backend && npm run dev
+   
+   # Terminal 2: Start frontend (port 3000)
+   cd frontend && npm run dev
+   ```
 
----
+## 📦 Build & Deploy
 
-## 🚀 Teknisk gjennomføring
+### Frontend (Vercel)
+- Automatic deployment on push to `main` branch
+- Build command: `npm run build`
+- Output directory: `.next`
 
-### Miljøvariabler
+### Backend (Azure)
+- Automatic deployment via GitHub Actions
+- Build command: `npm run build`
+- Runtime: Node.js 20.x
 
-* `.env` ble oppdatert med korrekt koblingsstreng til Azure PostgreSQL:
+## 🌐 Live URLs
 
-  ```env
-  DATABASE_URL=postgresql://aino:1Plomme3@aino-db-2025.postgres.database.azure.com:5432/postgres?sslmode=require
-  ```
-* `.env.example` ble redigert for å fjerne sensitive verdier.
+- **Frontend**: [https://aino-frontend.vercel.app](https://aino-frontend.vercel.app)
+- **Backend API**: [https://aino-backend.azurewebsites.net](https://aino-backend.azurewebsites.net)
 
-### Drizzle konfigurering
+## 📚 Features
 
-* `drizzle.config.ts` oppdatert med:
+- **Content Management**: Create and manage educational courses
+- **Progress Tracking**: Monitor user progress through courses
+- **Role-based Access**: Different access levels for various user types
+- **Media Management**: Upload and manage images and documents
+- **Multi-language Support**: Norwegian and English interfaces
 
-  ```ts
-  import type { Config } from "drizzle-kit";
-  import "dotenv/config";
+## 🔒 Security
 
-  export default {
-    schema: "./drizzle/schema.ts",
-    out: "./drizzle/migrations",
-    dialect: "postgresql",
-    dbCredentials: {
-      connectionString: process.env.DATABASE_URL!,
-    },
-  } satisfies Config;
-  ```
-* `pnpm drizzle-kit push` verifisert med suksess ✅
+- Environment-based password protection
+- CORS configuration for production
+- Secure database connections
+- Role-based access control
 
-### DB-test
+## 📝 License
 
-* Testfil `test-db.ts` bekreftet tilkobling med utskrift:
-
-  ```
-  ✅ Tilkobling OK! Tid fra DB: <timestamp>
-  ```
-
-### Lokal server
-
-* Startes med: `pnpm dev`
-* Vellykket oppstart:
-
-  ```
-  🚀 Server running on port 3001
-  ```
-* Helse-sjekk fungerer på: `http://localhost:3001/health`
-
-## 📦 Avhengigheter og CLI
-
-* Homebrew installert og `libpq` lenket via `brew link --force libpq`
-* `dotenv`, `pg`, `drizzle-kit`, `tsx`, `ts-node-dev` installert
-
-## 🧠 Erfaringer / feilkilder
-
-* Brukernavn **kan ikke** inneholde `_` i Azure DB (f.eks. `aino_admin` feilet)
-* Passord med spesialtegn må URL-encodes (`#` → `%23`, `@` → `%40`)
-* Viktig å bruke riktig *database-navn* i URL (her: `postgres`, ikke `aino`)
-
-## 🔐 Neste steg – ISO 27001
-
-* Miljøvariabler skal **ikke** versjoneres.
-* `.env.example` skal inneholde placeholder:
-
-  ```env
-  DATABASE_URL=postgresql://<user>:<pass>@<host>:<port>/<db>?sslmode=require
-  ```
-* Dokumenter roller og tilgangsnivå (RBAC)
-* Sett opp logging og audit trail for datatilgang
+This project is licensed under the MIT License.
 
 ---
 
-## ✅ Git commit
-
-```bash
-git add .
-git commit -m "✨ Initial backend setup with working DB connection and routes"
-git push
-```
-
----
-
-Dette dokumentet kan brukes som logg, mal for ny oppstart eller som grunnlag for sikkerhetsrevisjoner (ISO 27001, AI Act m.m).
-# 📘 Aino – Visjon, Struktur og Veikart
-
-## 🎯 Overordnet visjon
-
-Aino er en AI-drevet lærings- og prosessplattform designet for å redde grunnstrukturene i helse- og omsorgstjenestene. Den bygger på innsikten om at opplæring og kvalitetssikring må være lavterskel, hyperrelevant og kontinuerlig – levert i det øyeblikket kunnskap trengs.
-
-## 🔍 Fire megatrender og tekniske løsninger
-
-### 1. **Sikker kommunikasjon**
-
-* **Autentisering:** BankID eller Azure AD B2C
-* **Kommunikasjon:** Kryptert WebSocket-basert meldingssystem
-* **Eira-deltakelse:** Veileder i samtaler, foreslår kunnskapsmoduler
-* **Ikke-journalpliktig, men søkbart og anonymiserbart**
-
-### 2. **Innholdsbasert kvalitetssystem**
-
-* **Markdown + YAML:** Med metadata for roller, gyldighet, revisjon
-* **Prosedyregenerator:** Eira + strengt malbasert input
-* **Distribusjon:** QR, lenker, mobilvisning, push
-* **Versjonering:** Git-basert historikk og revisjonsspor
-
-### 3. **Oppgavetildeling og kompetansestyring**
-
-* **Oppgaver med metadata:** Kompleksitet, krav, lenkede moduler
-* **AI-agent for egnethet:** Matcher personlighet/ferdigheter til oppgaver
-* **Dashboard:** Tildel oppgaver, få innsikt og forslag
-
-### 4. **Digital prosessveileder for velferdsteknologi**
-
-* **Prosess-stier:** Sjekklister + moduler + ansvarlig + varsler
-* **AI-coach:** Eks. "TeknolTassen" eller Eira
-* **Helhetlig tjenestemodell:** Basert på stegvis mestring og kompetansetilførsel
-
-## 🧠 Agentdesign
-
-| Agent            | Rolle                 | Stil                       |
-| ---------------- | --------------------- | -------------------------- |
-| **Eira**         | Veileder/fagstøtte    | Presis, tydelig, nøytral   |
-| **TeknolTassen** | Teknologiintroduksjon | Ufarlig, pedagogisk, leken |
-| **RekruttBot**   | Egnethetskartlegging  | Nøytral, intervjuformat    |
-| **VeilederBot**  | Prosess-støtte        | Strukturert og instruktiv  |
-
-## 📚 Kursbank og metadata
-
-Eksempel på `README.md` med YAML:
-
-```markdown
----
-title: "Toalettbesøk – prosedyre"
-target_roles:
-  - assistent
-  - helsefagarbeider
-valid_until: 2026-12-01
-tags:
-  - hygiene
-  - omsorg
-  - hverdag
-localization: "Hjemmetjeneste, avdeling B"
-linked_procedures:
-  - hygiene_rutiner_v2
-linked_quizzes:
-  - quiz_hygiene_basics
----
-
-## Slik gjennomfører du toalettbesøk
-1. Hils på bruker og forklar hva som skal skje
-2. Sikre at alt nødvendig utstyr er tilgjengelig...
-```
-
-## 📦 Moduler
-
-* `@aino/core`: Parser, innhold, metadata
-* `@aino/agents`: Eira, TeknolTassen, RekruttBot m.fl.
-* `@aino/frontend-dashboard`: React/Next.js 14-app
-* `@aino/backend-api`: Express.js med Postgres
-
-## ✅ Neste steg
-
-1. Lage roadmap i GitHub Projects (epics, milepæler, tasks)
-2. Verifisere metadata mot eksisterende MD-filer
-3. Bygge ut `@aino/core` med parser og validering
-4. Starte med første AI-agent og kursmodul
-
----
-
-Dette dokumentet fungerer som grunnmuren for alle videre diskusjoner, moduler og prioriteringer i Aino-prosjektet.
-# Trigger new deploy
+**Last updated**: July 6, 2025 - Deployment ready! ✅
