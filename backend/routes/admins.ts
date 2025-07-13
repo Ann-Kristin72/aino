@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import { db } from "../drizzle/db";
-import { users, roles, userRoles } from "../drizzle/schema";
+import { users, roles, user_roles } from "../drizzle/schema";
 import { eq } from "drizzle-orm";
 import { getAdmins } from "../lib/getAdmins";
 
@@ -67,7 +67,7 @@ router.post("/", async (req: Request, res: Response) => {
       .returning();
     // Koble bruker til rolle
     await db
-      .insert(userRoles)
+      .insert(user_roles)
       .values({ userId: nyUser[0].id, roleId })
       .returning();
     res.status(201).json(nyUser[0]);
@@ -101,8 +101,8 @@ router.delete("/:id", async (req: Request, res: Response) => {
 
     // Delete user roles first
     await db
-      .delete(userRoles)
-      .where(eq(userRoles.userId, id));
+      .delete(user_roles)
+      .where(eq(user_roles.userId, id));
 
     // Delete user
     await db

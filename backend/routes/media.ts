@@ -1,13 +1,9 @@
-import express, { Request } from "express";
+import express from "express";
 import multer from "multer";
 import { BlobServiceClient } from "@azure/storage-blob";
 import { v4 as uuidv4 } from "uuid";
 import { db } from "../drizzle/db";
 import { media } from "../drizzle/schema";
-
-interface MulterRequest extends Request {
-  file?: Express.Multer.File
-}
 
 const router = express.Router();
 
@@ -55,7 +51,7 @@ router.get("/", async (req, res) => {
 });
 
 // POST /api/media/upload - Last opp bilde
-router.post("/upload", upload.single("file"), async (req: MulterRequest, res) => {
+router.post("/upload", upload.single("file"), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: "Ingen fil ble sendt" });

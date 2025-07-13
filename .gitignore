@@ -134,3 +134,24 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Aino-specific build and distribution files
+aino-backend-dist/
+aino-backend-dist.zip
+backend-fixed.zip
+*-dist.zip
+*-dist/
+
+# Build artifacts
+backend/dist/
+frontend/.next/
+frontend/out/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

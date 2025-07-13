@@ -20,6 +20,18 @@ app.use("/api/library", libraryRoute);
 app.use("/api/progress", progressRoute);
 app.use("/api", onboardingRoute);
 
-app.listen(3001, () => {
-  console.log("✅ Server kjører på http://localhost:3001");
+// Ping endpoint for health check
+app.get("/ping", (req, res) => {
+  res.json({ message: "pong", timestamp: new Date().toISOString() });
+});
+
+// Root endpoint for main URL
+app.get("/", (req, res) => {
+  res.send("🎉 Aino backend is alive!");
+});
+
+const PORT = process.env.PORT || 3001;
+
+app.listen(PORT, () => {
+  console.log(`✅ Server kjører på port ${PORT}`);
 });
