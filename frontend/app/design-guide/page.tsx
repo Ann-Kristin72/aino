@@ -1,15 +1,15 @@
 "use client";
 
 import Image from 'next/image';
-import Button from '@/components/ui/Button';
-import Card from '@/components/ui/Card';
-import SnakkebobleAnimated from '@/components/SnakkebobleAnimated';
-import SnakkebobleSoft from '@/components/SnakkebobleSoft';
-import SnakkebobleVariant from '@/components/SnakkebobleVariant';
-import EiraDynamic from '@/components/EiraDynamic';
-import KjedeSpinner from '@/components/KjedeSpinner';
-import KjedeButton from '@/components/KjedeButton';
-import KjedeRibbon from '@/components/KjedeRibbon';
+import Button from '../../components/ui/Button';
+import Card from '../../components/ui/Card';
+import SnakkebobleAnimated from '../../components/SnakkebobleAnimated';
+import SnakkebobleSoft from '../../components/SnakkebobleSoft';
+import SnakkebobleVariant from '../../components/SnakkebobleVariant';
+import EiraDynamic from '../../components/EiraDynamic';
+import KjedeSpinner from '../../components/KjedeSpinner';
+import KjedeButton from '../../components/KjedeButton';
+import KjedeRibbon from '../../components/KjedeRibbon';
 
 export default function DesignGuide() {
   return (
