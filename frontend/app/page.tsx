@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import WelcomeEira from '@/components/onboarding/WelcomeEira';
+import WelcomeEira from '../components/onboarding/WelcomeEira';
 
 export default function Home() {
   const router = useRouter();
