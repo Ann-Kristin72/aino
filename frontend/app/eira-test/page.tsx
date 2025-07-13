@@ -1,4 +1,4 @@
-import EiraDynamic from '@/components/EiraDynamic';
+import EiraDynamic from '../../components/EiraDynamic';
 
 export default function EiraTestPage() {
   return (
