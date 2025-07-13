@@ -2,6 +2,7 @@ import express from "express";
 import multer from "multer";
 import { BlobServiceClient } from "@azure/storage-blob";
 import { v4 as uuidv4 } from "uuid";
+import { eq } from "drizzle-orm";
 import { db } from "../drizzle/db";
 import { media } from "../drizzle/schema";
 
@@ -109,7 +110,7 @@ router.delete("/:id", async (req, res) => {
     console.log("✅ Backend: DELETE /api/media/:id - deleting media:", id);
 
     // Hent media fra database
-    const mediaItem = await db.select().from(media).where(media.id.equals(parseInt(id))).limit(1);
+    const mediaItem = await db.select().from(media).where(eq(media.id, parseInt(id))).limit(1);
     
     if (mediaItem.length === 0) {
       return res.status(404).json({ error: "Media-fil ikke funnet" });
@@ -126,7 +127,7 @@ router.delete("/:id", async (req, res) => {
     }
 
     // Slett fra database
-    await db.delete(media).where(media.id.equals(parseInt(id)));
+    await db.delete(media).where(eq(media.id, parseInt(id)));
 
     console.log("✅ Media deleted successfully");
     res.json({ success: true });
