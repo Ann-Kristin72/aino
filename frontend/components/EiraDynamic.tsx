@@ -1,5 +1,5 @@
 'use client';
-import Image from 'next/image';
+
 import { useState } from 'react';
 
 export default function EiraDynamic() {
@@ -18,12 +18,10 @@ export default function EiraDynamic() {
 
   return (
     <div className="flex flex-col items-center">
-      <Image
+      <img
         src={getImage()}
         alt="Eira"
-        width={200}
-        height={200}
-        className={`rounded-full transition-all duration-300 ${
+        className={`rounded-full transition-all duration-300 w-48 h-48 ${
           mood !== 'neutral' ? 'animate-glow' : ''
         }`}
       />

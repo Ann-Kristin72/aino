@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
-import Image from "next/image";
+
 import MarkdownEditor from "../writer/MarkdownEditor";
 import PreviewPane from "../writer/PreviewPane";
 import MetadataPanel from "../writer/MetadataPanel";
@@ -255,11 +255,9 @@ export default function WriterTab() {
         <div className="flex flex-col items-center md:items-end flex-1 min-w-[340px] md:min-w-[520px]">
           <div className="relative">
             <div className="w-[300px] md:w-[520px] h-[300px] md:h-[520px]">
-              <Image
+              <img
                 src="/design-guide/eria-skrivestue.png"
                 alt="Eira - AI Assistant"
-                width={520}
-                height={520}
                 className="w-full h-full object-contain"
               />
               {/* Snakkeboble - spesialversjon for WriterTab med liggende layout og korrekt hale */}
@@ -287,11 +285,9 @@ export default function WriterTab() {
         {/* PC med knapp */}
         <div className="flex-1 flex flex-col items-center justify-center w-full mt-8">
           <div className="relative w-[450px] md:w-[900px] h-[280px] md:h-[560px] mx-auto md:-ml-4">
-            <Image
+            <img
               src="/design-guide/Skrivestue-bakgrunn-writer.png"
               alt="SkriveStue PC bakgrunn"
-              width={900}
-              height={560}
               className="w-full h-full object-contain drop-shadow-xl"
             />
             {/* Knapp midt på PC-skjermen */}

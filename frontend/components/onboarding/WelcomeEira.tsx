@@ -1,6 +1,6 @@
 "use client";
 
-import Image from 'next/image';
+
 import { useState, useEffect } from 'react';
 import SnakkebobleSoft from '../SnakkebobleSoft';
 import { useSteps, type Step } from '../../hooks/useSteps';
@@ -135,13 +135,10 @@ export default function WelcomeEira({ onComplete }: WelcomeEiraProps) {
     <div className="min-h-screen flex flex-col items-center justify-center px-6 text-skifer bg-gradient-to-br from-[#FFF4E1] via-[#FFF8F1] to-[#E6F7F4]">
       {/* Logo og tittel */}
       <div className="flex flex-col items-center text-center mb-12 animate-fade-in">
-        <Image 
+        <img 
           src="/design-guide/logo-kjede.png" 
           alt="Aino logo" 
-          width={80} 
-          height={80} 
-          priority
-          className="mb-4"
+          className="mb-4 w-20 h-20"
         />
         <h1 className="text-4xl md:text-5xl font-slab font-semibold mt-4">Velkommen til Aino</h1>
         <p className="text-lg text-skifer/80 mt-2 font-medium leading-snug tracking-normal">
@@ -152,13 +149,10 @@ export default function WelcomeEira({ onComplete }: WelcomeEiraProps) {
       {/* Eira og snakkebobler */}
       <div className="flex flex-col md:flex-row items-start gap-8 mt-6 max-w-4xl">
         <div className="animate-slide-in-left flex-shrink-0">
-          <Image
+          <img
             src="/design-guide/eira-onboarding.png"
             alt="Eira"
-            width={250}
-            height={250}
-            className="rounded-full hover:animate-wiggle cursor-pointer transition-all duration-300"
-            priority
+            className="rounded-full hover:animate-wiggle cursor-pointer transition-all duration-300 w-64 h-64"
           />
         </div>
         

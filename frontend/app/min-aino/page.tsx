@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
+
 import AdminModuleCard from "../../components/admin/AdminCard";
 import SnakkebobleSoft from "../../components/SnakkebobleSoft";
 
@@ -98,11 +98,10 @@ export default function Dashboard() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-4">
-              <Image 
+              <img 
                 src="/design-guide/logo-kjede.png" 
                 alt="Aino logo" 
-                width={40} 
-                height={40} 
+                className="w-10 h-10"
               />
               <h1 className="text-2xl font-slab font-semibold text-skifer">Min Aino</h1>
             </div>
@@ -126,12 +125,10 @@ export default function Dashboard() {
         {/* Welcome Section with Eira */}
         <div className="mb-8 flex flex-col md:flex-row items-start gap-6">
           <div className="flex-shrink-0">
-            <Image
+            <img
               src="/design-guide/eira-min-aino.png"
               alt="Eira"
-              width={180}
-              height={180}
-              className="rounded-full hover:animate-wiggle cursor-pointer transition-all duration-300"
+              className="rounded-full hover:animate-wiggle cursor-pointer transition-all duration-300 w-44 h-44"
             />
           </div>
           <div className="flex-1 max-w-md">

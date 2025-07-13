@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useQuery } from "@tanstack/react-query";
-import Image from 'next/image';
+
 import { getAdmins } from "../../../lib/api/admins";
 import AdminCard from "../../../components/AdminCard";
 import PrimaryButton from "../../../components/PrimaryButton";
@@ -89,11 +89,9 @@ export default function AccessPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-4">
-              <Image
+              <img
                 src="/design-guide/logo-kjede.png"
                 alt="Kjede Logo"
-                width={40}
-                height={40}
                 className="w-10 h-10"
               />
               <h1 className="text-2xl font-slab font-semibold text-skifer">Tilgangsstyring</h1>

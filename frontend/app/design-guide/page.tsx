@@ -1,6 +1,6 @@
 "use client";
 
-import Image from 'next/image';
+
 import Button from '../../components/ui/Button';
 import Card from '../../components/ui/Card';
 import SnakkebobleAnimated from '../../components/SnakkebobleAnimated';
@@ -25,11 +25,10 @@ export default function DesignGuide() {
           <Card className="mb-8">
             <div className="flex items-center space-x-6">
               <div className="relative w-24 h-24">
-                <Image
+                <img
                   src="/design-guide/eira-neutral-removebg-preview.png"
                   alt="Eira - AI Assistant"
-                  fill
-                  className="object-contain"
+                  className="object-contain w-full h-full"
                 />
               </div>
               <div>

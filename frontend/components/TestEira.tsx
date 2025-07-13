@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+
 import { useState } from "react";
 
 export default function TestEira() {
@@ -13,12 +13,10 @@ export default function TestEira() {
           {/* Eira Image */}
           <div className="flex-shrink-0">
             <div className="relative w-64 h-64">
-              <Image
+              <img
                 src="/design-guide/eira-neutral-removebg-preview.png"
                 alt="Eira"
-                fill
-                className="object-contain"
-                priority
+                className="object-contain w-full h-full"
               />
             </div>
           </div>
