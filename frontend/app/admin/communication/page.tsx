@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
 import PrimaryButton from "../../../components/PrimaryButton";
 
 export default function CommunicationPage() {
@@ -9,12 +8,12 @@ export default function CommunicationPage() {
     <div className="min-h-screen bg-latte p-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-6">
-          <Link 
+          <a 
             href="/min-aino"
             className="text-bluegreen hover:text-bluegreen/80 mb-4 inline-block"
           >
             ← Tilbake til Min Aino
-          </Link>
+          </a>
           <h1 className="text-4xl font-slab text-skifer mb-4">Sikker kommunikasjon</h1>
           <p className="text-warmbrown text-lg">
             Kontrollert intern dialog, journalnotat og meldingsutveksling.
