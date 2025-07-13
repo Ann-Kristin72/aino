@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import CategoryGrid from '@/components/skrivestuen/CategoryGrid';
+import CategoryGrid from '../../../components/skrivestuen/CategoryGrid';
 
 export default function ContentTab() {
   const [contents, setContents] = useState([]);
