@@ -3,6 +3,7 @@
   "outputDirectory": ".next",
   "installCommand": "npm install --legacy-peer-deps --no-optional",
   "framework": "nextjs",
+  "sourceDirectory": ".",
   "functions": {
     "app/**/*.ts": {
       "runtime": "nodejs18.x"
