@@ -1,7 +1,7 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": ".next",
-  "installCommand": "npm install --legacy-peer-deps",
+  "installCommand": "npm install --legacy-peer-deps --no-optional",
   "framework": "nextjs",
   "functions": {
     "app/**/*.ts": {
@@ -16,11 +16,13 @@
     "NEXT_PUBLIC_BACKEND_URL": "https://api.ainomobil.no",
     "NEXT_PUBLIC_AZURE_STORAGE_URL": "https://ainomedia.blob.core.windows.net",
     "NEXT_PUBLIC_AZURE_STORAGE_CONTAINER": "aino-media",
-    "NEXT_PUBLIC_PROTECTED": "false"
+    "NEXT_PUBLIC_PROTECTED": "false",
+    "NPM_CONFIG_PACKAGE_MANAGER": "npm"
   },
   "build": {
     "env": {
-      "NEXT_DISABLE_ESLINT": "1"
+      "NEXT_DISABLE_ESLINT": "1",
+      "NPM_CONFIG_PACKAGE_MANAGER": "npm"
     }
   },
   "regions": ["iad1"],

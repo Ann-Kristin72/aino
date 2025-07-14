@@ -2,6 +2,11 @@
 ../backend/
 backend/
 
+# pnpm files (ensure npm is used)
+pnpm-lock.yaml
+pnpm-workspace.yaml
+.pnpm-store/
+
 # Development files
 .env.local
 .env.development.local
