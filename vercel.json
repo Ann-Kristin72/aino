@@ -1,0 +1,23 @@
+{
+  "buildCommand": "cd frontend && npm run build",
+  "outputDirectory": "frontend/.next",
+  "installCommand": "cd frontend && npm install --legacy-peer-deps --no-optional",
+  "framework": "nextjs",
+  "sourceDirectory": "frontend",
+  "env": {
+    "NEXT_DISABLE_ESLINT": "1",
+    "NEXT_PUBLIC_BACKEND_URL": "https://api.ainomobil.no",
+    "NEXT_PUBLIC_AZURE_STORAGE_URL": "https://ainomedia.blob.core.windows.net",
+    "NEXT_PUBLIC_AZURE_STORAGE_CONTAINER": "aino-media",
+    "NEXT_PUBLIC_PROTECTED": "false",
+    "NPM_CONFIG_PACKAGE_MANAGER": "npm"
+  },
+  "build": {
+    "env": {
+      "NEXT_DISABLE_ESLINT": "1",
+      "NPM_CONFIG_PACKAGE_MANAGER": "npm"
+    }
+  },
+  "regions": ["iad1"],
+  "maxDuration": 300
+} 
