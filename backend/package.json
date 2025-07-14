@@ -7,7 +7,11 @@
     "dev": "tsx index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
+    "postinstall": "npm run build",
     "import-courses": "tsx scripts/import-courses.ts"
+  },
+  "engines": {
+    "node": "18.x"
   },
   "dependencies": {
     "@azure/storage-blob": "^12.27.0",
