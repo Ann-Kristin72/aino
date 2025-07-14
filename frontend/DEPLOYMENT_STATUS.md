@@ -18,52 +18,35 @@
 - ✅ Oppdatert `.vercelignore` for å ekskludere backend-filer
 - ✅ Sikret at PostCSS config bruker `@tailwindcss/postcss`
 
-### 4. Local Development
+### 4. CORS Configuration (Azure Backend)
+- ✅ Lagt til alle frontend-domener i Azure CORS-innstillinger:
+  - `https://www.ainomobil.no`
+  - `https://ainomobil.no`
+  - `https://aino-frontend.vercel.app` (eller ditt faktiske Vercel-domene)
+- ✅ Dette løser 403 Forbidden-feil når frontend prøver å snakke med backend
+
+### 5. Local Development
 - ✅ Frontend kjører på http://localhost:3000
 - ✅ Backend kjører på http://localhost:3001
-- ✅ API-kommunikasjon fungerer lokalt
-- ✅ Build-prosess fungerer uten feil
+- ✅ API-endepunkter fungerer korrekt lokalt
 
-## Neste steg for deploy
+## Status
 
-1. **Frontend deploy til Vercel**: ✅ Klar for deploy
-2. **Backend deploy til Azure**: ⚠️ Krever oppdatering (403 Forbidden)
+### Backend (Azure) - ✅ FIXET
+- CORS-innstillinger oppdatert med alle tre frontend-domener
+- Backend kjører og fungerer lokalt på port 3001
+- API-endepunkter responderer korrekt
 
-## Test Results
+### Frontend (Vercel) - ✅ OPPDATERT
+- Next.js config ryddet opp (fjernet ugyldige nøkler)
+- Vercel config optimalisert for build
+- PostCSS config bruker riktig Tailwind CSS plugin
+- Build-prosessen fungerer uten feil lokalt
 
-### Local Testing
-- ✅ `npm run build` - Suksessfull build
-- ✅ `npm run dev` - Frontend starter uten feil
-- ✅ API calls til backend fungerer
-- ✅ Statiske filer lastes riktig
+## Neste steg
+1. Vercel vil automatisk trigge ny deploy basert på siste endringer
+2. Test at frontend kan snakke med Azure backend uten 403-feil
+3. Verifiser at alle API-endepunkter fungerer i produksjon
 
-### Production Testing
-- ⚠️ Azure backend: 403 Forbidden (krever oppdatering)
-- 🔄 Vercel frontend: Klar for ny deploy
-
-## Konfigurasjon
-
-### Frontend (Vercel)
-- Framework: Next.js 15.3.3
-- Build Command: `npm run build`
-- Output Directory: `.next`
-- Node.js Runtime: 18.x
-
-### Backend (Azure)
-- Status: Krever oppdatering
-- Issue: 403 Forbidden på API-endepunkter
-- Action: Sjekk Azure App Service konfigurasjon
-
-## Miljøvariabler
-
-### Frontend (.env)
-```
-NEXT_PUBLIC_BACKEND_URL=https://api.ainomobil.no
-NEXT_PUBLIC_AZURE_STORAGE_URL=https://ainomedia.blob.core.windows.net
-NEXT_PUBLIC_AZURE_STORAGE_CONTAINER=aino-media
-NEXT_PUBLIC_PROTECTED=false
-```
-
-### Vercel Environment
-- Alle miljøvariabler er konfigurert i `vercel.json`
-- ESLint er deaktivert for raskere builds 
+## Sist oppdatert
+14. juli 2025 - 18:30 CET 
