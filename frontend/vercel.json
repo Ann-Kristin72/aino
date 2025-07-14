@@ -22,5 +22,7 @@
     "env": {
       "NEXT_DISABLE_ESLINT": "1"
     }
-  }
+  },
+  "regions": ["iad1"],
+  "maxDuration": 300
 } 
