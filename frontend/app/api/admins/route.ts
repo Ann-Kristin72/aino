@@ -1,11 +1,7 @@
 import { NextResponse } from "next/server";
 
-// For å sjekke at variabler faktisk er der:
-console.log("POSTGRES_URL:", process.env.POSTGRES_URL);
-console.log("DATABASE_URL:", process.env.DATABASE_URL);
-
 // Use environment variable or fallback to production backend URL
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://aino-backend-win-g4bdh6a7hxcgdhce.norwayeast-01.azurewebsites.net';
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://api.ainomobil.no';
 
 export async function GET() {
   try {
