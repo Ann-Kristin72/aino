@@ -8,6 +8,12 @@ import onboardingRoute from "./routes/onboarding";
 import libraryRoute from "./routes/library";
 import progressRoute from "./routes/progress";
 
+// Log environment variables for debugging
+console.log("🔍 Environment Debug:");
+console.log("PORT:", process.env.PORT);
+console.log("NODE_ENV:", process.env.NODE_ENV);
+console.log("DB URL (first 30 chars):", process.env.DATABASE_URL?.slice(0, 30) + "...");
+
 const app = express();
 
 app.use(cors());
@@ -31,6 +37,12 @@ app.get("/", (req, res) => {
 });
 
 const PORT = parseInt(process.env.PORT || '3001');
+
+// Error handler - must be last
+app.use((err: any, req: express.Request, res: express.Response, _next: express.NextFunction) => {
+  console.error("❌ Unhandled error:", err);
+  res.status(500).send("Internal Server Error");
+});
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`✅ Server kjører på port ${PORT}`);

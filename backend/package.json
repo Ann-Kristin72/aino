@@ -2,7 +2,7 @@
   "name": "aino-backend",
   "version": "1.0.0",
   "description": "Backend for Aino CMS",
-  "main": "index.ts",
+  "main": "dist/index.js",
   "scripts": {
     "dev": "tsx index.ts",
     "build": "tsc",
