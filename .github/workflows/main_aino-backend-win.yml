@@ -27,9 +27,9 @@ jobs:
         run: |
           cd backend
           npm install --no-package-lock
-          ls -la
+          dir
           npm run build
-          ls -la dist/
+          dir dist
           npm run test --if-present
       
       - name: Upload artifact for deployment job
