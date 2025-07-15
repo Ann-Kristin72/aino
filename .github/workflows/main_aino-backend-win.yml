@@ -27,6 +27,7 @@ jobs:
         run: |
           cd backend
           npm install
+          ls -la
           npm run build
           ls -la dist/
           npm run test --if-present
