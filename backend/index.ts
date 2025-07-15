@@ -30,8 +30,8 @@ app.get("/", (req, res) => {
   res.send("🎉 Aino backend is alive!");
 });
 
-const PORT = process.env.PORT || 3001;
+const PORT = parseInt(process.env.PORT || '3001');
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`✅ Server kjører på port ${PORT}`);
 });
