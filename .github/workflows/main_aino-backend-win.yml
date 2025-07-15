@@ -25,8 +25,9 @@ jobs:
 
       - name: npm install, build, and test
         run: |
+          cd backend
           npm install
-          npm run build --if-present
+          npm run build
           npm run test --if-present
       
       - name: Upload artifact for deployment job
@@ -62,5 +63,6 @@ jobs:
         with:
           app-name: 'aino-backend-win'
           slot-name: 'Production'
-          package: .
+          package: ./backend
+          startup-command: 'npm start'
           
