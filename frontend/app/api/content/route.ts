@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 // Use environment variable or fallback to production backend URL
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://api.ainomobil.no';
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://aino-backend.azurewebsites.net';
 
 export async function GET() {
   try {
