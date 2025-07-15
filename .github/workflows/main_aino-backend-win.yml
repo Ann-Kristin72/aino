@@ -66,5 +66,4 @@ jobs:
           app-name: 'aino-backend-win'
           slot-name: 'Production'
           package: ./backend
-          startup-command: 'npm start'
           
