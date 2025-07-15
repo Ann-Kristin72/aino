@@ -46,4 +46,6 @@ app.use((err: any, req: express.Request, res: express.Response, _next: express.N
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`✅ Server kjører på port ${PORT}`);
+}).on('error', (err) => {
+  console.error('❌ Server error:', err);
 });
