@@ -26,7 +26,7 @@ jobs:
       - name: npm install, build, and test
         run: |
           cd backend
-          npm install
+          npm install --no-package-lock
           ls -la
           npm run build
           ls -la dist/
