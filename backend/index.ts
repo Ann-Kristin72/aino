@@ -31,6 +31,11 @@ app.get("/ping", (req, res) => {
   res.json({ message: "pong", timestamp: new Date().toISOString() });
 });
 
+// Health endpoint for health check
+app.get("/health", (_req, res) => {
+  res.status(200).send("OK");
+});
+
 // Root endpoint for main URL
 app.get("/", (req, res) => {
   res.send("🎉 Aino backend is alive!");
