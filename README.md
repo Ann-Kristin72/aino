@@ -104,3 +104,4 @@ This project is licensed under the MIT License.
 # Trigger Vercel deployment Mon Jul 14 16:38:23 CEST 2025
 # Trigger deployment
 # Retry deployment after Azure restart
+# Force new deployment
