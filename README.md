@@ -106,3 +106,4 @@ This project is licensed under the MIT License.
 # Retry deployment after Azure restart
 # Force new deployment
 # Retry deployment with Node.js version fix
+# Force deployment after Azure restart
