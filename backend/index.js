@@ -16,7 +16,7 @@ const progress_1 = __importDefault(require("./routes/progress"));
 console.log("🔍 Environment Debug:");
 console.log("PORT:", process.env.PORT);
 console.log("NODE_ENV:", process.env.NODE_ENV);
-console.log("DB URL (first 30 chars):", process.env.DATABASE_URL?.slice(0, 30) + "...");
+console.log("DB URL (first 30 chars):", process.env.DATABASE_URL ? process.env.DATABASE_URL.slice(0, 30) + "..." : "undefined");
 
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
