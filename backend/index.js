@@ -12,6 +12,12 @@ const categories_1 = __importDefault(require("./routes/categories"));
 const onboarding_1 = __importDefault(require("./routes/onboarding"));
 const library_1 = __importDefault(require("./routes/library"));
 const progress_1 = __importDefault(require("./routes/progress"));
+// Log environment variables for debugging
+console.log("🔍 Environment Debug:");
+console.log("PORT:", process.env.PORT);
+console.log("NODE_ENV:", process.env.NODE_ENV);
+console.log("DB URL (first 30 chars):", process.env.DATABASE_URL?.slice(0, 30) + "...");
+
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
@@ -26,11 +32,22 @@ app.use("/api", onboarding_1.default);
 app.get("/ping", (req, res) => {
     res.json({ message: "pong", timestamp: new Date().toISOString() });
 });
+// Health endpoint for health check
+app.get("/health", (_req, res) => {
+    res.status(200).send("OK");
+});
 // Root endpoint for main URL
 app.get("/", (req, res) => {
     res.send("🎉 Aino backend is alive!");
 });
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
+const PORT = parseInt(process.env.PORT || '3001');
+// Error handler - must be last
+app.use((err, req, res, _next) => {
+    console.error("❌ Unhandled error:", err);
+    res.status(500).send("Internal Server Error");
+});
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`✅ Server kjører på port ${PORT}`);
+}).on('error', (err) => {
+    console.error('❌ Server error:', err);
 });
