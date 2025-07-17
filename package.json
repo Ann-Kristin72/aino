@@ -2,7 +2,7 @@
 	"scripts": {
 		"dev": "cd frontend && npm run dev",
 		"dev:backend": "cd backend && npm run dev",
-		"start": "cd frontend && npm run start"
+		"start": "node index.js"
 	},
 	"devDependencies": {
 		"@types/node": "^24.0.1",
