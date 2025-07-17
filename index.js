@@ -1,2 +1,2 @@
 // index.js
-require("./backend/index"); 
+require("./dist/index"); 
