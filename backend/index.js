@@ -5,13 +5,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var cors_1 = __importDefault(require("cors"));
-var content_1 = __importDefault(require("./routes/content"));
-var admins_1 = __importDefault(require("./routes/admins"));
-var roles_1 = __importDefault(require("./routes/roles"));
-var categories_1 = __importDefault(require("./routes/categories"));
-var onboarding_1 = __importDefault(require("./routes/onboarding"));
-var library_1 = __importDefault(require("./routes/library"));
-var progress_1 = __importDefault(require("./routes/progress"));
+var content_1 = __importDefault(require("./dist/routes/content"));
+var admins_1 = __importDefault(require("./dist/routes/admins"));
+var roles_1 = __importDefault(require("./dist/routes/roles"));
+var categories_1 = __importDefault(require("./dist/routes/categories"));
+var onboarding_1 = __importDefault(require("./dist/routes/onboarding"));
+var library_1 = __importDefault(require("./dist/routes/library"));
+var progress_1 = __importDefault(require("./dist/routes/progress"));
 
 // Log environment variables for debugging
 console.log("🔍 Environment Debug:");
