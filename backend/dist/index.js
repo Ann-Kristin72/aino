@@ -28,25 +28,25 @@ app.use("/api/library", library_1.default);
 app.use("/api/progress", progress_1.default);
 app.use("/api", onboarding_1.default);
 // Ping endpoint for health check
-app.get("/ping", (req, res) => {
+app.getfunction("/ping", (req, res) {
     res.json({ message: "pong", timestamp: new Date().toISOString() });
 });
 // Health endpoint for health check
-app.get("/health", (_req, res) => {
+app.getfunction("/health", (_req, res) {
     res.status(200).send("OK");
 });
 // Root endpoint for main URL
-app.get("/", (req, res) => {
+app.getfunction("/", (req, res) {
     res.send("🎉 Aino backend is alive!");
 });
 var PORT = parseInt(process.env.PORT || '3001');
 // Error handler - must be last
-app.use((err, req, res, _next) => {
+app.usefunction((err, req, res, _next) {
     console.error("❌ Unhandled error:", err);
     res.status(500).send("Internal Server Error");
 });
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`✅ Server kjører på port ${PORT}`);
-}).on('error', (err) => {
+app.listenfunction(PORT, '0.0.0.0', () {
+    console.log("✅ Server kjører på port " + PORT + "");
+}).onfunction('error', (err) {
     console.error('❌ Server error:', err);
 });

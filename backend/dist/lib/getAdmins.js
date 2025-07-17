@@ -9,7 +9,7 @@ async function getAdmins() {
     try {
         console.log("🔍 getAdmins: Starting query...");
         console.log("🔍 getAdmins: DATABASE_URL exists:", !!process.env.DATABASE_URL);
-        var { rows } = await pool.query(`
+        var rows = await pool.query("
       SELECT
         u.id,
         u.name,
@@ -19,7 +19,7 @@ async function getAdmins() {
       INNER JOIN user_roles ur ON u.id = ur.user_id
       INNER JOIN roles r ON ur.role_id = r.id
       WHERE r.name IN ('superadmin', 'hovedredaktør', 'redaktør')
-    `);
+    ").rows;
         console.log("🔍 getAdmins: Query successful, found", rows.length, "admins");
         return rows;
     }

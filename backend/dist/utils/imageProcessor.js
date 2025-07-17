@@ -28,7 +28,7 @@ class ImageProcessor {
     static async processMarkdownImages(markdownContent) {
         console.log('🖼️ Starting image processing for markdown content...');
         var migratedImages = [];
-        let processedContent = markdownContent;
+        var processedContent = markdownContent;
         // Find all image references in markdown
         var imagePatterns = [
             // Markdown images: ![alt](url)
@@ -37,34 +37,34 @@ class ImageProcessor {
             /<img[^>]+src=["']([^"']+)["'][^>]*>/g
         ];
         for (var pattern of imagePatterns) {
-            let match;
+            var match;
             while ((match = pattern.exec(markdownContent)) !== null) {
                 var originalUrl = match[2] || match[1]; // For markdown: match[2], for HTML: match[1]
                 if (this.shouldMigrateImage(originalUrl)) {
                     try {
-                        console.log(`📥 Processing image: ${originalUrl}`);
+                        console.log("📥 Processing image: " + originalUrl + "");
                         var newUrl = await this.migrateImageToAzure(originalUrl);
                         if (newUrl) {
                             // Replace the URL in the content
                             if (pattern.source.includes('!\\[')) {
                                 // Markdown image: ![alt](old_url) -> ![alt](new_url)
-                                processedContent = processedContent.replace(`![${match[1]}](${originalUrl})`, `![${match[1]}](${newUrl})`);
+                                processedContent = processedContent.replace("![" + match[1] + "](" + originalUrl + ")", "![" + match[1] + "](" + newUrl + ")");
                             }
                             else {
                                 // HTML image: <img src="old_url" ...> -> <img src="new_url" ...>
-                                processedContent = processedContent.replace(`src="${originalUrl}"`, `src="${newUrl}"`);
+                                processedContent = processedContent.replace("src="" + originalUrl + """, "src="" + newUrl + """);
                             }
                             migratedImages.push(newUrl);
-                            console.log(`✅ Migrated image: ${originalUrl} -> ${newUrl}`);
+                            console.log("✅ Migrated image: " + originalUrl + " -> " + newUrl + "");
                         }
                     }
                     catch (error) {
-                        console.error(`❌ Failed to migrate image ${originalUrl}:`, error);
+                        console.error("❌ Failed to migrate image " + originalUrl + ":", error);
                     }
                 }
             }
         }
-        console.log(`🖼️ Image processing complete. Migrated ${migratedImages.length} images.`);
+        console.log("🖼️ Image processing complete. Migrated " + migratedImages.length + " images.");
         return { processedContent, migratedImages };
     }
     /**
@@ -91,19 +91,19 @@ class ImageProcessor {
     static async migrateImageToAzure(imageUrl) {
         try {
             // Download the image
-            console.log(`📥 Downloading image from: ${imageUrl}`);
+            console.log("📥 Downloading image from: " + imageUrl + "");
             var response = await (0, node_fetch_1.default)(imageUrl);
             if (!response.ok) {
-                throw new Error(`Failed to download image: ${response.status} ${response.statusText}`);
+                throw new Error("Failed to download image: " + response.status + " " + response.statusText + "");
             }
             var imageBuffer = await response.buffer();
             var contentType = response.headers.get('content-type') || 'image/jpeg';
             // Generate unique filename
             var fileExtension = this.getFileExtension(imageUrl, contentType);
-            var fileName = `${(0, uuid_1.v4)()}.${fileExtension}`;
-            var blobName = `image/${fileName}`;
+            var fileName = "" + (0, uuid_1.v4)() + "." + fileExtension + "";
+            var blobName = "image/" + fileName + "";
             // Upload to Azure Blob Storage
-            console.log(`📤 Uploading image to Azure: ${blobName}`);
+            console.log("📤 Uploading image to Azure: " + blobName + "");
             var blobServiceClient = await this.getBlobServiceClient();
             var containerClient = blobServiceClient.getContainerClient(this.containerName);
             var blockBlobClient = containerClient.getBlockBlobClient(blobName);
@@ -113,12 +113,12 @@ class ImageProcessor {
                     blobCacheControl: 'public, max-age=31536000' // Cache for 1 year
                 }
             });
-            var newUrl = `${this.azureBaseUrl}/${blobName}`;
-            console.log(`✅ Successfully uploaded image: ${newUrl}`);
+            var newUrl = "" + this.azureBaseUrl + "/" + blobName + "";
+            console.log("✅ Successfully uploaded image: " + newUrl + "");
             return newUrl;
         }
         catch (error) {
-            console.error(`❌ Failed to migrate image ${imageUrl}:`, error);
+            console.error("❌ Failed to migrate image " + imageUrl + ":", error);
             return null;
         }
     }

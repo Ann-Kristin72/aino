@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("dotenv/config");
 var db_1 = require("./drizzle/db");
 var schema_1 = require("./drizzle/schema");
-(async () => {
+(async function() {
     try {
         console.log("🔍 Testing Drizzle ORM...");
         // Test en enkel spørring

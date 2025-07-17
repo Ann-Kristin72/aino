@@ -9,9 +9,11 @@ var schema_1 = require("../drizzle/schema");
 var drizzle_orm_1 = require("drizzle-orm");
 var router = express_1.default.Router();
 // POST /onboarding - Opprett ny bruker og koble til rolle
-router.post('/onboarding', async (req, res) => {
+router.post('/onboarding', async function(req, res) {
     try {
-        var { name, email, role } = req.body;
+        var name = req.body.name;
+var email = req.body.email;
+var role = req.body.role;
         // Validering
         if (!name || !email || !role) {
             return res.status(400).json({
@@ -37,7 +39,7 @@ router.post('/onboarding', async (req, res) => {
             .limit(1);
         if (roleRecord.length === 0) {
             return res.status(400).json({
-                error: `Ugyldig rolle: ${role}`
+                error: "Ugyldig rolle: " + role + ""
             });
         }
         // Opprett ny bruker

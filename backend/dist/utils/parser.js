@@ -43,7 +43,7 @@ class MarkdownCourseParser {
      * Parse a markdown course file to structured data
      */
     static parseMarkdownToCourse(filePath) {
-        console.log(`📖 Parsing course file: ${filePath}`);
+        console.log("📖 Parsing course file: " + filePath + "");
         var content = fs.readFileSync(filePath, 'utf-8');
         var lines = content.split('\n');
         // Extract metadata from //:-block
@@ -91,12 +91,12 @@ class MarkdownCourseParser {
                 revisionInterval: metadata.revisionInterval || '12',
                 keywords: metadata.keywords || [],
                 imageUrl: metadata.imageUrl,
-                ...metadata // Include any additional metadata
+                Object.assign({}, metadata) // Include any additional metadata
             };
         }
         catch (error) {
             console.error('❌ Error parsing metadata:', error);
-            throw new Error(`Failed to parse metadata: ${error}`);
+            throw new Error("Failed to parse metadata: " + error + "");
         }
     }
     /**
@@ -130,10 +130,10 @@ class MarkdownCourseParser {
      */
     static parseNanoAndUnits(lines) {
         var nano = [];
-        let currentNano = null;
-        let currentUnit = null;
-        let unitContent = [];
-        for (let i = 0; i < lines.length; i++) {
+        var currentNano = null;
+        var currentUnit = null;
+        var unitContent = [];
+        for (var i = 0; i < lines.length; i++) {
             var line = lines[i];
             // Check for nano heading (##)
             var nanoMatch = line.match(/^##\s+(.+)$/);
@@ -231,7 +231,7 @@ class MarkdownCourseParser {
     static parseDirectory(dirPath) {
         var courses = [];
         if (!fs.existsSync(dirPath)) {
-            console.warn(`⚠️ Directory not found: ${dirPath}`);
+            console.warn("⚠️ Directory not found: " + dirPath + "");
             return courses;
         }
         var files = fs.readdirSync(dirPath, { recursive: true });
@@ -241,10 +241,10 @@ class MarkdownCourseParser {
                 try {
                     var course = this.parseMarkdownToCourse(filePath);
                     courses.push(course);
-                    console.log(`✅ Parsed: ${course.title}`);
+                    console.log("✅ Parsed: " + course.title + "");
                 }
                 catch (error) {
-                    console.error(`❌ Failed to parse ${file}:`, error);
+                    console.error("❌ Failed to parse " + file + ":", error);
                 }
             }
         }

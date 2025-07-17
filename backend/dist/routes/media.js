@@ -17,7 +17,7 @@ var upload = (0, multer_1.default)({
     limits: {
         fileSize: 10 * 1024 * 1024, // 10MB limit
     },
-    fileFilter: (req, file, cb) => {
+    fileFilter: function(req, file, cb) {
         // Tillat kun bilde-filer
         if (file.mimetype.startsWith('image/')) {
             cb(null, true);
@@ -37,11 +37,11 @@ var blobServiceClient = connectionString
     ? storage_blob_1.BlobServiceClient.fromConnectionString(connectionString)
     : null;
 // GET /api/media - Hent alle media-filer
-router.get("/", async (req, res) => {
+router.get("/", async function(req, res) {
     try {
         console.log("✅ Backend: GET /api/media - fetching media items...");
         var mediaItems = await db_1.db.select().from(schema_1.media).orderBy(schema_1.media.createdAt);
-        console.log(`✅ Found media items: ${mediaItems.length}`);
+        console.log("✅ Found media items: " + mediaItems.length + "");
         res.json(mediaItems);
     }
     catch (error) {
@@ -50,7 +50,7 @@ router.get("/", async (req, res) => {
     }
 });
 // POST /api/media/upload - Last opp bilde
-router.post("/upload", upload.single("file"), async (req, res) => {
+router.post("/upload", upload.single("file"), async function(req, res) {
     try {
         if (!req.file) {
             return res.status(400).json({ error: "Ingen fil ble sendt" });
@@ -61,7 +61,7 @@ router.post("/upload", upload.single("file"), async (req, res) => {
         console.log("✅ Backend: POST /api/media/upload - uploading file:", req.file.originalname);
         // Generer unikt filnavn
         var fileExtension = req.file.originalname.split('.').pop();
-        var fileName = `${(0, uuid_1.v4)()}.${fileExtension}`;
+        var fileName = "" + (0, uuid_1.v4)() + "." + fileExtension + "";
         // Last opp til Azure Blob Storage
         var containerClient = blobServiceClient.getContainerClient(containerName);
         var blockBlobClient = containerClient.getBlockBlobClient(fileName);
@@ -71,7 +71,7 @@ router.post("/upload", upload.single("file"), async (req, res) => {
             },
         });
         // Generer URL
-        var imageUrl = `https://ainomedia.blob.core.windows.net/${containerName}/${fileName}`;
+        var imageUrl = "https://ainomedia.blob.core.windows.net/" + containerName + "/" + fileName + "";
         // Lagre i database
         var [newMedia] = await db_1.db.insert(schema_1.media).values({
             filename: req.file.originalname,
@@ -92,9 +92,9 @@ router.post("/upload", upload.single("file"), async (req, res) => {
     }
 });
 // DELETE /api/media/:id - Slett media-fil
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", async function(req, res) {
     try {
-        var { id } = req.params;
+        var id = req.params.id;
         console.log("✅ Backend: DELETE /api/media/:id - deleting media:", id);
         // Hent media fra database
         var mediaItem = await db_1.db.select().from(schema_1.media).where((0, drizzle_orm_1.eq)(schema_1.media.id, parseInt(id))).limit(1);

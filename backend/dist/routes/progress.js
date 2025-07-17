@@ -9,10 +9,12 @@ var schema_1 = require("../drizzle/schema");
 var drizzle_orm_1 = require("drizzle-orm");
 var router = express_1.default.Router();
 // POST /api/progress/unit/:unitId - Marker unit som fullført
-router.post('/unit/:unitId', async (req, res) => {
+router.post('/unit/:unitId', async function(req, res) {
     try {
-        var { unitId } = req.params;
-        var { userId, courseId, nanoId } = req.body;
+        var unitId = req.params.unitId;
+        var userId = req.body.userId;
+var courseId = req.body.courseId;
+var nanoId = req.body.nanoId;
         if (!userId || !unitId) {
             return res.status(400).json({ error: "userId og unitId er påkrevd" });
         }
@@ -32,10 +34,10 @@ router.post('/unit/:unitId', async (req, res) => {
     }
 });
 // GET /api/progress/course/:courseId - Hent progresjon for kurs
-router.get('/course/:courseId', async (req, res) => {
+router.get('/course/:courseId', async function(req, res) {
     try {
-        var { courseId } = req.params;
-        var { userId } = req.query;
+        var courseId = req.params.courseId;
+        var userId = req.query.userId;
         if (!userId) {
             return res.status(400).json({ error: "userId er påkrevd" });
         }
@@ -51,10 +53,10 @@ router.get('/course/:courseId', async (req, res) => {
     }
 });
 // DELETE /api/progress/unit/:unitId - Fjern fullføring av unit
-router.delete('/unit/:unitId', async (req, res) => {
+router.delete('/unit/:unitId', async function(req, res) {
     try {
-        var { unitId } = req.params;
-        var { userId } = req.body;
+        var unitId = req.params.unitId;
+        var userId = req.body.userId;
         if (!userId || !unitId) {
             return res.status(400).json({ error: "userId og unitId er påkrevd" });
         }
@@ -70,9 +72,9 @@ router.delete('/unit/:unitId', async (req, res) => {
     }
 });
 // GET /api/progress/user/:userId - Hent all progresjon for en bruker
-router.get('/user/:userId', async (req, res) => {
+router.get('/user/:userId', async function(req, res) {
     try {
-        var { userId } = req.params;
+        var userId = req.params.userId;
         console.log("✅ Backend: GET /api/progress/user/:userId - fetching all progress:", { userId });
         var progress = await db_1.db.select().from(schema_1.userProgress)
             .where((0, drizzle_orm_1.eq)(schema_1.userProgress.userId, userId));

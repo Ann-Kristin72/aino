@@ -9,7 +9,7 @@ var schema_1 = require("../drizzle/schema");
 var drizzle_orm_1 = require("drizzle-orm");
 var router = express_1.default.Router();
 // GET /api/roles - Get all roles
-router.get("/", async (req, res) => {
+router.get("/", async function(req, res) {
     try {
         console.log("✅ Backend: GET /api/roles");
         var allRoles = await db_1.db.select().from(schema_1.roles);
@@ -22,9 +22,9 @@ router.get("/", async (req, res) => {
     }
 });
 // POST /api/roles - Create new role
-router.post("/", async (req, res) => {
+router.post("/", async function(req, res) {
     try {
-        var { name } = req.body;
+        var name = req.body.name;
         if (!name) {
             return res.status(400).json({ error: "Rollenavn er påkrevd" });
         }
@@ -48,9 +48,9 @@ router.post("/", async (req, res) => {
     }
 });
 // GET /api/roles/:id - Get specific role by ID
-router.get("/:id", async (req, res) => {
+router.get("/:id", async function(req, res) {
     try {
-        var { id } = req.params;
+        var id = req.params.id;
         if (!id) {
             return res.status(400).json({ error: "Ugyldig ID" });
         }

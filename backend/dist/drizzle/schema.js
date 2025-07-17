@@ -16,7 +16,7 @@ exports.library = (0, pg_core_1.pgTable)("library", {
     id: (0, pg_core_1.uuid)("id").defaultRandom().primaryKey().notNull(),
     title: (0, pg_core_1.varchar)("title", { length: 255 }).notNull(),
     description: (0, pg_core_1.text)("description").notNull(),
-    createdAt: (0, pg_core_1.timestamp)("created_at", { mode: 'string' }).default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP`),
+    createdAt: (0, pg_core_1.timestamp)("created_at", { mode: 'string' }).default((0, drizzle_orm_1.sql) "CURRENT_TIMESTAMP"),
 });
 // --- Media-tabell for bildeopplasting ---
 exports.media = (0, pg_core_1.pgTable)("media", {
@@ -35,7 +35,7 @@ exports.users = (0, pg_core_1.pgTable)("users", {
 exports.userRoles = (0, pg_core_1.pgTable)("user_roles", {
     userId: (0, pg_core_1.uuid)("user_id").notNull(),
     roleId: (0, pg_core_1.integer)("role_id").references(() => exports.roles.id).notNull(),
-}, (table) => ({
+}, function(table) { return ({
     primaryKey: (0, pg_core_1.primaryKey)({ columns: [table.userId, table.roleId], name: "user_roles_user_id_role_id_pk" })
 }));
 // --- Tabell: courses (hovedtabell for kurs) ---
@@ -52,8 +52,8 @@ exports.courses = (0, pg_core_1.pgTable)("courses", {
     keywords: (0, pg_core_1.text)("keywords").array(),
     imageUrl: (0, pg_core_1.text)("image_url"),
     metadata: (0, pg_core_1.jsonb)("metadata"),
-    createdAt: (0, pg_core_1.timestamp)("created_at", { mode: 'string' }).default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP`),
-    updatedAt: (0, pg_core_1.timestamp)("updated_at", { mode: 'string' }).default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP`),
+    createdAt: (0, pg_core_1.timestamp)("created_at", { mode: 'string' }).default((0, drizzle_orm_1.sql) "CURRENT_TIMESTAMP"),
+    updatedAt: (0, pg_core_1.timestamp)("updated_at", { mode: 'string' }).default((0, drizzle_orm_1.sql) "CURRENT_TIMESTAMP"),
 });
 // --- Tabell: nano (kapittel) ---
 exports.nano = (0, pg_core_1.pgTable)("nano", {
@@ -61,7 +61,7 @@ exports.nano = (0, pg_core_1.pgTable)("nano", {
     courseId: (0, pg_core_1.uuid)("course_id").references(() => exports.courses.id, { onDelete: 'cascade' }).notNull(),
     title: (0, pg_core_1.varchar)("title", { length: 255 }).notNull(),
     order: (0, pg_core_1.integer)("order").notNull(),
-    createdAt: (0, pg_core_1.timestamp)("created_at", { mode: 'string' }).default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP`),
+    createdAt: (0, pg_core_1.timestamp)("created_at", { mode: 'string' }).default((0, drizzle_orm_1.sql) "CURRENT_TIMESTAMP"),
 });
 // --- Tabell: unit (selvstendig innhold) ---
 exports.unit = (0, pg_core_1.pgTable)("unit", {
@@ -71,7 +71,7 @@ exports.unit = (0, pg_core_1.pgTable)("unit", {
     body: (0, pg_core_1.text)("body").notNull(), // HTML-innhold
     illustrationUrl: (0, pg_core_1.text)("illustration_url"),
     order: (0, pg_core_1.integer)("order").notNull(),
-    createdAt: (0, pg_core_1.timestamp)("created_at", { mode: 'string' }).default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP`),
+    createdAt: (0, pg_core_1.timestamp)("created_at", { mode: 'string' }).default((0, drizzle_orm_1.sql) "CURRENT_TIMESTAMP"),
 });
 // --- Tabell: userProgress (brukerprogresjon) ---
 exports.userProgress = (0, pg_core_1.pgTable)('user_progress', {
