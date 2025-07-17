@@ -34,24 +34,24 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-const node_postgres_1 = require("drizzle-orm/node-postgres");
-const pg_1 = require("pg");
-const drizzle_orm_1 = require("drizzle-orm");
-const path = __importStar(require("path"));
-const fs = __importStar(require("fs"));
-const parser_1 = require("../utils/parser");
-const schema_1 = require("../drizzle/schema");
-const imageProcessor_1 = require("../utils/imageProcessor");
+var node_postgres_1 = require("drizzle-orm/node-postgres");
+var pg_1 = require("pg");
+var drizzle_orm_1 = require("drizzle-orm");
+var path = __importStar(require("path"));
+var fs = __importStar(require("fs"));
+var parser_1 = require("../utils/parser");
+var schema_1 = require("../drizzle/schema");
+var imageProcessor_1 = require("../utils/imageProcessor");
 // Database connection
-const pool = new pg_1.Pool({
+var pool = new pg_1.Pool({
     connectionString: process.env.DATABASE_URL || process.env.POSTGRES_URL,
 });
-const db = (0, node_postgres_1.drizzle)(pool);
+var db = (0, node_postgres_1.drizzle)(pool);
 async function importCourses() {
     console.log('🚀 Starting course import...');
     try {
         // Check if data directory exists
-        const dataDir = path.join(process.cwd(), 'data');
+        var dataDir = path.join(process.cwd(), 'data');
         if (!fs.existsSync(dataDir)) {
             console.log('📁 Creating data directory...');
             fs.mkdirSync(dataDir, { recursive: true });
@@ -60,7 +60,7 @@ async function importCourses() {
         }
         // Parse all markdown files
         console.log('📖 Parsing markdown files...');
-        const parsedCourses = parser_1.MarkdownCourseParser.parseDirectory(dataDir);
+        var parsedCourses = parser_1.MarkdownCourseParser.parseDirectory(dataDir);
         if (parsedCourses.length === 0) {
             console.log('⚠️ No markdown files found in /data/');
             console.log('💡 Add some .md files to get started');
@@ -68,7 +68,7 @@ async function importCourses() {
         }
         console.log(`📊 Found ${parsedCourses.length} courses to import`);
         // Import each course
-        for (const parsedCourse of parsedCourses) {
+        for (var parsedCourse of parsedCourses) {
             await importCourse(parsedCourse);
         }
         console.log('✅ Course import completed successfully!');
@@ -85,13 +85,13 @@ async function importCourse(parsedCourse) {
     console.log(`\n📚 Importing course: ${parsedCourse.title}`);
     try {
         // Check if course already exists
-        const existingCourse = await db.select().from(schema_1.courses).where((0, drizzle_orm_1.eq)(schema_1.courses.slug, parsedCourse.slug));
+        var existingCourse = await db.select().from(schema_1.courses).where((0, drizzle_orm_1.eq)(schema_1.courses.slug, parsedCourse.slug));
         if (existingCourse.length > 0) {
             console.log(`⚠️ Course "${parsedCourse.title}" already exists, skipping...`);
             return;
         }
         // Insert course
-        const [insertedCourse] = await db.insert(schema_1.courses).values({
+        var [insertedCourse] = await db.insert(schema_1.courses).values({
             slug: parsedCourse.slug,
             title: parsedCourse.title,
             category: parsedCourse.metadata.category,
@@ -106,15 +106,15 @@ async function importCourse(parsedCourse) {
         }).returning();
         console.log(`✅ Course inserted: ${insertedCourse.id}`);
         // Insert nano and units
-        for (const parsedNano of parsedCourse.nano) {
-            const [insertedNano] = await db.insert(schema_1.nano).values({
+        for (var parsedNano of parsedCourse.nano) {
+            var [insertedNano] = await db.insert(schema_1.nano).values({
                 courseId: insertedCourse.id,
                 title: parsedNano.title,
                 order: parsedNano.order
             }).returning();
             console.log(`  📖 Nano inserted: ${parsedNano.title}`);
             // Insert units for this nano
-            for (const parsedUnit of parsedNano.units) {
+            for (var parsedUnit of parsedNano.units) {
                 // Process illustrationUrl if it exists
                 let processedIllustrationUrl = parsedUnit.illustrationUrl;
                 if (parsedUnit.illustrationUrl) {
@@ -125,7 +125,7 @@ async function importCourse(parsedCourse) {
                 let processedBody = parsedUnit.body;
                 if (parsedUnit.body) {
                     console.log(`    🖼️ Processing images in unit body: ${parsedUnit.title}`);
-                    const { processedContent } = await imageProcessor_1.ImageProcessor.processMarkdownImages(parsedUnit.body);
+                    var { processedContent } = await imageProcessor_1.ImageProcessor.processMarkdownImages(parsedUnit.body);
                     processedBody = processedContent;
                 }
                 await db.insert(schema_1.unit).values({
@@ -146,9 +146,9 @@ async function importCourse(parsedCourse) {
 }
 // Create sample markdown file if none exists
 function createSampleMarkdown() {
-    const samplePath = path.join(process.cwd(), 'data', 'sample-course.md');
+    var samplePath = path.join(process.cwd(), 'data', 'sample-course.md');
     if (!fs.existsSync(samplePath)) {
-        const sampleContent = `//: {
+        var sampleContent = `//: {
   "category": "Ernæring",
   "location": "Institusjon",
   "targetUser": "Pleieassistenter",

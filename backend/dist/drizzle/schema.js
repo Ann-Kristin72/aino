@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userProgress = exports.unit = exports.nano = exports.courses = exports.userRoles = exports.users = exports.media = exports.library = exports.categories = exports.roles = void 0;
-const pg_core_1 = require("drizzle-orm/pg-core");
-const drizzle_orm_1 = require("drizzle-orm");
+var pg_core_1 = require("drizzle-orm/pg-core");
+var drizzle_orm_1 = require("drizzle-orm");
 exports.roles = (0, pg_core_1.pgTable)("roles", {
     id: (0, pg_core_1.serial)("id").primaryKey().notNull(),
     name: (0, pg_core_1.text)("name").notNull().unique(),

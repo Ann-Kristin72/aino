@@ -1,17 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = require("express");
-const node_postgres_1 = require("drizzle-orm/node-postgres");
-const pg_1 = require("pg");
-const drizzle_orm_1 = require("drizzle-orm");
-const schema_1 = require("../drizzle/schema");
-const imageUrlConverter_1 = require("../utils/imageUrlConverter");
-const router = (0, express_1.Router)();
+var express_1 = require("express");
+var node_postgres_1 = require("drizzle-orm/node-postgres");
+var pg_1 = require("pg");
+var drizzle_orm_1 = require("drizzle-orm");
+var schema_1 = require("../drizzle/schema");
+var imageUrlConverter_1 = require("../utils/imageUrlConverter");
+var router = (0, express_1.Router)();
 // Database connection
-const pool = new pg_1.Pool({
+var pool = new pg_1.Pool({
     connectionString: process.env.DATABASE_URL || process.env.POSTGRES_URL,
 });
-const db = (0, node_postgres_1.drizzle)(pool);
+var db = (0, node_postgres_1.drizzle)(pool);
 /**
  * GET /api/library
  * Returnerer liste over alle kurs
@@ -19,7 +19,7 @@ const db = (0, node_postgres_1.drizzle)(pool);
 router.get('/', async (req, res) => {
     try {
         console.log('📚 Fetching all courses...');
-        const allCourses = await db.select({
+        var allCourses = await db.select({
             id: schema_1.courses.id,
             slug: schema_1.courses.slug,
             title: schema_1.courses.title,
@@ -51,26 +51,26 @@ router.get('/', async (req, res) => {
  */
 router.get('/:slug', async (req, res) => {
     try {
-        const { slug } = req.params;
+        var { slug } = req.params;
         console.log(`📖 Fetching course: ${slug}`);
         // Get course details
-        const courseResult = await db.select().from(schema_1.courses).where((0, drizzle_orm_1.eq)(schema_1.courses.slug, slug));
+        var courseResult = await db.select().from(schema_1.courses).where((0, drizzle_orm_1.eq)(schema_1.courses.slug, slug));
         if (courseResult.length === 0) {
             return res.status(404).json({
                 success: false,
                 error: 'Course not found'
             });
         }
-        const course = courseResult[0];
+        var course = courseResult[0];
         // Get nano for this course
-        const nanoResult = await db.select().from(schema_1.nano).where((0, drizzle_orm_1.eq)(schema_1.nano.courseId, course.id));
+        var nanoResult = await db.select().from(schema_1.nano).where((0, drizzle_orm_1.eq)(schema_1.nano.courseId, course.id));
         // Get units for each nano and convert image URLs
-        const courseWithContent = {
+        var courseWithContent = {
             ...course,
             nano: await Promise.all(nanoResult.map(async (nanoItem) => {
-                const units = await db.select().from(schema_1.unit).where((0, drizzle_orm_1.eq)(schema_1.unit.nanoId, nanoItem.id));
+                var units = await db.select().from(schema_1.unit).where((0, drizzle_orm_1.eq)(schema_1.unit.nanoId, nanoItem.id));
                 // Convert image URLs in unit content
-                const unitsWithConvertedImages = units.map(unitItem => ({
+                var unitsWithConvertedImages = units.map(unitItem => ({
                     ...unitItem,
                     body: imageUrlConverter_1.ImageUrlConverter.convertHtmlContent(unitItem.body),
                     illustrationUrl: unitItem.illustrationUrl ? imageUrlConverter_1.ImageUrlConverter.convertImageUrl(unitItem.illustrationUrl) : undefined
@@ -103,9 +103,9 @@ router.get('/:slug', async (req, res) => {
  */
 router.get('/category/:category', async (req, res) => {
     try {
-        const { category } = req.params;
+        var { category } = req.params;
         console.log(`📚 Fetching courses for category: ${category}`);
-        const categoryCourses = await db.select({
+        var categoryCourses = await db.select({
             id: schema_1.courses.id,
             slug: schema_1.courses.slug,
             title: schema_1.courses.title,
@@ -137,9 +137,9 @@ router.get('/category/:category', async (req, res) => {
  */
 router.get('/target-user/:targetUser', async (req, res) => {
     try {
-        const { targetUser } = req.params;
+        var { targetUser } = req.params;
         console.log(`👥 Fetching courses for target user: ${targetUser}`);
-        const targetUserCourses = await db.select({
+        var targetUserCourses = await db.select({
             id: schema_1.courses.id,
             slug: schema_1.courses.slug,
             title: schema_1.courses.title,
@@ -171,10 +171,10 @@ router.get('/target-user/:targetUser', async (req, res) => {
  */
 router.get('/search', async (req, res) => {
     try {
-        const { category, location, targetUser, language } = req.query;
+        var { category, location, targetUser, language } = req.query;
         console.log('🔍 Searching courses with filters:', { category, location, targetUser, language });
         // Build query with filters
-        const conditions = [];
+        var conditions = [];
         if (category)
             conditions.push((0, drizzle_orm_1.eq)(schema_1.courses.category, category));
         if (location)
@@ -183,7 +183,7 @@ router.get('/search', async (req, res) => {
             conditions.push((0, drizzle_orm_1.eq)(schema_1.courses.targetUser, targetUser));
         if (language)
             conditions.push((0, drizzle_orm_1.eq)(schema_1.courses.language, language));
-        const searchResults = await db.select({
+        var searchResults = await db.select({
             id: schema_1.courses.id,
             slug: schema_1.courses.slug,
             title: schema_1.courses.title,

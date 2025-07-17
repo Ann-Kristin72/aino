@@ -1,15 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAdmins = getAdmins;
-const pg_1 = require("pg");
-const dotenv_1 = require("dotenv");
+var pg_1 = require("pg");
+var dotenv_1 = require("dotenv");
 (0, dotenv_1.config)();
-const pool = new pg_1.Pool({ connectionString: process.env.DATABASE_URL });
+var pool = new pg_1.Pool({ connectionString: process.env.DATABASE_URL });
 async function getAdmins() {
     try {
         console.log("🔍 getAdmins: Starting query...");
         console.log("🔍 getAdmins: DATABASE_URL exists:", !!process.env.DATABASE_URL);
-        const { rows } = await pool.query(`
+        var { rows } = await pool.query(`
       SELECT
         u.id,
         u.name,

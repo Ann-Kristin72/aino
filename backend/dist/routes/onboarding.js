@@ -3,15 +3,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const db_1 = require("../drizzle/db");
-const schema_1 = require("../drizzle/schema");
-const drizzle_orm_1 = require("drizzle-orm");
-const router = express_1.default.Router();
+var express_1 = __importDefault(require("express"));
+var db_1 = require("../drizzle/db");
+var schema_1 = require("../drizzle/schema");
+var drizzle_orm_1 = require("drizzle-orm");
+var router = express_1.default.Router();
 // POST /onboarding - Opprett ny bruker og koble til rolle
 router.post('/onboarding', async (req, res) => {
     try {
-        const { name, email, role } = req.body;
+        var { name, email, role } = req.body;
         // Validering
         if (!name || !email || !role) {
             return res.status(400).json({
@@ -19,7 +19,7 @@ router.post('/onboarding', async (req, res) => {
             });
         }
         // Sjekk om bruker allerede finnes
-        const existingUser = await db_1.db
+        var existingUser = await db_1.db
             .select()
             .from(schema_1.users)
             .where((0, drizzle_orm_1.eq)(schema_1.users.email, email))
@@ -30,7 +30,7 @@ router.post('/onboarding', async (req, res) => {
             });
         }
         // Finn rolle-ID
-        const roleRecord = await db_1.db
+        var roleRecord = await db_1.db
             .select()
             .from(schema_1.roles)
             .where((0, drizzle_orm_1.eq)(schema_1.roles.name, role))
@@ -41,7 +41,7 @@ router.post('/onboarding', async (req, res) => {
             });
         }
         // Opprett ny bruker
-        const [newUser] = await db_1.db
+        var [newUser] = await db_1.db
             .insert(schema_1.users)
             .values({ name, email })
             .returning();

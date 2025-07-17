@@ -3,21 +3,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const cors_1 = __importDefault(require("cors"));
-const content_1 = __importDefault(require("./routes/content"));
-const admins_1 = __importDefault(require("./routes/admins"));
-const roles_1 = __importDefault(require("./routes/roles"));
-const categories_1 = __importDefault(require("./routes/categories"));
-const onboarding_1 = __importDefault(require("./routes/onboarding"));
-const library_1 = __importDefault(require("./routes/library"));
-const progress_1 = __importDefault(require("./routes/progress"));
+var express_1 = __importDefault(require("express"));
+var cors_1 = __importDefault(require("cors"));
+var content_1 = __importDefault(require("./routes/content"));
+var admins_1 = __importDefault(require("./routes/admins"));
+var roles_1 = __importDefault(require("./routes/roles"));
+var categories_1 = __importDefault(require("./routes/categories"));
+var onboarding_1 = __importDefault(require("./routes/onboarding"));
+var library_1 = __importDefault(require("./routes/library"));
+var progress_1 = __importDefault(require("./routes/progress"));
 // Log environment variables for debugging
 console.log("🔍 Environment Debug:");
 console.log("PORT:", process.env.PORT);
 console.log("NODE_ENV:", process.env.NODE_ENV);
 console.log("DB URL (first 30 chars):", process.env.DATABASE_URL?.slice(0, 30) + "...");
-const app = (0, express_1.default)();
+var app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use("/api/content", content_1.default);
@@ -39,7 +39,7 @@ app.get("/health", (_req, res) => {
 app.get("/", (req, res) => {
     res.send("🎉 Aino backend is alive!");
 });
-const PORT = parseInt(process.env.PORT || '3001');
+var PORT = parseInt(process.env.PORT || '3001');
 // Error handler - must be last
 app.use((err, req, res, _next) => {
     console.error("❌ Unhandled error:", err);

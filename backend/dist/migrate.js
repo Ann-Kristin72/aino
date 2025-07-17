@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const db_1 = require("./drizzle/db");
-const drizzle_orm_1 = require("drizzle-orm");
+var db_1 = require("./drizzle/db");
+var drizzle_orm_1 = require("drizzle-orm");
 async function migrate() {
     try {
         console.log('🔄 Running migration for user_progress table...');

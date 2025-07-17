@@ -3,17 +3,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const db_1 = require("../drizzle/db");
-const schema_1 = require("../drizzle/schema");
-const drizzle_orm_1 = require("drizzle-orm");
-const getAdmins_1 = require("../lib/getAdmins");
-const router = express_1.default.Router();
+var express_1 = __importDefault(require("express"));
+var db_1 = require("../drizzle/db");
+var schema_1 = require("../drizzle/schema");
+var drizzle_orm_1 = require("drizzle-orm");
+var getAdmins_1 = require("../lib/getAdmins");
+var router = express_1.default.Router();
 // GET /api/admins - Get all admins (users with hovedredaktør role)
 router.get("/", async (req, res) => {
     try {
         console.log("✅ Backend: GET /api/admins");
-        const admins = await (0, getAdmins_1.getAdmins)();
+        var admins = await (0, getAdmins_1.getAdmins)();
         console.log("✅ Found admins:", admins);
         res.json(admins);
     }
@@ -25,12 +25,12 @@ router.get("/", async (req, res) => {
 // GET /api/admins/:id - Get specific admin by ID
 router.get("/:id", async (req, res) => {
     try {
-        const { id } = req.params;
+        var { id } = req.params;
         if (!id) {
             return res.status(400).json({ error: "Ugyldig ID" });
         }
         console.log("✅ Backend: GET /api/admins/:id - fetching:", id);
-        const admin = await db_1.db
+        var admin = await db_1.db
             .select({
             id: schema_1.users.id,
             name: schema_1.users.name,
@@ -53,13 +53,13 @@ router.get("/:id", async (req, res) => {
 });
 // POST /api/admins - Create new admin
 router.post("/", async (req, res) => {
-    const { name, email, roleId } = req.body;
+    var { name, email, roleId } = req.body;
     if (!name || !email || !roleId) {
         return res.status(400).json({ error: "Name, email og roleId er påkrevd" });
     }
     try {
         // Opprett bruker
-        const nyUser = await db_1.db
+        var nyUser = await db_1.db
             .insert(schema_1.users)
             .values({ name, email })
             .returning();
@@ -78,13 +78,13 @@ router.post("/", async (req, res) => {
 // DELETE /api/admins/:id - Delete admin
 router.delete("/:id", async (req, res) => {
     try {
-        const { id } = req.params;
+        var { id } = req.params;
         if (!id) {
             return res.status(400).json({ error: "Invalid ID" });
         }
         console.log("✅ Backend: DELETE /api/admins/:id - deleting:", id);
         // Check if admin exists first
-        const existingAdmin = await db_1.db
+        var existingAdmin = await db_1.db
             .select()
             .from(schema_1.users)
             .where((0, drizzle_orm_1.eq)(schema_1.users.id, id))
@@ -111,8 +111,8 @@ router.delete("/:id", async (req, res) => {
 // PUT /api/admins/:id - Update admin
 router.put("/:id", async (req, res) => {
     try {
-        const { id } = req.params;
-        const { name, email } = req.body;
+        var { id } = req.params;
+        var { name, email } = req.body;
         if (!id) {
             return res.status(400).json({ error: "Invalid ID" });
         }
@@ -121,7 +121,7 @@ router.put("/:id", async (req, res) => {
         }
         console.log("✅ Backend: PUT /api/admins/:id - updating:", id, { name, email });
         // Check if admin exists first
-        const existingAdmin = await db_1.db
+        var existingAdmin = await db_1.db
             .select()
             .from(schema_1.users)
             .where((0, drizzle_orm_1.eq)(schema_1.users.id, id))
@@ -138,7 +138,7 @@ router.put("/:id", async (req, res) => {
         })
             .where((0, drizzle_orm_1.eq)(schema_1.users.id, id));
         // Fetch and return updated admin
-        const updatedAdmin = await db_1.db
+        var updatedAdmin = await db_1.db
             .select({
             id: schema_1.users.id,
             name: schema_1.users.name,
