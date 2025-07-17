@@ -143,7 +143,6 @@ backend-fixed.zip
 *-dist/
 
 # Build artifacts
-backend/dist/
 frontend/.next/
 frontend/out/
 
