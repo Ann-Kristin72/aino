@@ -4,15 +4,15 @@
 // import { relations } from 'drizzle-orm';
 // import { users, roles, userRoles, courses, nano, unit } from './schema';
 // Relasjoner for users
-// export var userRelations = relationsfunction(users, ({ many }) { return ({
+// export const userRelations = relations(users, ({ many }) => ({
 //   userRoles: many(userRoles),
 // }));
 // Relasjoner for roles
-// export var roleRelations = relationsfunction(roles, ({ many }) { return ({
+// export const roleRelations = relations(roles, ({ many }) => ({
 //   userRoles: many(userRoles),
 // }));
 // Relasjoner for user_roles
-// export var userRoleRelations = relationsfunction(userRoles, ({ one }) { return ({
+// export const userRoleRelations = relations(userRoles, ({ one }) => ({
 //   user: one(users, {
 //     fields: [userRoles.userId],
 //     references: [users.id],
@@ -23,11 +23,11 @@
 //   }),
 // }));
 // Relasjoner for courses
-// export var courseRelations = relationsfunction(courses, ({ many }) { return ({
+// export const courseRelations = relations(courses, ({ many }) => ({
 //   nano: many(nano),
 // }));
 // Relasjoner for nano
-// export var nanoRelations = relationsfunction(nano, ({ one, many }) { return ({
+// export const nanoRelations = relations(nano, ({ one, many }) => ({
 //   course: one(courses, {
 //     fields: [nano.courseId],
 //     references: [courses.id],
@@ -35,7 +35,7 @@
 //   units: many(unit),
 // }));
 // Relasjoner for unit
-// export var unitRelations = relationsfunction(unit, ({ one }) { return ({
+// export const unitRelations = relations(unit, ({ one }) => ({
 //   nano: one(nano, {
 //     fields: [unit.nanoId],
 //     references: [nano.id],

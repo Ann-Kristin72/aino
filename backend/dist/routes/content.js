@@ -3,19 +3,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = __importDefault(require("express"));
-var db_1 = require("../drizzle/db");
-var schema_1 = require("../drizzle/schema");
-var imageUrlConverter_1 = require("../utils/imageUrlConverter");
-var imageProcessor_1 = require("../utils/imageProcessor");
-var marked_1 = require("marked");
-var drizzle_orm_1 = require("drizzle-orm");
-var router = express_1.default.Router();
+const express_1 = __importDefault(require("express"));
+const db_1 = require("../drizzle/db");
+const schema_1 = require("../drizzle/schema");
+const imageUrlConverter_1 = require("../utils/imageUrlConverter");
+const imageProcessor_1 = require("../utils/imageProcessor");
+const marked_1 = require("marked");
+const drizzle_orm_1 = require("drizzle-orm");
+const router = express_1.default.Router();
 // GET /api/content - Get all content (for backward compatibility)
-router.get("/", async function(req, res) {
+router.get("/", async (req, res) => {
     try {
         console.log("✅ Backend: GET /api/content");
-        var result = await db_1.db.select().from(schema_1.courses).orderBy(schema_1.courses.createdAt);
+        const result = await db_1.db.select().from(schema_1.courses).orderBy(schema_1.courses.createdAt);
         console.log("✅ Found content items:", result.length);
         res.json(result);
     }
@@ -25,32 +25,32 @@ router.get("/", async function(req, res) {
     }
 });
 // GET /api/content/:slug - Get specific course by slug
-router.get("/slug/:slug", async function(req, res) {
+router.get("/slug/:slug", async (req, res) => {
     try {
-        var slug = req.params.slug;
+        const { slug } = req.params;
         console.log("✅ Backend: GET /api/content/slug/:slug - fetching:", slug);
-        var result = await db_1.db.select().from(schema_1.courses).where((0, drizzle_orm_1.eq)(schema_1.courses.slug, slug));
+        const result = await db_1.db.select().from(schema_1.courses).where((0, drizzle_orm_1.eq)(schema_1.courses.slug, slug));
         if (result.length === 0) {
             return res.status(404).json({ error: "Kurs ikke funnet" });
         }
-        var course = result[0];
+        const course = result[0];
         console.log("✅ Found course:", course.title);
         // Fetch nano for this course
-        var nanoResult = await db_1.db.select().from(schema_1.nano).where((0, drizzle_orm_1.eq)(schema_1.nano.courseId, course.id)).orderBy(schema_1.nano.order);
+        const nanoResult = await db_1.db.select().from(schema_1.nano).where((0, drizzle_orm_1.eq)(schema_1.nano.courseId, course.id)).orderBy(schema_1.nano.order);
         console.log("✅ Found nano items:", nanoResult.length);
         // Fetch units for each nano and convert image URLs
-        var courseWithContent = {
-            Object.assign({}, course),
-            nano: await Promise.all(nanoResult.map(async function(nanoItem) {
-                var unitsResult = await db_1.db.select().from(schema_1.unit).where((0, drizzle_orm_1.eq)(schema_1.unit.nanoId, nanoItem.id)).orderBy(schema_1.unit.order);
+        const courseWithContent = {
+            ...course,
+            nano: await Promise.all(nanoResult.map(async (nanoItem) => {
+                const unitsResult = await db_1.db.select().from(schema_1.unit).where((0, drizzle_orm_1.eq)(schema_1.unit.nanoId, nanoItem.id)).orderBy(schema_1.unit.order);
                 // Convert image URLs in unit content
-                var unitsWithConvertedImages = unitsResult.map(unitItem => ({
-                    Object.assign({}, unitItem),
+                const unitsWithConvertedImages = unitsResult.map(unitItem => ({
+                    ...unitItem,
                     body: imageUrlConverter_1.ImageUrlConverter.convertHtmlContent(unitItem.body),
                     illustrationUrl: unitItem.illustrationUrl ? imageUrlConverter_1.ImageUrlConverter.convertImageUrl(unitItem.illustrationUrl) : undefined
                 }));
                 return {
-                    Object.assign({}, nanoItem),
+                    ...nanoItem,
                     units: unitsWithConvertedImages
                 };
             }))
@@ -63,32 +63,32 @@ router.get("/slug/:slug", async function(req, res) {
     }
 });
 // GET /api/content/id/:id - Get specific course by ID
-router.get("/id/:id", async function(req, res) {
+router.get("/id/:id", async (req, res) => {
     try {
-        var id = req.params.id;
+        const { id } = req.params;
         console.log("✅ Backend: GET /api/content/id/:id - fetching:", id);
-        var result = await db_1.db.select().from(schema_1.courses).where((0, drizzle_orm_1.eq)(schema_1.courses.id, id));
+        const result = await db_1.db.select().from(schema_1.courses).where((0, drizzle_orm_1.eq)(schema_1.courses.id, id));
         if (result.length === 0) {
             return res.status(404).json({ error: "Kurs ikke funnet" });
         }
-        var course = result[0];
+        const course = result[0];
         console.log("✅ Found course:", course.title);
         // Fetch nano for this course
-        var nanoResult = await db_1.db.select().from(schema_1.nano).where((0, drizzle_orm_1.eq)(schema_1.nano.courseId, course.id)).orderBy(schema_1.nano.order);
+        const nanoResult = await db_1.db.select().from(schema_1.nano).where((0, drizzle_orm_1.eq)(schema_1.nano.courseId, course.id)).orderBy(schema_1.nano.order);
         console.log("✅ Found nano items:", nanoResult.length);
         // Fetch units for each nano and convert image URLs
-        var courseWithNanoAndUnits = {
-            Object.assign({}, course),
-            nano: await Promise.all(nanoResult.map(async function(nanoItem) {
-                var unitsResult = await db_1.db.select().from(schema_1.unit).where((0, drizzle_orm_1.eq)(schema_1.unit.nanoId, nanoItem.id)).orderBy(schema_1.unit.order);
+        const courseWithNanoAndUnits = {
+            ...course,
+            nano: await Promise.all(nanoResult.map(async (nanoItem) => {
+                const unitsResult = await db_1.db.select().from(schema_1.unit).where((0, drizzle_orm_1.eq)(schema_1.unit.nanoId, nanoItem.id)).orderBy(schema_1.unit.order);
                 // Convert image URLs in unit content
-                var unitsWithConvertedImages = unitsResult.map(unitItem => ({
-                    Object.assign({}, unitItem),
+                const unitsWithConvertedImages = unitsResult.map(unitItem => ({
+                    ...unitItem,
                     body: imageUrlConverter_1.ImageUrlConverter.convertHtmlContent(unitItem.body),
                     illustrationUrl: unitItem.illustrationUrl ? imageUrlConverter_1.ImageUrlConverter.convertImageUrl(unitItem.illustrationUrl) : undefined
                 }));
                 return {
-                    Object.assign({}, nanoItem),
+                    ...nanoItem,
                     units: unitsWithConvertedImages
                 };
             }))
@@ -101,33 +101,33 @@ router.get("/id/:id", async function(req, res) {
     }
 });
 // GET /api/content/unit/:unitId - Get specific unit by ID
-router.get("/unit/:unitId", async function(req, res) {
+router.get("/unit/:unitId", async (req, res) => {
     try {
-        var unitId = req.params.unitId;
+        const { unitId } = req.params;
         console.log("✅ Backend: GET /api/content/unit/:unitId - fetching:", unitId);
         // Fetch the unit
-        var unitResult = await db_1.db.select().from(schema_1.unit).where((0, drizzle_orm_1.eq)(schema_1.unit.id, unitId));
+        const unitResult = await db_1.db.select().from(schema_1.unit).where((0, drizzle_orm_1.eq)(schema_1.unit.id, unitId));
         if (unitResult.length === 0) {
             return res.status(404).json({ error: "Enhet ikke funnet" });
         }
-        var unitData = unitResult[0];
+        const unitData = unitResult[0];
         console.log("✅ Found unit:", unitData.title);
         // Fetch the parent nano
-        var nanoResult = await db_1.db.select().from(schema_1.nano).where((0, drizzle_orm_1.eq)(schema_1.nano.id, unitData.nanoId));
+        const nanoResult = await db_1.db.select().from(schema_1.nano).where((0, drizzle_orm_1.eq)(schema_1.nano.id, unitData.nanoId));
         if (nanoResult.length === 0) {
             return res.status(404).json({ error: "Nano ikke funnet" });
         }
-        var nanoData = nanoResult[0];
+        const nanoData = nanoResult[0];
         console.log("✅ Found nano:", nanoData.title);
         // Fetch the parent course
-        var courseResult = await db_1.db.select().from(schema_1.courses).where((0, drizzle_orm_1.eq)(schema_1.courses.id, nanoData.courseId));
+        const courseResult = await db_1.db.select().from(schema_1.courses).where((0, drizzle_orm_1.eq)(schema_1.courses.id, nanoData.courseId));
         if (courseResult.length === 0) {
             return res.status(404).json({ error: "Kurs ikke funnet" });
         }
-        var courseData = courseResult[0];
+        const courseData = courseResult[0];
         console.log("✅ Found course:", courseData.title);
         // Return unit with context
-        var unitWithContext = {
+        const unitWithContext = {
             unit: unitData,
             nano: nanoData,
             course: courseData
@@ -140,17 +140,10 @@ router.get("/unit/:unitId", async function(req, res) {
     }
 });
 // POST /api/content - Create new course content from WriterTab
-router.post("/", async function(req, res) {
-    var title = req.body.title;
-var category = req.body.category;
-var location = req.body.location;
-var targetUser = req.body.targetUser;
-var language = req.body.language;
-var author = req.body.author;
-var revisionInterval = req.body.revisionInterval;
-var markdown = req.body.markdown;
-var content // For backward compatibility = req.body.content // For backward compatibility;
-    var markdownContent = markdown || content;
+router.post("/", async (req, res) => {
+    const { title, category, location, targetUser, language, author, revisionInterval, markdown, content // For backward compatibility
+     } = req.body;
+    const markdownContent = markdown || content;
     if (!title || !markdownContent) {
         return res.status(400).json({ error: "Tittel og markdown er påkrevd" });
     }
@@ -163,16 +156,15 @@ var content // For backward compatibility = req.body.content // For backward com
         });
         // Process images in markdown content - migrate to Azure
         console.log("🖼️ Processing images in markdown content...");
-        var processedContent = await imageProcessor_1.ImageProcessor.processMarkdownImages(markdownContent).processedContent;
-var migratedImages = await imageProcessor_1.ImageProcessor.processMarkdownImages(markdownContent).migratedImages;
+        const { processedContent, migratedImages } = await imageProcessor_1.ImageProcessor.processMarkdownImages(markdownContent);
         if (migratedImages.length > 0) {
-            console.log("✅ Migrated " + migratedImages.length + " images to Azure Blob Storage");
+            console.log(`✅ Migrated ${migratedImages.length} images to Azure Blob Storage`);
         }
         else {
             console.log("ℹ️ No images found to migrate");
         }
         // Generate unique slug from title
-        var baseSlug = title
+        const baseSlug = title
             .toLowerCase()
             .replace(/æ/g, 'ae')
             .replace(/ø/g, 'oe')
@@ -182,18 +174,18 @@ var migratedImages = await imageProcessor_1.ImageProcessor.processMarkdownImages
             .replace(/-+/g, '-')
             .trim();
         // Check if slug already exists and add timestamp if needed
-        var slug = baseSlug;
-        var counter = 1;
+        let slug = baseSlug;
+        let counter = 1;
         while (true) {
-            var existing = await db_1.db.select().from(schema_1.courses).where((0, drizzle_orm_1.eq)(schema_1.courses.slug, slug));
+            const existing = await db_1.db.select().from(schema_1.courses).where((0, drizzle_orm_1.eq)(schema_1.courses.slug, slug));
             if (existing.length === 0) {
                 break;
             }
-            slug = "" + baseSlug + "-" + counter + "";
+            slug = `${baseSlug}-${counter}`;
             counter++;
         }
         // Create course record
-        var courseResult = await db_1.db.insert(schema_1.courses).values({
+        const courseResult = await db_1.db.insert(schema_1.courses).values({
             slug,
             title,
             category: category || '',
@@ -205,25 +197,25 @@ var migratedImages = await imageProcessor_1.ImageProcessor.processMarkdownImages
             keywords: [],
             metadata: {}
         }).returning();
-        var courseId = courseResult[0].id;
+        const courseId = courseResult[0].id;
         console.log("✅ Course created with ID:", courseId);
         // Parse markdown to extract nano and units (using processed content with Azure URLs)
-        var parsedCourse = parseMarkdownToStructuredData(processedContent, title);
+        const parsedCourse = parseMarkdownToStructuredData(processedContent, title);
         // Insert nano records
-        for (var nanoItem of parsedCourse.nano) {
-            var nanoResult = await db_1.db.insert(schema_1.nano).values({
+        for (const nanoItem of parsedCourse.nano) {
+            const nanoResult = await db_1.db.insert(schema_1.nano).values({
                 courseId,
                 title: nanoItem.title,
                 order: nanoItem.order
             }).returning();
-            var nanoId = nanoResult[0].id;
+            const nanoId = nanoResult[0].id;
             console.log("✅ Nano created:", nanoItem.title, "ID:", nanoId);
             // Insert unit records for this nano
-            for (var unitItem of nanoItem.units) {
+            for (const unitItem of nanoItem.units) {
                 // Process illustrationUrl if it exists
-                var processedIllustrationUrl = unitItem.illustrationUrl;
+                let processedIllustrationUrl = unitItem.illustrationUrl;
                 if (unitItem.illustrationUrl) {
-                    console.log("🖼️ Processing illustration URL: " + unitItem.illustrationUrl + "");
+                    console.log(`🖼️ Processing illustration URL: ${unitItem.illustrationUrl}`);
                     processedIllustrationUrl = await imageProcessor_1.ImageProcessor.processSingleImage(unitItem.illustrationUrl) || unitItem.illustrationUrl;
                 }
                 await db_1.db.insert(schema_1.unit).values({
@@ -250,15 +242,15 @@ var migratedImages = await imageProcessor_1.ImageProcessor.processMarkdownImages
     }
 });
 // DELETE /api/content/:id - Delete course and all related content
-router.delete("/:id", async function(req, res) {
+router.delete("/:id", async (req, res) => {
     try {
-        var id = req.params.id;
+        const { id } = req.params;
         if (!id) {
             return res.status(400).json({ error: "Ugyldig ID" });
         }
         console.log("✅ Backend: DELETE /api/content/:id - deleting:", id);
         // Delete course (cascade will handle nano and unit)
-        var result = await db_1.db.delete(schema_1.courses).where((0, drizzle_orm_1.eq)(schema_1.courses.id, id)).returning();
+        const result = await db_1.db.delete(schema_1.courses).where((0, drizzle_orm_1.eq)(schema_1.courses.id, id)).returning();
         if (result.length === 0) {
             return res.status(404).json({ error: "Kurs ikke funnet" });
         }
@@ -272,15 +264,15 @@ router.delete("/:id", async function(req, res) {
 });
 // Helper function to parse markdown to structured data
 function parseMarkdownToStructuredData(markdown, courseTitle) {
-    var lines = markdown.split('\n');
-    var nano = [];
-    var currentNano = null;
-    var currentUnit = null;
-    var unitContent = [];
-    for (var i = 0; i < lines.length; i++) {
-        var line = lines[i];
+    const lines = markdown.split('\n');
+    const nano = [];
+    let currentNano = null;
+    let currentUnit = null;
+    let unitContent = [];
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
         // Check for nano heading (##)
-        var nanoMatch = line.match(/^##\s+(.+)$/);
+        const nanoMatch = line.match(/^##\s+(.+)$/);
         if (nanoMatch) {
             // Save previous unit if exists
             if (currentUnit && currentNano) {
@@ -302,7 +294,7 @@ function parseMarkdownToStructuredData(markdown, courseTitle) {
             continue;
         }
         // Check for unit heading (###)
-        var unitMatch = line.match(/^###\s+(.+)$/);
+        const unitMatch = line.match(/^###\s+(.+)$/);
         if (unitMatch && currentNano) {
             // Save previous unit if exists
             if (currentUnit) {
@@ -318,7 +310,7 @@ function parseMarkdownToStructuredData(markdown, courseTitle) {
             unitContent = [];
             // Check next line for illustration URL
             if (i + 1 < lines.length) {
-                var nextLine = lines[i + 1].trim();
+                const nextLine = lines[i + 1].trim();
                 if (nextLine && !nextLine.startsWith('#') && !nextLine.startsWith('//')) {
                     currentUnit.illustrationUrl = nextLine;
                     i++; // Skip the illustration URL line

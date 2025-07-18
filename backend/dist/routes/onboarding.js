@@ -3,17 +3,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = __importDefault(require("express"));
-var db_1 = require("../drizzle/db");
-var schema_1 = require("../drizzle/schema");
-var drizzle_orm_1 = require("drizzle-orm");
-var router = express_1.default.Router();
+const express_1 = __importDefault(require("express"));
+const db_1 = require("../drizzle/db");
+const schema_1 = require("../drizzle/schema");
+const drizzle_orm_1 = require("drizzle-orm");
+const router = express_1.default.Router();
 // POST /onboarding - Opprett ny bruker og koble til rolle
-router.post('/onboarding', async function(req, res) {
+router.post('/onboarding', async (req, res) => {
     try {
-        var name = req.body.name;
-var email = req.body.email;
-var role = req.body.role;
+        const { name, email, role } = req.body;
         // Validering
         if (!name || !email || !role) {
             return res.status(400).json({
@@ -21,7 +19,7 @@ var role = req.body.role;
             });
         }
         // Sjekk om bruker allerede finnes
-        var existingUser = await db_1.db
+        const existingUser = await db_1.db
             .select()
             .from(schema_1.users)
             .where((0, drizzle_orm_1.eq)(schema_1.users.email, email))
@@ -32,18 +30,18 @@ var role = req.body.role;
             });
         }
         // Finn rolle-ID
-        var roleRecord = await db_1.db
+        const roleRecord = await db_1.db
             .select()
             .from(schema_1.roles)
             .where((0, drizzle_orm_1.eq)(schema_1.roles.name, role))
             .limit(1);
         if (roleRecord.length === 0) {
             return res.status(400).json({
-                error: "Ugyldig rolle: " + role + ""
+                error: `Ugyldig rolle: ${role}`
             });
         }
         // Opprett ny bruker
-        var [newUser] = await db_1.db
+        const [newUser] = await db_1.db
             .insert(schema_1.users)
             .values({ name, email })
             .returning();

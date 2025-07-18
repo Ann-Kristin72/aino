@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var db_1 = require("./drizzle/db");
-var schema_1 = require("./drizzle/schema");
-var drizzle_orm_1 = require("drizzle-orm");
+const db_1 = require("./drizzle/db");
+const schema_1 = require("./drizzle/schema");
+const drizzle_orm_1 = require("drizzle-orm");
 async function testApi() {
     try {
         console.log("🧪 Testing API logic...");
         // Find hovedredaktør role ID
-        var hovedredaktørRole = await db_1.db
+        const hovedredaktørRole = await db_1.db
             .select()
             .from(schema_1.roles)
             .where((0, drizzle_orm_1.eq)(schema_1.roles.name, "hovedredaktør"))
@@ -18,7 +18,7 @@ async function testApi() {
             return;
         }
         // Get users with this role using the pivot table
-        var redaktører = await db_1.db
+        const redaktører = await db_1.db
             .select({
             id: schema_1.users.id,
             name: schema_1.users.name,

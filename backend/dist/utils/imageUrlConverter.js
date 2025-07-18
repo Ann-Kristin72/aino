@@ -13,14 +13,14 @@ class ImageUrlConverter {
         if (!htmlContent)
             return htmlContent;
         // Convert img src attributes
-        var converted = htmlContent.replace(/<img[^>]+src=["']([^"']+)["'][^>]*>/gi, function(match, src) {
-            var newSrc = this.convertImageUrl(src);
+        let converted = htmlContent.replace(/<img[^>]+src=["']([^"']+)["'][^>]*>/gi, (match, src) => {
+            const newSrc = this.convertImageUrl(src);
             return match.replace(src, newSrc);
         });
         // Convert background-image in style attributes
-        converted = converted.replace(/background-image:\s*url\(['"]?([^'")\s]+)['"]?\)/gi, function(match, url) {
-            var newUrl = this.convertImageUrl(url);
-            return "background-image: url('" + newUrl + "')";
+        converted = converted.replace(/background-image:\s*url\(['"]?([^'")\s]+)['"]?\)/gi, (match, url) => {
+            const newUrl = this.convertImageUrl(url);
+            return `background-image: url('${newUrl}')`;
         });
         return converted;
     }
@@ -33,16 +33,16 @@ class ImageUrlConverter {
         // Convert old Skillaid URLs to new Azure URLs
         if (imageUrl.includes('skillaidmedia.blob.core.windows.net')) {
             // Extract the image path from the old URL
-            var urlParts = imageUrl.split('/');
-            var imagePath = urlParts.slice(-2).join('/'); // Get the last two parts (media/image/filename)
-            return "" + this.AZURE_BASE_URL + "/" + imagePath + "";
+            const urlParts = imageUrl.split('/');
+            const imagePath = urlParts.slice(-2).join('/'); // Get the last two parts (media/image/filename)
+            return `${this.AZURE_BASE_URL}/${imagePath}`;
         }
         // Convert old Skillaid CDN URLs
         if (imageUrl.includes('skillaid-cdn.azureedge.net')) {
             // Extract the image path from the old CDN URL
-            var urlParts = imageUrl.split('/');
-            var imagePath = urlParts.slice(-2).join('/'); // Get the last two parts (media/image/filename)
-            return "" + this.AZURE_BASE_URL + "/" + imagePath + "";
+            const urlParts = imageUrl.split('/');
+            const imagePath = urlParts.slice(-2).join('/'); // Get the last two parts (media/image/filename)
+            return `${this.AZURE_BASE_URL}/${imagePath}`;
         }
         // If it's already the new Azure URL, return as is
         if (imageUrl.includes('ainomedia.blob.core.windows.net')) {
@@ -53,7 +53,7 @@ class ImageUrlConverter {
             return imageUrl;
         }
         // Clean up the URL
-        var cleanUrl = imageUrl;
+        let cleanUrl = imageUrl;
         // Remove leading ./ or / if present
         cleanUrl = cleanUrl.replace(/^\.?\//, '');
         // Handle relative paths (../) - remove the .. but keep the rest
@@ -62,7 +62,7 @@ class ImageUrlConverter {
         // cleanUrl = cleanUrl.replace(/^img\//, '');
         // If it's a relative path, convert to Azure URL
         if (cleanUrl && !cleanUrl.startsWith('http')) {
-            return "" + this.AZURE_BASE_URL + "/" + cleanUrl + "";
+            return `${this.AZURE_BASE_URL}/${cleanUrl}`;
         }
         return imageUrl;
     }
@@ -73,9 +73,9 @@ class ImageUrlConverter {
         if (!markdownContent)
             return markdownContent;
         // Convert ![alt](url) syntax
-        return markdownContent.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, function(match, alt, url) {
-            var newUrl = this.convertImageUrl(url);
-            return "![" + alt + "](" + newUrl + ")";
+        return markdownContent.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, url) => {
+            const newUrl = this.convertImageUrl(url);
+            return `![${alt}](${newUrl})`;
         });
     }
     /**
@@ -83,11 +83,11 @@ class ImageUrlConverter {
      */
     static async validateImageUrl(url) {
         try {
-            var response = await fetch(url, { method: 'HEAD' });
+            const response = await fetch(url, { method: 'HEAD' });
             return response.ok;
         }
         catch (error) {
-            console.warn("⚠️ Image URL validation failed for " + url + ":", error);
+            console.warn(`⚠️ Image URL validation failed for ${url}:`, error);
             return false;
         }
     }
@@ -95,22 +95,22 @@ class ImageUrlConverter {
      * Get all image URLs from HTML content
      */
     static extractImageUrls(htmlContent) {
-        var urls = [];
+        const urls = [];
         // Extract img src attributes
-        var imgMatches = htmlContent.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/gi);
+        const imgMatches = htmlContent.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/gi);
         if (imgMatches) {
             imgMatches.forEach(match => {
-                var srcMatch = match.match(/src=["']([^"']+)["']/i);
+                const srcMatch = match.match(/src=["']([^"']+)["']/i);
                 if (srcMatch) {
                     urls.push(srcMatch[1]);
                 }
             });
         }
         // Extract background-image URLs
-        var bgMatches = htmlContent.match(/background-image:\s*url\(['"]?([^'")\s]+)['"]?\)/gi);
+        const bgMatches = htmlContent.match(/background-image:\s*url\(['"]?([^'")\s]+)['"]?\)/gi);
         if (bgMatches) {
             bgMatches.forEach(match => {
-                var urlMatch = match.match(/url\(['"]?([^'")\s]+)['"]?\)/i);
+                const urlMatch = match.match(/url\(['"]?([^'")\s]+)['"]?\)/i);
                 if (urlMatch) {
                     urls.push(urlMatch[1]);
                 }

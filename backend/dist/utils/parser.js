@@ -34,26 +34,26 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MarkdownCourseParser = void 0;
-var marked_1 = require("marked");
-var fs = __importStar(require("fs"));
-var path = __importStar(require("path"));
-var imageUrlConverter_1 = require("./imageUrlConverter");
+const marked_1 = require("marked");
+const fs = __importStar(require("fs"));
+const path = __importStar(require("path"));
+const imageUrlConverter_1 = require("./imageUrlConverter");
 class MarkdownCourseParser {
     /**
      * Parse a markdown course file to structured data
      */
     static parseMarkdownToCourse(filePath) {
-        console.log("📖 Parsing course file: " + filePath + "");
-        var content = fs.readFileSync(filePath, 'utf-8');
-        var lines = content.split('\n');
+        console.log(`📖 Parsing course file: ${filePath}`);
+        const content = fs.readFileSync(filePath, 'utf-8');
+        const lines = content.split('\n');
         // Extract metadata from //:-block
-        var metadata = this.extractMetadata(content);
+        const metadata = this.extractMetadata(content);
         // Extract course title from first # heading
-        var title = this.extractTitle(lines);
+        const title = this.extractTitle(lines);
         // Generate slug from title
-        var slug = this.generateSlug(title);
+        const slug = this.generateSlug(title);
         // Parse nano and units
-        var nano = this.parseNanoAndUnits(lines);
+        const nano = this.parseNanoAndUnits(lines);
         return {
             metadata,
             title,
@@ -65,7 +65,7 @@ class MarkdownCourseParser {
      * Extract metadata from //:-block
      */
     static extractMetadata(content) {
-        var metadataMatch = content.match(/\/\/:\s*(\{[\s\S]*?\})\s*\n/);
+        const metadataMatch = content.match(/\/\/:\s*(\{[\s\S]*?\})\s*\n/);
         if (!metadataMatch) {
             console.warn('⚠️ No metadata block found, using defaults');
             return {
@@ -79,8 +79,8 @@ class MarkdownCourseParser {
             };
         }
         try {
-            var metadataJson = metadataMatch[1];
-            var metadata = JSON.parse(metadataJson);
+            const metadataJson = metadataMatch[1];
+            const metadata = JSON.parse(metadataJson);
             // Ensure required fields have defaults
             return {
                 category: metadata.category || '',
@@ -91,20 +91,20 @@ class MarkdownCourseParser {
                 revisionInterval: metadata.revisionInterval || '12',
                 keywords: metadata.keywords || [],
                 imageUrl: metadata.imageUrl,
-                Object.assign({}, metadata) // Include any additional metadata
+                ...metadata // Include any additional metadata
             };
         }
         catch (error) {
             console.error('❌ Error parsing metadata:', error);
-            throw new Error("Failed to parse metadata: " + error + "");
+            throw new Error(`Failed to parse metadata: ${error}`);
         }
     }
     /**
      * Extract course title from first # heading
      */
     static extractTitle(lines) {
-        for (var line of lines) {
-            var titleMatch = line.match(/^#\s+(.+)$/);
+        for (const line of lines) {
+            const titleMatch = line.match(/^#\s+(.+)$/);
             if (titleMatch) {
                 return titleMatch[1].trim();
             }
@@ -129,14 +129,14 @@ class MarkdownCourseParser {
      * Parse nano (##) and units (###) from markdown
      */
     static parseNanoAndUnits(lines) {
-        var nano = [];
-        var currentNano = null;
-        var currentUnit = null;
-        var unitContent = [];
-        for (var i = 0; i < lines.length; i++) {
-            var line = lines[i];
+        const nano = [];
+        let currentNano = null;
+        let currentUnit = null;
+        let unitContent = [];
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
             // Check for nano heading (##)
-            var nanoMatch = line.match(/^##\s+(.+)$/);
+            const nanoMatch = line.match(/^##\s+(.+)$/);
             if (nanoMatch) {
                 // Save previous unit if exists
                 if (currentUnit && currentNano) {
@@ -158,7 +158,7 @@ class MarkdownCourseParser {
                 continue;
             }
             // Check for unit heading (###)
-            var unitMatch = line.match(/^###\s+(.+)$/);
+            const unitMatch = line.match(/^###\s+(.+)$/);
             if (unitMatch && currentNano) {
                 // Save previous unit if exists
                 if (currentUnit) {
@@ -174,7 +174,7 @@ class MarkdownCourseParser {
                 unitContent = [];
                 // Check next line for illustration URL
                 if (i + 1 < lines.length) {
-                    var nextLine = lines[i + 1].trim();
+                    const nextLine = lines[i + 1].trim();
                     if (nextLine && !nextLine.startsWith('#') && !nextLine.startsWith('//')) {
                         currentUnit.illustrationUrl = nextLine;
                         i++; // Skip the illustration URL line
@@ -205,9 +205,9 @@ class MarkdownCourseParser {
             return '';
         try {
             // First convert markdown image URLs to Azure URLs
-            var convertedMarkdown = imageUrlConverter_1.ImageUrlConverter.convertMarkdownImages(markdown.trim());
+            const convertedMarkdown = imageUrlConverter_1.ImageUrlConverter.convertMarkdownImages(markdown.trim());
             // Then convert to HTML
-            var html = (0, marked_1.marked)(convertedMarkdown);
+            const html = (0, marked_1.marked)(convertedMarkdown);
             // Handle both synchronous and asynchronous marked output
             if (typeof html === 'string') {
                 // Finally convert any remaining image URLs in the HTML
@@ -229,22 +229,22 @@ class MarkdownCourseParser {
      * Parse all markdown files in a directory
      */
     static parseDirectory(dirPath) {
-        var courses = [];
+        const courses = [];
         if (!fs.existsSync(dirPath)) {
-            console.warn("⚠️ Directory not found: " + dirPath + "");
+            console.warn(`⚠️ Directory not found: ${dirPath}`);
             return courses;
         }
-        var files = fs.readdirSync(dirPath, { recursive: true });
-        for (var file of files) {
+        const files = fs.readdirSync(dirPath, { recursive: true });
+        for (const file of files) {
             if (typeof file === 'string' && file.endsWith('.md')) {
-                var filePath = path.join(dirPath, file);
+                const filePath = path.join(dirPath, file);
                 try {
-                    var course = this.parseMarkdownToCourse(filePath);
+                    const course = this.parseMarkdownToCourse(filePath);
                     courses.push(course);
-                    console.log("✅ Parsed: " + course.title + "");
+                    console.log(`✅ Parsed: ${course.title}`);
                 }
                 catch (error) {
-                    console.error("❌ Failed to parse " + file + ":", error);
+                    console.error(`❌ Failed to parse ${file}:`, error);
                 }
             }
         }

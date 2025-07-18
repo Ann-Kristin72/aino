@@ -3,23 +3,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = __importDefault(require("express"));
-var db_1 = require("../drizzle/db");
-var schema_1 = require("../drizzle/schema");
-var drizzle_orm_1 = require("drizzle-orm");
-var router = express_1.default.Router();
+const express_1 = __importDefault(require("express"));
+const db_1 = require("../drizzle/db");
+const schema_1 = require("../drizzle/schema");
+const drizzle_orm_1 = require("drizzle-orm");
+const router = express_1.default.Router();
 // POST /api/progress/unit/:unitId - Marker unit som fullført
-router.post('/unit/:unitId', async function(req, res) {
+router.post('/unit/:unitId', async (req, res) => {
     try {
-        var unitId = req.params.unitId;
-        var userId = req.body.userId;
-var courseId = req.body.courseId;
-var nanoId = req.body.nanoId;
+        const { unitId } = req.params;
+        const { userId, courseId, nanoId } = req.body;
         if (!userId || !unitId) {
             return res.status(400).json({ error: "userId og unitId er påkrevd" });
         }
         console.log("✅ Backend: POST /api/progress/unit/:unitId - marking unit as completed:", { unitId, userId });
-        var inserted = await db_1.db.insert(schema_1.userProgress).values({
+        const inserted = await db_1.db.insert(schema_1.userProgress).values({
             userId,
             unitId,
             courseId,
@@ -34,15 +32,15 @@ var nanoId = req.body.nanoId;
     }
 });
 // GET /api/progress/course/:courseId - Hent progresjon for kurs
-router.get('/course/:courseId', async function(req, res) {
+router.get('/course/:courseId', async (req, res) => {
     try {
-        var courseId = req.params.courseId;
-        var userId = req.query.userId;
+        const { courseId } = req.params;
+        const { userId } = req.query;
         if (!userId) {
             return res.status(400).json({ error: "userId er påkrevd" });
         }
         console.log("✅ Backend: GET /api/progress/course/:courseId - fetching progress:", { courseId, userId });
-        var progress = await db_1.db.select().from(schema_1.userProgress)
+        const progress = await db_1.db.select().from(schema_1.userProgress)
             .where((0, drizzle_orm_1.and)((0, drizzle_orm_1.eq)(schema_1.userProgress.userId, userId), (0, drizzle_orm_1.eq)(schema_1.userProgress.courseId, courseId)));
         console.log("✅ Found progress items:", progress.length);
         res.json(progress);
@@ -53,10 +51,10 @@ router.get('/course/:courseId', async function(req, res) {
     }
 });
 // DELETE /api/progress/unit/:unitId - Fjern fullføring av unit
-router.delete('/unit/:unitId', async function(req, res) {
+router.delete('/unit/:unitId', async (req, res) => {
     try {
-        var unitId = req.params.unitId;
-        var userId = req.body.userId;
+        const { unitId } = req.params;
+        const { userId } = req.body;
         if (!userId || !unitId) {
             return res.status(400).json({ error: "userId og unitId er påkrevd" });
         }
@@ -72,11 +70,11 @@ router.delete('/unit/:unitId', async function(req, res) {
     }
 });
 // GET /api/progress/user/:userId - Hent all progresjon for en bruker
-router.get('/user/:userId', async function(req, res) {
+router.get('/user/:userId', async (req, res) => {
     try {
-        var userId = req.params.userId;
+        const { userId } = req.params;
         console.log("✅ Backend: GET /api/progress/user/:userId - fetching all progress:", { userId });
-        var progress = await db_1.db.select().from(schema_1.userProgress)
+        const progress = await db_1.db.select().from(schema_1.userProgress)
             .where((0, drizzle_orm_1.eq)(schema_1.userProgress.userId, userId));
         console.log("✅ Found progress items for user:", progress.length);
         res.json(progress);
