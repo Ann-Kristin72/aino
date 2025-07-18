@@ -1,15 +1,15 @@
 import { NextResponse } from "next/server";
 
 // Use environment variable or fallback to production backend URL
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://api.ainomobil.no';
+const BACKEND_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://aino-backend-linux.azurewebsites.net';
 
 export async function GET() {
   try {
     console.log("✅ Frontend API: GET /api/roles - calling backend...");
     console.log("🌐 Backend URL:", BACKEND_URL);
     console.log("🔧 Environment check:", {
-      hasBackendUrl: !!process.env.NEXT_PUBLIC_BACKEND_URL,
-      backendUrl: process.env.NEXT_PUBLIC_BACKEND_URL
+          hasBackendUrl: !!process.env.NEXT_PUBLIC_API_BASE_URL,
+    backendUrl: process.env.NEXT_PUBLIC_API_BASE_URL
     });
     
     const response = await fetch(`${BACKEND_URL}/api/roles`, {
