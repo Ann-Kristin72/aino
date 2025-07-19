@@ -74,7 +74,7 @@ export default function CourseDetailPage() {
         setLoading(true);
         setError(null);
         
-        const response = await fetch(`/api/content/${slug}`);
+        const response = await fetch(`/api/content/slug?slug=${slug}`);
         if (!response.ok) {
           throw new Error(`Failed to fetch course: ${response.status}`);
         }

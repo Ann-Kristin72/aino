@@ -1,11 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ slug: string }> }
-) {
+export async function GET(request: NextRequest) {
   try {
-    const { slug } = await params;
+    const { searchParams } = new URL(request.url);
+    const slug = searchParams.get('slug');
+    
+    if (!slug) {
+      return NextResponse.json(
+        { error: 'Missing slug parameter' },
+        { status: 400 }
+      );
+    }
     
     console.log(`API /content/[slug]: Fetching course with slug: ${slug}`);
     
