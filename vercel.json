@@ -8,8 +8,10 @@
     "NEXT_PUBLIC_API_BASE_URL": "https://api.ainomobil.no",
     "NEXT_PUBLIC_AZURE_STORAGE_URL": "https://ainomedia.blob.core.windows.net",
     "NEXT_PUBLIC_AZURE_STORAGE_CONTAINER": "aino-media",
-    "NEXT_PUBLIC_PROTECTED": "false",
-    "NPM_CONFIG_PACKAGE_MANAGER": "npm"
+    "NEXT_PUBLIC_PROTECTED": "true",
+    "NPM_CONFIG_PACKAGE_MANAGER": "npm",
+    "BASIC_AUTH_USERNAME": "aino",
+    "BASIC_AUTH_PASSWORD": "aino2025"
   },
   "build": {
     "env": {
