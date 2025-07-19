@@ -100,6 +100,11 @@ export default function WelcomeEira({ onComplete }: WelcomeEiraProps) {
         setError(null);
         
         try {
+          // Find the original role name from the database (lowercase)
+          const rolesResponse = await fetch('/api/roles');
+          const rolesData = await rolesResponse.json();
+          const selectedRole = rolesData.find((r: Role) => r.name.toLowerCase() === userData.role.toLowerCase());
+          
           const response = await fetch('/api/onboarding', {
             method: 'POST',
             headers: {
@@ -108,7 +113,7 @@ export default function WelcomeEira({ onComplete }: WelcomeEiraProps) {
             body: JSON.stringify({
               name: userData.name,
               email: userData.email,
-              role: userData.role,
+              role: selectedRole ? selectedRole.name : userData.role,
             }),
           });
 
