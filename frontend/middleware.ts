@@ -7,27 +7,26 @@ import { NextRequest, NextResponse } from 'next/server'
 // ---
 
 export function middleware(request: NextRequest) {
-  // Unntak for statiske filer og API
+  // Unntak for statiske filer og API - ALLOW ALL API CALLS
   if (
     request.nextUrl.pathname.startsWith('/_next') ||
     request.nextUrl.pathname.startsWith('/api') ||
     request.nextUrl.pathname.startsWith('/favicon.ico')
   ) {
+    console.log('🔓 Middleware: Allowing API call to:', request.nextUrl.pathname);
     return NextResponse.next()
   }
 
   // Beskyttelse styres av NEXT_PUBLIC_PROTECTED (Edge Runtime-kompatibel)
   const isProtected = process.env.NEXT_PUBLIC_PROTECTED === 'true'
   
-  // Debug logging (kun i development)
-  if (process.env.NODE_ENV === 'development') {
-    console.log('🔐 Middleware Debug:', {
-      pathname: request.nextUrl.pathname,
-      isProtected,
-      NEXT_PUBLIC_PROTECTED: process.env.NEXT_PUBLIC_PROTECTED,
-      NODE_ENV: process.env.NODE_ENV
-    })
-  }
+  // Debug logging (alltid aktiv for troubleshooting)
+  console.log('🔐 Middleware Debug:', {
+    pathname: request.nextUrl.pathname,
+    isProtected,
+    NEXT_PUBLIC_PROTECTED: process.env.NEXT_PUBLIC_PROTECTED,
+    NODE_ENV: process.env.NODE_ENV
+  })
 
   if (!isProtected) {
     return NextResponse.next()

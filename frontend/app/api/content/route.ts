@@ -8,15 +8,24 @@ const BACKEND_URL = BASE_URL.endsWith('/api') ? BASE_URL.replace('/api', '') : B
 export async function GET() {
   try {
     console.log('API /content: Fetching content from backend...');
+    console.log('Backend URL:', BACKEND_URL);
+    
     const response = await fetch(`${BACKEND_URL}/api/content`, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json; charset=utf-8',
       },
+      // Add timeout and better error handling
+      signal: AbortSignal.timeout(10000), // 10 second timeout
     });
     
+    console.log('Response status:', response.status);
+    console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+    
     if (!response.ok) {
-      throw new Error(`Backend responded with status: ${response.status}`);
+      const errorText = await response.text();
+      console.error('Backend error response:', errorText);
+      throw new Error(`Backend responded with status: ${response.status} - ${errorText}`);
     }
     
     const result = await response.json();
@@ -24,8 +33,14 @@ export async function GET() {
     return NextResponse.json(result);
   } catch (error) {
     console.error('API /content error:', error);
+    
+    // Return more detailed error information
     return NextResponse.json(
-      { error: "Kunne ikke hente innhold. Vennligst prøv igjen senere." },
+      { 
+        error: "Kunne ikke hente innhold. Vennligst prøv igjen senere.",
+        details: error instanceof Error ? error.message : 'Unknown error',
+        backendUrl: BACKEND_URL
+      },
       { status: 500 }
     );
   }
