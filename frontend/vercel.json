@@ -1,5 +1,23 @@
 {
   "framework": "nextjs",
+  "rewrites": [
+    {
+      "source": "/api/content/:slug",
+      "destination": "/api/content/[slug]"
+    },
+    {
+      "source": "/api/content/unit/:unitId",
+      "destination": "/api/content/unit/[unitId]"
+    },
+    {
+      "source": "/api/progress/course/:courseId",
+      "destination": "/api/progress/course/[courseId]"
+    },
+    {
+      "source": "/api/progress/unit/:unitId",
+      "destination": "/api/progress/unit/[unitId]"
+    }
+  ],
   "env": {
     "NEXT_DISABLE_ESLINT": "1",
     "NEXT_PUBLIC_API_BASE_URL": "https://api.ainomobil.no",
