@@ -19,6 +19,7 @@ export async function POST(request: NextRequest) {
         'Accept': 'application/json',
       },
       body: JSON.stringify(body),
+      signal: AbortSignal.timeout(10000), // 10 second timeout
     });
 
     console.log("🔍 Response status:", response.status);
@@ -42,6 +43,23 @@ export async function POST(request: NextRequest) {
       stack: error instanceof Error ? error.stack : undefined,
       name: error instanceof Error ? error.name : 'Unknown'
     });
+    
+    // Handle specific error types
+    if (error instanceof Error) {
+      if (error.name === 'AbortError' || error.message.includes('timeout')) {
+        return NextResponse.json(
+          { error: 'Backend timeout - prøv igjen' },
+          { status: 408 }
+        );
+      }
+      if (error.message.includes('fetch')) {
+        return NextResponse.json(
+          { error: 'Kan ikke nå backend - sjekk nettverk' },
+          { status: 503 }
+        );
+      }
+    }
+    
     return NextResponse.json(
       { error: 'Intern serverfeil' },
       { status: 500 }
