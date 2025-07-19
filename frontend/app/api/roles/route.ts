@@ -55,6 +55,6 @@ export async function GET() {
       { id: 8, name: "sykepleier" },
       { id: 9, name: "fagsykepleier" },
       { id: 10, name: "helsefagarbeider" }
-    ], { status: 500 });
+    ], { status: 200 });
   }
 } 
