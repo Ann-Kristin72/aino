@@ -21,6 +21,9 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify(body),
     });
 
+    console.log("🔍 Response status:", response.status);
+    console.log("🔍 Response headers:", Object.fromEntries(response.headers.entries()));
+
     const data = await response.json();
     console.log("✅ Backend response:", data);
 
@@ -34,6 +37,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(data);
   } catch (error) {
     console.error('🔥 Frontend API ERROR /api/onboarding:', error);
+    console.error('🔥 Error details:', {
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
+      name: error instanceof Error ? error.name : 'Unknown'
+    });
     return NextResponse.json(
       { error: 'Intern serverfeil' },
       { status: 500 }
