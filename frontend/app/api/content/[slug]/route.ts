@@ -11,8 +11,8 @@ export async function GET(
     
     // Use environment variable or fallback to production backend URL
     // Extract base URL without /api suffix to avoid double /api
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.ainomobil.no/api';
-const backendUrl = BASE_URL.endsWith('/api') ? BASE_URL.replace('/api', '') : BASE_URL;
+    const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.ainomobil.no/api';
+    const backendUrl = BASE_URL.endsWith('/api') ? BASE_URL.replace('/api', '') : BASE_URL;
     const response = await fetch(`${backendUrl}/api/content/slug/${slug}`, {
       headers: {
         'Accept': 'application/json',
