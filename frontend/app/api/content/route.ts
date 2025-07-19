@@ -5,10 +5,31 @@ import { NextRequest, NextResponse } from "next/server";
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.ainomobil.no/api';
 const BACKEND_URL = BASE_URL.endsWith('/api') ? BASE_URL.replace('/api', '') : BASE_URL;
 
+// Debug: Log the actual environment variable value
+console.log('🔍 Environment Debug:', {
+  NEXT_PUBLIC_API_BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL,
+  BASE_URL: BASE_URL,
+  BACKEND_URL: BACKEND_URL,
+  NODE_ENV: process.env.NODE_ENV
+});
+
 export async function GET() {
   try {
     console.log('API /content: Fetching content from backend...');
     console.log('Backend URL:', BACKEND_URL);
+    
+    // Validate URL format
+    if (!BACKEND_URL || !BACKEND_URL.startsWith('https://')) {
+      console.error('❌ Invalid BACKEND_URL:', BACKEND_URL);
+      return NextResponse.json(
+        { 
+          error: "Konfigurasjonsfeil: Ugyldig backend URL",
+          details: `BACKEND_URL: ${BACKEND_URL}`,
+          expected: "Should start with https://"
+        },
+        { status: 500 }
+      );
+    }
     
     const response = await fetch(`${BACKEND_URL}/api/content`, {
       headers: {
