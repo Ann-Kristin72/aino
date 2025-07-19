@@ -9,7 +9,11 @@ export async function GET(
     
     console.log(`API /content/unit/[unitId]: Fetching unit with ID: ${unitId}`);
     
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'https://aino-backend-linux.azurewebsites.net'}/api/content/unit/${unitId}`);
+    // Extract base URL without /api suffix to avoid double /api
+    const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.ainomobil.no/api';
+    const BACKEND_URL = BASE_URL.endsWith('/api') ? BASE_URL.replace('/api', '') : BASE_URL;
+    
+    const response = await fetch(`${BACKEND_URL}/api/content/unit/${unitId}`);
     
     if (!response.ok) {
       throw new Error(`Backend responded with status: ${response.status}`);

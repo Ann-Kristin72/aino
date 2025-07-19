@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 // Use environment variable or fallback to production backend URL
-  const backendUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://aino-backend-linux.azurewebsites.net';
+  // Extract base URL without /api suffix to avoid double /api
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.ainomobil.no/api';
+const backendUrl = BASE_URL.endsWith('/api') ? BASE_URL.replace('/api', '') : BASE_URL;
 
 export async function GET(
   request: NextRequest,
