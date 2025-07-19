@@ -2,8 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 
 // Use environment variable or fallback to production backend URL
 // Extract base URL without /api suffix to avoid double /api
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.ainomobil.no/api';
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.ainomobil.no';
 const BACKEND_URL = BASE_URL.endsWith('/api') ? BASE_URL.replace('/api', '') : BASE_URL;
+
+// Debug logging
+console.log("🔍 Environment Debug:");
+console.log("NEXT_PUBLIC_API_BASE_URL:", process.env.NEXT_PUBLIC_API_BASE_URL);
+console.log("BASE_URL:", BASE_URL);
+console.log("BACKEND_URL:", BACKEND_URL);
 
 export async function POST(request: NextRequest) {
   try {
